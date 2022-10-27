@@ -30,6 +30,8 @@ Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeControll
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
 Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
 
+Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
