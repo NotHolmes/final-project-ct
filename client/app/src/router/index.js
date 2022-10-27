@@ -52,7 +52,13 @@ const router = createRouter({
       path: '/socket',
       name: 'socket-test',
       component: () => import('@/views/TestSocketView.vue')
-    }
+    },
+    {
+          path: '/posts',
+          name: 'posts',
+          component: () => import('@/views/posts/AllPostView.vue')
+    },
+
   ]
 })
 

@@ -18,7 +18,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'image' => $this->faker->imageUrl,
+            'image' => 'https://placeimg.com/640/480/any',
             'description' => $this->faker->paragraph(3),
             'published_at' => $this->faker->dateTime,
             'reward' => $this->faker->randomFloat(2, 0, 10000),

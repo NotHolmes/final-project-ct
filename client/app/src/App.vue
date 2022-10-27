@@ -10,12 +10,12 @@ import Profile from '@/components/profile/Profile.vue'
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-      
 
       <nav class="flex">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/rewards">Rewards</RouterLink>
+          <RouterLink to="/posts">Posts</RouterLink>
         <Profile></Profile>
       </nav>
     </div>
