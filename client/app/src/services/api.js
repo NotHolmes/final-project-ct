@@ -61,3 +61,22 @@ export const rewardAPI = {
     }
   }
 }
+
+export const postAPI = {
+    async getAll() {
+        const response = await axiosInstance.get('/posts')
+        if (response.status === 200) {
+            return response.data.data
+        }
+        return []
+    },
+    async saveNew(post) {
+        const response = await axiosInstance.post('/posts', post)
+        if (response.status === 201) {
+            return response.data
+        }
+        return {
+            success: false
+        }
+    }
+}
