@@ -18,6 +18,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
+            'user_id' => User::inRandomOrder()->first()->id,
             'image' => 'https://placeimg.com/640/480/any',
             'description' => $this->faker->paragraph(3),
             'published_at' => $this->faker->dateTime,
