@@ -15,6 +15,9 @@ export default {
 </script>
 
 <template>
+    <div>
+        I love you
+    </div>
   <main class="px-8">
     <h1 class="mb-2 text-3xl">Bitcoin Price Index</h1>
     <div
@@ -27,5 +30,5 @@ export default {
       </span>
     </div>
   </main>
-  
+
 </template>

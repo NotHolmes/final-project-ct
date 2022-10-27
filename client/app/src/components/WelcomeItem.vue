@@ -1,4 +1,7 @@
 <template>
+    <div>
+        Mother Fucker
+    </div>
   <div class="item">
     <i>
       <slot name="icon"></slot>
