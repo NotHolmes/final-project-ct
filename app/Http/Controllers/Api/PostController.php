@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -29,8 +30,30 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+//        $this->validate($request);
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'user_id' => 'required|integer',
+            'image' => 'required',
+            'description' => 'required',
+            'reward' => 'sometimes|required|numeric',
+            'is_lost' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+
+
         $post = new Post();
         $post->title = $request->get('title');
+        $post->user_id = $request->get('user_id');
         $post->image = $request->get('image');
         $post->description = $request->get('description');
         $post->published_at = now();
@@ -75,7 +98,25 @@ class PostController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Post $post)
+
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'image' => 'required',
+            'description' => 'required',
+            'reward' => 'sometimes|required|numeric',
+            'is_lost' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         if($request->has('title')) $post->title = $request->get('title');
         if($request->has('image')) $post->image = $request->get('image');
         if($request->has('description')) $post->description = $request->get('description');
