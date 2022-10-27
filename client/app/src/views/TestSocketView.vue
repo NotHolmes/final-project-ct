@@ -9,6 +9,9 @@
 
     <div>
       <ul>
+        <li v-for="m in sends" :key="m">
+          {{ m }}
+        </li>
         <li v-for="m in messages" :key="m">
           {{ m }}
         </li>
@@ -24,21 +27,27 @@ export default {
   data() {
     return {
       message: '',
-      messages: []
+      messages: [],
+      sends: []
     }
   },
   created() {
     SocketioService.setupSocketConnection()
-    SocketioService.getSocket().on('chatroom', this.listenChatroom)
+    SocketioService.getSocket().on('hello.reply', this.onReplyMessage)
   },
   methods: {
     sendMessage() {
       console.log(SocketioService.getId())
-      SocketioService.sendToServer('hello.message', this.message)
+      this.sends.push(this.message)
+      SocketioService.sendToServer('hello.message', {message : this.message
+      })
+    },
+    onReplyMessage(data){
+      this.messages.push(data)
     },
     listenChatroom(data) {
       this.messages.push(data)
-    }
+    },
   },
 
 }
