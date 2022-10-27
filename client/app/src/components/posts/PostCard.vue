@@ -34,7 +34,7 @@
         <a href="/" aria-label="Article"><img v-bind:src="post.image" class="object-cover w-full h-64 rounded" alt="" /></a>
         <div class="py-5">
             <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-                {{ formatDate(post.published_at)}} {{post.image}}
+                {{ formatDate(post.published_at)}}
             </p>
             <a href="/" aria-label="Article" class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"><p class="text-2xl font-bold leading-5">
                 {{ post.title }}</p>
