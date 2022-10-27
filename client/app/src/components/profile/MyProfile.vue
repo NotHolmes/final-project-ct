@@ -16,5 +16,12 @@ export default {
 </script>
 
 <style>
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 75%;
+
+}
 
 </style>
