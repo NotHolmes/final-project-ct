@@ -9,6 +9,9 @@
 
     <div>
       <ul>
+        <li v-for="m in sends" :key="m">
+          {{ m }}
+        </li>
         <li v-for="m in messages" :key="m">
           {{ m }}
         </li>
@@ -24,7 +27,8 @@ export default {
   data() {
     return {
       message: '',
-      messages: []
+      messages: [],
+      sends: []
     }
   },
   created() {
@@ -34,6 +38,7 @@ export default {
   methods: {
     sendMessage() {
       console.log(SocketioService.getId())
+      this.sends.push(this.message)
       SocketioService.sendToServer('hello.message', this.message)
     },
     listenChatroom(data) {
