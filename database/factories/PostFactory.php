@@ -17,7 +17,14 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->sentence,
+            'image' => $this->faker->imageUrl,
+            'description' => $this->faker->paragraph(3),
+            'published_at' => $this->faker->dateTime,
+            'reward' => $this->faker->randomFloat(2, 0, 10000),
+            'is_lost' => $this->faker->boolean,
+            'latitude' => $this->faker->latitude,
+            'longitude' => $this->faker->longitude,
         ];
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('image');
-            $table->string('description');
+            $table->text('description');
             $table->dateTime('published_at')->nullable()->default(null);
             $table->unsignedDouble('reward')->nullable()->default(0);
             $table->boolean('is_lost');
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
