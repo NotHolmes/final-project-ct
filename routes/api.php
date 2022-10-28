@@ -35,6 +35,7 @@ Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeControll
 Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractController::class);
 
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 
 Route::group([
     'middleware' => 'api',
