@@ -68,6 +68,15 @@
             >
         </li>
         <li>
+            <RouterLink to="/posts/create"
+                        href="/"
+                        aria-label="About us"
+                        title="About us"
+                        class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >Create Post</RouterLink
+            >
+        </li>
+        <li>
             <RouterLink to="/contracts"
                 href="/"
                 aria-label="Chat"

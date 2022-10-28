@@ -1,15 +1,6 @@
 <template>
 
-    {{ post.id }}
-<!--    <div>-->
-<!--        <gmap-map-->
-<!--        :center="{lat:10, lng:10}"-->
-<!--        :zoom="7"-->
-<!--        style="width: 100%; height: 320px">-->
-
-<!--        </gmap-map>-->
-<!--        <script src="{{ mix('resources/app.js') }}" ></script>-->
-<!--    </div>-->
+    {{ post.title }}
 
 </template>
 
@@ -28,7 +19,7 @@ export default {
             this.error = null
             let response = await this.$axios.get(url)
             if (response.status === 200) {
-                this.reward = response.data.data
+                this.post = response.data.data
                 console.table(this.post)
             }
         } catch (error) {
