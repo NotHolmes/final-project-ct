@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Message;
 
 
-class ContractsController extends Controller
+class ContractController extends Controller
 {
     /**
      * Display a listing of the resource.
