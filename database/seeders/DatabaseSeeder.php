@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $user->password = bcrypt('userpass');
         $user->save();
 
+        $this->call(CategorySeeder::class);
         $this->call(RewardSeeder::class);
         $this->call(PostSeeder::class);
 
