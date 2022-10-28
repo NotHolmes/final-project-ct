@@ -32,6 +32,10 @@
     </a>
     <ul class="flex items-center hidden space-x-8 lg:flex">
         <li>
+            <Profile></Profile>
+        </li>
+
+        <li>
             <RouterLink to="/"
                 href="/"
                 aria-label="Our product"
@@ -216,7 +220,9 @@
 </template>
 
 <script>
+import Profile from '@/components/profile/Profile.vue'
 export default {
+    components: {Profile},
     data() {
         return {
             isMenuOpen: false,

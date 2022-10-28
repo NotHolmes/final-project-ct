@@ -1,8 +1,9 @@
 <template>
   <div v-if="auth && auth.email">
-    Welcome, {{ auth.email }} [{{ auth.point }} Point] | 
+<!--    Welcome, {{ auth.email }} [{{ auth.point }} Point] | -->
+      {{ auth.email }}
 
-    <router-link to="/logout">Logout</router-link>
+      <router-link to="/logout">Logout</router-link>
   </div>
 
   <div v-else>
@@ -39,7 +40,7 @@ export default {
     } else {
       this.auth = null
     }
-    
+
   }
 }
 </script>

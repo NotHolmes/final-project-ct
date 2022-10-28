@@ -17,13 +17,14 @@ import Navbar from '@/components/Navbar.vue'
           <Navbar></Navbar>
       </nav>
 
-      <!--      <nav class="flex">-->
-      <!--        <RouterLink to="/">Home</RouterLink>-->
-      <!--        <RouterLink to="/about">About</RouterLink>-->
-      <!--        <RouterLink to="/rewards">Rewards</RouterLink>-->
-      <!--          <RouterLink to="/posts">Posts</RouterLink>-->
-      <!--        <Profile></Profile>-->
-      <!--      </nav>-->
+<!--    <nav class="flex">-->
+<!--    <RouterLink to="/">Home</RouterLink>-->
+<!--    <RouterLink to="/about">About</RouterLink>-->
+<!--    <RouterLink to="/rewards">Rewards</RouterLink>-->
+<!--    <RouterLink to="/posts">Posts</RouterLink>-->
+<!--    <Profile></Profile>-->
+<!--    </nav>-->
+
   </header>
 
 
