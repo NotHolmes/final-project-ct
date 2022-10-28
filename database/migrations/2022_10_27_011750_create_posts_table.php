@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('image');
             $table->text('description');
             $table->string('color');
-            $table->string('name');
+            $table->string('brand');
             $table->dateTime('datetime')->nullable()->default(null); // lost time and found time
             $table->unsignedDouble('reward')->nullable()->default(0);
             $table->boolean('is_lost');
