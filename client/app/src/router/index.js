@@ -63,6 +63,11 @@ const router = createRouter({
       name: 'contracts',
       component: () => import('@/views/chat/AllChatView.vue')
     },
+      {
+          path: '/posts/:id',
+          name: 'posts.show',
+          component: () => import('@/views/posts/DetailView.vue')
+      },
 
   ]
 })
