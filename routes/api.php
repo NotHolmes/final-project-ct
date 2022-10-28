@@ -37,6 +37,7 @@ Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractController::
 Route::get('/conversation/{id}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
 
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 
 Route::group([
     'middleware' => 'api',
