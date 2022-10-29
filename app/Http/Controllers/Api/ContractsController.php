@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MessageResource;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Models\Message;
+
 
 class ContractsController extends Controller
 {
@@ -27,6 +30,11 @@ class ContractsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function getMessagesFor($id){
+        $message = Message::where('from',$id)->orWhere('to',$id)->get();
+        return MessageResource::collection($message);
+    }
     public function store(Request $request)
     {
         //
