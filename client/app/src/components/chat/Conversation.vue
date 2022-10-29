@@ -1,7 +1,6 @@
 <template>
     <div class="conversation">
-        <h1>{{ contract ? contact.email : 'Select a Contact' }} </h1>
-        <!-- <MessagesFeed :contract="contract" :messages="messages"></MessagesFeed> -->
+        <MessagesFeed :contact="contact" :messages="messages"></MessagesFeed>
         <MessageComposer @send="sendMessage"></MessageComposer>
     </div>
 
@@ -9,9 +8,10 @@
 
 <script>
     import MessageComposer from './MessageComposer.vue';
+    import MessagesFeed from './MessagesFeed.vue';
     export default {
-        prop:{
-            contract:{
+        props:{
+            contact:{
                 type: Object,
                 default:null
             },
@@ -23,9 +23,11 @@
         methods:{
             sendMessage(text){
                 console.log(text);
+                console.log('Message in Conversation')
+                console.log(this.messages);
             }
         },
-        components: {MessageComposer}
+        components: {MessageComposer, MessagesFeed}
     }
 </script>
 
