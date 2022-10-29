@@ -56,7 +56,7 @@ class PostController extends Controller
         $post->user_id = $request->get('user_id');
         $post->image = $request->get('image');
         $post->description = $request->get('description');
-        $post->published_at = now();
+        $post->datetime = $request->get('datetime');
 
         if($request->has('reward')) {
             $post->reward = $request->get('reward');
@@ -120,7 +120,7 @@ class PostController extends Controller
         if($request->has('title')) $post->title = $request->get('title');
         if($request->has('image')) $post->image = $request->get('image');
         if($request->has('description')) $post->description = $request->get('description');
-        if($request->has('published_at')) $post->published_at = $request->get('published_at');
+        if($request->has('datetime')) $post->datetime = $request->get('datetime');
         if($request->has('reward')) $post->reward = $request->get('reward');
         if($request->has('is_lost')) $post->is_lost = $request->get('is_lost');
         if($request->has('latitude')) $post->latitude = $request->get('latitude');
