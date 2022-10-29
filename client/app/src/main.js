@@ -8,6 +8,8 @@ import router from './router'
 // import './assets/main.css'
 import './assets/index.css'
 import 'flowbite';
+import VueGoogleMaps from '@fawmi/vue-google-maps'
+
 
 const app = createApp(App)
 
