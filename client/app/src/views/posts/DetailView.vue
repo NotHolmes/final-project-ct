@@ -1,5 +1,10 @@
 <template>
 
+    <div v-if=post>
+        <h1> id : {{ post.id }}</h1>
+        {{ post.title }}
+    </div>
+
 </template>
 
 <script>
