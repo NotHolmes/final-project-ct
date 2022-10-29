@@ -3,7 +3,86 @@
     <div
         class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8"
     >
+<<<<<<< HEAD
         <div class="relative flex items-center justify-between">
+=======
+        <svg
+            class="w-8 text-deep-purple-accent-400"
+            viewBox="0 0 24 24"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-miterlimit="10"
+            stroke="currentColor"
+            fill="none"
+        >
+            <rect x="3" y="1" width="7" height="12"></rect>
+            <rect x="3" y="17" width="7" height="6"></rect>
+            <rect x="14" y="1" width="7" height="6"></rect>
+            <rect x="14" y="11" width="7" height="12"></rect>
+        </svg>
+        <span
+            class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase"
+        >Company</span
+        >
+    </a>
+    <ul class="flex items-center hidden space-x-8 lg:flex">
+        <li>
+            <RouterLink to="/"
+                href="/"
+                aria-label="Our product"
+                title="Our product"
+                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >Home</RouterLink
+            >
+        </li>
+        <li>
+            <RouterLink to="/about"
+                href="/"
+                aria-label="Our product"
+                title="Our product"
+                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >About</RouterLink
+            >
+        </li>
+        <li>
+            <RouterLink to="/rewards"
+                href="/"
+                aria-label="Product pricing"
+                title="Product pricing"
+                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >Rewards</RouterLink
+            >
+        </li>
+        <li>
+            <RouterLink to="/posts"
+                href="/"
+                aria-label="About us"
+                title="About us"
+                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >Posts</RouterLink
+            >
+        </li>
+        <li>
+            <RouterLink to="/posts/create"
+                        href="/"
+                        aria-label="About us"
+                        title="About us"
+                        class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >Create Post</RouterLink
+            >
+        </li>
+        <li>
+            <RouterLink to="/contracts"
+                href="/"
+                aria-label="Chat"
+                title="Chat"
+                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+            >Chat</RouterLink
+            >
+        </li>
+        <li>
+>>>>>>> da9b613a1c6ca291573d8a58b36a9c8f70087e40
             <a
                 href="/"
                 aria-label="Company"
