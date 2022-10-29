@@ -24,16 +24,16 @@
                 }
             },
             methods:{
-                scrollToBottom(){ 
+                scrollToBottom(){
                     setTimeout(() => {
                         this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
                     },50);
                 }
             },
             computed:{
-                messagesLength(){
-                    return this.messages.lenght
-                }
+                // messagesLength(){
+                //     return this.messages.lenght
+                // }
             },
             watch : {
                 contact(contact) {
@@ -47,7 +47,12 @@
                     console.log('New massage.')
                     this.scrollToBottom();
                 }
-            }
+            },
+            updated(){
+                var elem = this.$el
+                elem.scrollTop = elem.clientHeight;
+                this.scrollToBottom();
+            },
     }
 </script>
 
