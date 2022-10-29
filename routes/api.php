@@ -34,6 +34,8 @@ Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class
 Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
 Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractController::class);
 
+Route::get('/conversation/{id}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
+
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
 Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 
