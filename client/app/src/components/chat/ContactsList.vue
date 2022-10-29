@@ -1,5 +1,8 @@
 <template>
     <div class="contacts-list">
+        <div>
+            Contactlist
+        </div>
         <ul>
             <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)" :class="{ 'selected': contact === selected}">
                 <div class="contacts">
@@ -34,7 +37,7 @@
 </script>
 
 <style scoped>
-/* .contacts-list{
+.contacts-list{
     margin-top: 12px;
     flex: 2cm;
     max-height: 600px;
@@ -53,5 +56,5 @@ ul > li {
     height: 80px ;
     position: relative;
     cursor:pointer;
-} */
+}
 </style>

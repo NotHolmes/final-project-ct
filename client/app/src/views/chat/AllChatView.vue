@@ -1,6 +1,7 @@
 <template>
     <div class="chat">
-        <Conversation :contact="selectedContact" :messages="messages" ></Conversation>
+            Welcome , {{ auth.email }}
+        <Conversation :contact="selectedContact" :messages="messages" :user="auth" @new="saveNewMessage" ></Conversation>
         <ContactsList :contacts="contacts" @selected="stratConversationWith"></ContactsList>
 
     </div>
@@ -10,8 +11,13 @@
 import axios from 'axios'
 import ContactsList from '@/components/chat/ContactsList.vue';
 import Conversation from '@/components/chat/Conversation.vue';
+import { useAuthStore } from '@/stores/auth.js';
 
     export default{
+        setup(){
+            const auth_store = useAuthStore()
+            return { auth_store }
+        },
         props:{
             user: {
                 type: Object,
@@ -20,6 +26,7 @@ import Conversation from '@/components/chat/Conversation.vue';
         },
         data() {
             return {
+                auth: null ,
                 selectedContact : null ,
                 contacts: null ,
                 messages: []
@@ -28,6 +35,22 @@ import Conversation from '@/components/chat/Conversation.vue';
         async mounted() {
             const response = await axios.get('http://localhost/api/contracts')
             this.contacts = response.data.data
+            if(this.auth_store.isAuthen){
+                this.auth = this.auth_store.getAuth
+            } else {
+                this.auth = null
+            }
+        },
+
+        watch: {
+            auth_store: {
+                immediate: true,
+                deep: true,
+                handler(newValue, oldValue){
+                    console.log(newValue.getAuth)
+                    this.auth = this.auth_store.getAuth
+                }
+            }
         },
         methods: {
             async stratConversationWith(contact){
@@ -39,8 +62,17 @@ import Conversation from '@/components/chat/Conversation.vue';
                 console.log(this.messages)
                 console.log('Contact :')
                 console.log(contact)
+            },
+
+            saveNewMessage(text) {
+                console.log('SAVEEEEEEEE')
+                this.messages.push(text);
+                console.log(this.messages)
             }
+
         },
+
+
         components: {ContactsList,Conversation}
     }
 </script>

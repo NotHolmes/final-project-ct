@@ -35,6 +35,19 @@ class ContractsController extends Controller
         $message = Message::where('from',$id)->orWhere('to',$id)->get();
         return MessageResource::collection($message);
     }
+
+
+    public function send(Request $request){
+//        $user = User::where('email',$request->user_id)->get();
+        $message = Message::factory()->create([
+           'from' => (string)User::where('email',$request->user_id)->first()->id,
+            'to' => $request->contact_id,
+            'text' =>$request->text
+
+        ]);
+        return response()->json($message);
+    }
+
     public function store(Request $request)
     {
         //
