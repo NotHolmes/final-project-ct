@@ -26,7 +26,10 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
 
     socket.broadcast.emit('chatroom', {
-        message: data
+        // message: data.message ,
+        // sender_id : data.sender_id
+        text: data.text,
+        to : data.to
     })
   });
 })
