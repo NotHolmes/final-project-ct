@@ -1,7 +1,5 @@
 <template>
 
-    {{ post.title }}
-
 </template>
 
 <script>
