@@ -18,10 +18,10 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class); // user_id
             $table->foreignIdFor(\App\Models\Category::class); // category_id
             $table->string('title');
-            $table->string('image');
+            $table->text('image');
             $table->text('description');
-            $table->string('color');
-            $table->string('brand');
+            $table->string('color')->nullable();
+            $table->string('brand')->nullable();
             $table->dateTime('datetime')->nullable()->default(null); // lost time and found time
             $table->unsignedDouble('reward')->nullable()->default(0);
             $table->boolean('is_lost');

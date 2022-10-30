@@ -34,12 +34,15 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'user_id' => 'required|integer',
+            'category_id' => 'required|integer',
             'image' => 'required',
+            'color' => 'required',
+            'brand' => 'required',
             'description' => 'required',
             'reward' => 'sometimes|required|numeric',
             'is_lost' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -54,7 +57,10 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $request->get('title');
         $post->user_id = $request->get('user_id');
+        $post->category_id = $request->get('category_id');
         $post->image = $request->get('image');
+        $post->color = $request->get('color');
+        $post->brand = $request->get('brand');
         $post->description = $request->get('description');
         $post->datetime = $request->get('datetime');
 
@@ -101,13 +107,16 @@ class PostController extends Controller
 
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'image' => 'required',
-            'description' => 'required',
+            'title' => 'sometimes|required',
+            'category_id' => 'sometimes|required|integer',
+            'image' => 'sometimes|required',
+            'color' => 'sometimes|required',
+            'brand' => 'sometimes|required',
+            'description' => 'sometimes|required',
             'reward' => 'sometimes|required|numeric',
-            'is_lost' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
+            'is_lost' => 'required|boolean',
+            'latitude' => 'sometimes|required|numeric',
+            'longitude' => 'sometimes|required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -118,7 +127,10 @@ class PostController extends Controller
         }
 
         if($request->has('title')) $post->title = $request->get('title');
+        if($request->has('category_id')) $post->category_id = $request->get('category_id');
         if($request->has('image')) $post->image = $request->get('image');
+        if($request->has('color')) $post->color = $request->get('color');
+        if($request->has('brand')) $post->brand = $request->get('brand');
         if($request->has('description')) $post->description = $request->get('description');
         if($request->has('datetime')) $post->datetime = $request->get('datetime');
         if($request->has('reward')) $post->reward = $request->get('reward');
