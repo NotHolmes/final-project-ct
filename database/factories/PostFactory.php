@@ -25,7 +25,7 @@ class PostFactory extends Factory
             'image' => 'https://placeimg.com/640/480/any',
             'color' => $this->faker->colorName,
             'brand' => $this->faker->company,
-            'description' => $this->faker->paragraph(3),
+            'description' => $this->faker->paragraph(2),
             'datetime' => $this->faker->dateTime,
             'reward' => $this->faker->randomFloat(2, 0, 10000),
             'is_lost' => $this->faker->boolean,

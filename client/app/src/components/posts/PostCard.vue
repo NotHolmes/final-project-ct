@@ -87,7 +87,6 @@ export default {
                 month: 'short',
                 day: '2-digit'
             }).format(date)
-
         }
     }
 }
