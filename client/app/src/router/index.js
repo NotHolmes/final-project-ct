@@ -63,6 +63,11 @@ const router = createRouter({
       name: 'contracts',
       component: () => import('@/views/chat/AllChatView.vue')
     },
+    {
+      path: '/nearby',
+      name: 'nearby',
+      component: () => import('@/views/posts/NearByPostView.vue')
+    },
       {
           path: '/posts/:id',
           name: 'posts.show',
