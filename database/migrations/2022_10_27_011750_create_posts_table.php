@@ -16,10 +16,13 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class); // user_id
+            $table->foreignIdFor(\App\Models\Category::class); // category_id
             $table->string('title');
-            $table->string('image');
+            $table->text('image');
             $table->text('description');
-            $table->dateTime('published_at')->nullable()->default(null);
+            $table->string('color')->nullable();
+            $table->string('brand')->nullable();
+            $table->dateTime('datetime')->nullable()->default(null); // lost time and found time
             $table->unsignedDouble('reward')->nullable()->default(0);
             $table->boolean('is_lost');
             $table->boolean('is_done')->default(false);

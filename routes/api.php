@@ -32,11 +32,12 @@ Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeControll
 
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
 Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
-Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractsController::class);
+Route::apiResource('/contacts' , \App\Http\Controllers\Api\ContactController::class);
 
 Route::get('/conversation/{id}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
 
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 
 Route::group([
     'middleware' => 'api',

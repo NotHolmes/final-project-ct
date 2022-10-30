@@ -68,6 +68,16 @@ const router = createRouter({
       name: 'nearby',
       component: () => import('@/views/posts/NearByPostView.vue')
     },
+      {
+          path: '/posts/:id',
+          name: 'posts.show',
+          component: () => import('@/views/posts/DetailView.vue')
+      },
+      {
+          path: '/posts/create',
+          name: 'posts.create',
+          component: () => import('@/views/posts/CreateView.vue')
+      },
 
   ]
 })
