@@ -55,7 +55,7 @@ import { useAuthStore } from '@/stores/auth.js';
         methods: {
             async stratConversationWith(contact){
                 
-                const response = await axios.get(`http://localhost/api/conversation/${contact.id}`)
+                const response = await axios.get(`http://localhost/api/conversation/${contact.email}`)
                 this.selectedContact = contact;
                 this.messages = response.data.data
                 console.log('Message :')

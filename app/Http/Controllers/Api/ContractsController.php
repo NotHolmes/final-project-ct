@@ -17,9 +17,19 @@ class ContractsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         $contracts = User::all();
+//        $messages = Message::where('from',auth()->user()->email)->orWhere('to',auth()->user()->email)->get(); //หาข้อความทั้งหมดที่ส่งไป และส่งมา
+//
+//        foreach ($messages as $message){
+//            $contracts = User::
+//        }
 
         return UserResource::collection($contracts);
     }
@@ -31,8 +41,8 @@ class ContractsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getMessagesFor($id){
-        $message = Message::where('from',$id)->orWhere('to',$id)->get();
+    public function getMessagesFor($email){
+        $message = Message::where('from',$email)->orWhere('to',$email)->get();
         return MessageResource::collection($message);
     }
 
@@ -40,8 +50,8 @@ class ContractsController extends Controller
     public function send(Request $request){
 //        $user = User::where('email',$request->user_id)->get();
         $message = Message::factory()->create([
-           'from' => (string)User::where('email',$request->user_id)->first()->id,
-            'to' => $request->contact_id,
+           'from' => $request->email,
+            'to' => $request->contact_email,
             'text' =>$request->text
 
         ]);

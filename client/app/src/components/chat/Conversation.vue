@@ -34,15 +34,15 @@ export default {
             // }
 
             const response = await axios.post('http://localhost/api/conversation/send', {
-                user_id: this.user.email,
-                contact_id: this.contact.id,
+                email: this.user.email,
+                contact_email: this.contact.email,
                 text: text
             })
 
             console.log(SocketioService.getId())
             SocketioService.sendToServer('hello.message', {
                 text:text,
-                to:this.contact.id
+                to:this.contact.email
             })
 
             this.$emit('new', response.data)
