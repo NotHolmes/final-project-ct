@@ -116,8 +116,7 @@ export default {
         async onFormSubmit() {
             this.error = null
             this.disabledButton = true
-            console.log("Fuck")
-            console.log(this.auth_store.login(this.email, this.password))
+            // console.log(this.auth_store.login(this.email, this.password))
             try {
                 if (await this.auth_store.login(this.email, this.password)) {
                     this.$router.push('/')

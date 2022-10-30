@@ -65,6 +65,19 @@
                                     />
                                 </div>
 
+                                <div class="mb-1 sm:mb-2">
+                                    <label for="password" class="inline-block mb-1 font-medium">Confirm Password</label>
+                                    <input
+                                        placeholder="Please confirm your password"
+                                        required=""
+                                        type="password"
+                                        class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                        id="password"
+                                        name="password"
+                                        v-model="user.confirm_password"
+                                    />
+                                </div>
+
                                 <div class="mt-4 mb-2 sm:mb-4">
                                     <button
                                         @click="saveNewUser()"
@@ -111,6 +124,7 @@ export default {
                 name: '',
                 email: '',
                 password: '',
+                confirm_password:''
                 // error: null,
             },
             error:[]
@@ -118,20 +132,22 @@ export default {
     },
     methods: {
         async saveNewUser(){
-            try{
-                this.error = null  //Bug Below
-                // const response = await this.auth_store.add(this.user)
-                const response = await this.$axios.post('/auth/register',this.user)
-                this.$router.push('/login/')
-
-                console.log(response)
-                if( response ){
-
+            if( this.user.password == this.user.confirm_password) {
+                try {
+                    this.error = null  //Bug Below
+                    // const response = await this.auth_store.add(this.user)
+                    const response = await this.$axios.post('/auth/register', this.user)
                     this.$router.push('/login/')
+
+                    console.log(response)
+                    if (response) {
+
+                        this.$router.push('/login/')
+                    }
+                } catch (error) {
+                    console.log(error)
+                    this.error = error.message
                 }
-            }catch(error) {
-                console.log(error)
-                this.error = error.message
             }
         }
     },
