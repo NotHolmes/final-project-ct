@@ -13,7 +13,17 @@ import MessagesFeed from './MessagesFeed.vue';
 import SocketioService from '@/services/socketio.js'
 
 export default {
+    // setup(){
+    //     const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
+    //     const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+    //     return {token}
+    // },
     props: {
+        token: {
+            type: String,
+            required: true 
+        }
+        ,
         contact: {
             type: Object,
             default: null
@@ -22,10 +32,7 @@ export default {
             type: Array,
             default: []
         },
-        user: {
-            type: Object,
-            required: true
-        }
+
     },
     methods: {
         async sendMessage(text) {
@@ -34,10 +41,9 @@ export default {
             // }
 
             const response = await axios.post('http://localhost/api/conversation/send', {
-                email: this.user.email,
                 contact_email: this.contact.email,
                 text: text
-            })
+            },{ headers: {"Authorization" : 'Bearer ' + this.token } })
 
             console.log(SocketioService.getId())
             SocketioService.sendToServer('hello.message', {

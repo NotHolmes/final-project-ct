@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
             Welcome , {{ auth.email }}
-        <Conversation :contact="selectedContact" :messages="messages" :user="auth" @new="saveNewMessage" ></Conversation>
+        <Conversation :contact="selectedContact" :messages="messages" :token="token" @new="saveNewMessage" ></Conversation>
         <ContactsList :contacts="contacts" @selected="stratConversationWith"></ContactsList>
 
     </div>
@@ -35,14 +35,21 @@ import { useAuthStore } from '@/stores/auth.js';
             };
         },
         async mounted() {
+            // const instance = axios.create({
+            //     baseURL: 'https://example.com/api/',
+            //     timeout: 1000,
+            //     headers: {'Authorization':  'Bearer ' + token }
+            // });
 
-            const response = await axios.get('http://localhost/api/contracts',{ headers: {"Authorization" : 'Bearer ' + this.token } })
-            this.contacts = response.data
             if(this.auth_store.isAuthen){
                 this.auth = this.auth_store.getAuth
             } else {
                 this.auth = null
             }
+
+            const response = await axios.get(`http://localhost/api/contacts/${this.auth.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+            this.contacts = response.data
+
         },
 
         watch: {

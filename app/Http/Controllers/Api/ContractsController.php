@@ -23,42 +23,25 @@ class ContractsController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index($email)
     {
+        $message = Message::where('from',$email)->orWhere('to',$email)->get();
+        $contacts = $message->map(function($message , $id) use ($email) {
+            if($message->from == $email) {
+                return User::where('email',$message->to)->first();
 
-//        $messages = Message::where('from',auth()->user()->email)->orWhere('to',auth()->user()->email)->get(); //หาข้อความทั้งหมดที่ส่งไป และส่งมา
-//
-//        foreach ($messages as $message){
-//            $contracts = User::
-//        }
-
-        $message = Message::where('from',auth()->user()->email)->orWhere('to',auth()->user()->email)->get();
-        $contacts = $message->map(function($message , $id){
-                if($message->from == auth()->user()->email) {
-                    return User::where('email',$message->to)->first();
-//                    return [
-//                        'id'=> $user_->get('id'),
-//                        'email' => $user_->get('email'),
-//                        'point'=> $user_->get('point'),
-//                        'image_path'=> $user_->get('image_path')
-//                    ];
-                }
-                if($message->to == auth()->user()->email) {
-                    return User::where('email',$message->from)->first();
-//                    return [
-//                        'id'=> $user_->get('id'),
-//                        'email' => $user_->get('email'),
-//                        'point'=> $user_->get('point'),
-//                        'image_path'=> $user_->get('image_path')
-//                    ];
-                }
+            }
+            if($message->to == $email) {
+                return User::where('email',$message->from)->first();
+            }
         });
 
-        return response()->json($contacts->unique());
-
-//                $contacts = User::where('email','user02@api.example.com')->get();
-//                return response()->json($contacts);
-//        return UserResource::collection($contacts);
+        $filtered_contacts = $contacts->filter(function ($contact) use ($email){
+            if($contact->email != $email){
+                return $contact;
+            }
+        })->values();
+        return response()->json($filtered_contacts->unique());
     }
 
     /**
@@ -73,16 +56,15 @@ class ContractsController extends Controller
         return MessageResource::collection($message);
     }
     public function send(Request $request){
-        //        $user = User::where('email',$request->user_id)->get();
                 $message = Message::factory()->create([
-                   'from' => $request->email,
+                   'from' => auth()->user()->email,
                     'to' => $request->contact_email,
                     'text' =>$request->text
-        
+
                 ]);
                 return response()->json($message);
             }
-    
+
     public function store(Request $request)
     {
         $user = new User();
