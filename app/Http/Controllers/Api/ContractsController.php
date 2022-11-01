@@ -17,21 +17,44 @@ class ContractsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth:api');
+//    }
 
     public function index()
     {
-        $contracts = User::all();
+
 //        $messages = Message::where('from',auth()->user()->email)->orWhere('to',auth()->user()->email)->get(); //หาข้อความทั้งหมดที่ส่งไป และส่งมา
 //
 //        foreach ($messages as $message){
 //            $contracts = User::
 //        }
 
-        return UserResource::collection($contracts);
+        $message = Message::where('from','user01@api.example.com')->orWhere('to','user01@api.example.com')->get();
+        $contacts = $message->map(function($message , $id){
+                if($message->from == 'user01@api.example.com') {
+                    return [
+                        'id'=> '1',
+                        'email' => $message->to,
+                        'point'=> '0',
+                        'image_path'=> null
+                    ];
+                }
+                if($message->to == 'user01@api.example.com') {
+                return [
+                    'id'=> '1',
+                    'email' => $message->from,
+                    'point'=> '0',
+                    'image_path'=> null
+                    ];
+                }
+        });
+
+        return response()->json($contacts->unique());
+//                $contacts = User::all();
+//                return response()->json($contacts);
+//        return UserResource::collection($contacts);
     }
 
     /**

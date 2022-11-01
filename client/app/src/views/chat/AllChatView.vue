@@ -34,7 +34,7 @@ import { useAuthStore } from '@/stores/auth.js';
         },
         async mounted() {
             const response = await axios.get('http://localhost/api/contracts')
-            this.contacts = response.data.data
+            this.contacts = response.data
             if(this.auth_store.isAuthen){
                 this.auth = this.auth_store.getAuth
             } else {
