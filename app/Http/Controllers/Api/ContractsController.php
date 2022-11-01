@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Message;
+use Illuminate\Http\Response;
 
 
 class ContractsController extends Controller
@@ -71,22 +72,34 @@ class ContractsController extends Controller
         $message = Message::where('from',$email)->orWhere('to',$email)->get();
         return MessageResource::collection($message);
     }
-
-
     public function send(Request $request){
-//        $user = User::where('email',$request->user_id)->get();
-        $message = Message::factory()->create([
-           'from' => $request->email,
-            'to' => $request->contact_email,
-            'text' =>$request->text
-
-        ]);
-        return response()->json($message);
-    }
-
+        //        $user = User::where('email',$request->user_id)->get();
+                $message = Message::factory()->create([
+                   'from' => $request->email,
+                    'to' => $request->contact_email,
+                    'text' =>$request->text
+        
+                ]);
+                return response()->json($message);
+            }
+    
     public function store(Request $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = $request->get('password');
+        if ($user->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'User saved successfully with id ' . $user->id,
+                'reward_id' => $user->id
+            ], Response::HTTP_CREATED);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Reward saved failed'
+        ], Response::HTTP_BAD_REQUEST);
     }
 
     /**

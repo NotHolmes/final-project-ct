@@ -33,6 +33,7 @@ Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeControll
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
 Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
 Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractsController::class);
+Route::apiResource('/users' , \App\Http\Controllers\Api\UsersController::class);
 
 Route::get('/conversation/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
 Route::post('/conversation/send', [\App\Http\Controllers\Api\ContractsController::class,'send']);
@@ -47,4 +48,6 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
+    Route::post('register', [AuthController::class, 'register']);
 });
+
