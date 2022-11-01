@@ -92,21 +92,3 @@ export const postAPI = {
     }
 }
 
-export const userAPI = {
-    async getAll() {
-        const response = await axiosInstance.get('/contracts')
-        if (response.status === 200) {
-            return response.data.data
-        }
-        return []
-    },
-    async saveNew(user) {
-        const response = await axiosInstance.post('/contracts', user)
-        if (response.status === 201) {
-            return response.data
-        }
-        return {
-            success: false
-        }
-    }
-}

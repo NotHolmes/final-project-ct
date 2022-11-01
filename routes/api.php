@@ -33,10 +33,12 @@ Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeControll
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
 Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
 Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractsController::class);
-Route::get('/contacts/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'index']);
 
+Route::get('/contacts/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'index']);
+Route::get('/contacts/get/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'getContact']);
 Route::get('/conversation/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
 Route::post('/conversation/send', [\App\Http\Controllers\Api\ContractsController::class,'send']);
+
 
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
 

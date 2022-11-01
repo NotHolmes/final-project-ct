@@ -64,6 +64,10 @@
         overflow: scroll;
         border-left: 1px solid #a6a6a6;
     }
+    ul {
+        list-style-type: none;
+        padding: 5px;
+    }
     li {
         margin: 10px;
         width: 100%;

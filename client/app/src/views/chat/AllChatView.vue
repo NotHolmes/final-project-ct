@@ -2,7 +2,7 @@
     <div class="chat">
             Welcome , {{ auth.email }}
         <Conversation :contact="selectedContact" :messages="messages" :token="token" @new="saveNewMessage" ></Conversation>
-        <ContactsList :contacts="contacts" @selected="stratConversationWith"></ContactsList>
+        <ContactsList :contacts="contacts" :token="token" @selected="stratConversationWith"></ContactsList>
 
     </div>
 </template>
@@ -31,7 +31,8 @@ import { useAuthStore } from '@/stores/auth.js';
                 auth: null ,
                 selectedContact : null ,
                 contacts: null ,
-                messages: []
+                messages: [] ,
+
             };
         },
         async mounted() {
@@ -49,6 +50,8 @@ import { useAuthStore } from '@/stores/auth.js';
 
             const response = await axios.get(`http://localhost/api/contacts/${this.auth.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
             this.contacts = response.data
+            this.selectedContact = this.contacts[0]
+            this.stratConversationWith(this.selectedContact)
 
         },
 
