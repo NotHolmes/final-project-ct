@@ -5,7 +5,7 @@ docker-compose -f ./client/server/docker-compose.yml up -d
 if [[ "$OSTYPE" =~ ^linux ]]
 then
 cmd.exe /c start cmd.exe /c wsl.exe docker-compose -f ./client/docker-compose.yml exec app npm run dev &
-cmd.exe /c start cmd.exe /c wsl.exe docker-compose -f ./client/server/docker-compose.yml exec app npm run start
+cmd.exe /c start cmd.exe /c wsl.exe docker-compose -f ./client/server/docker-compose.yml exec app npm run start &
 elif [[ "$OSTYPE" =~ ^darwin ]]
 then
 command1="docker-compose -f ./client/docker-compose.yml exec app npm run dev"
