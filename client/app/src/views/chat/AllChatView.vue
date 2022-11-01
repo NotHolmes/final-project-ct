@@ -15,8 +15,10 @@ import { useAuthStore } from '@/stores/auth.js';
 
     export default{
         setup(){
+            const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
+            const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
             const auth_store = useAuthStore()
-            return { auth_store }
+            return { auth_store , token}
         },
         props:{
             user: {
@@ -33,7 +35,8 @@ import { useAuthStore } from '@/stores/auth.js';
             };
         },
         async mounted() {
-            const response = await axios.get('http://localhost/api/contracts')
+
+            const response = await axios.get('http://localhost/api/contracts',{ headers: {"Authorization" : 'Bearer ' + this.token } })
             this.contacts = response.data
             if(this.auth_store.isAuthen){
                 this.auth = this.auth_store.getAuth
@@ -55,7 +58,7 @@ import { useAuthStore } from '@/stores/auth.js';
         methods: {
             async stratConversationWith(contact){
                 
-                const response = await axios.get(`http://localhost/api/conversation/${contact.email}`)
+                const response = await axios.get(`http://localhost/api/conversation/${contact.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.selectedContact = contact;
                 this.messages = response.data.data
                 console.log('Message :')
