@@ -1,21 +1,28 @@
 import { defineStore } from 'pinia'
-import { postAPI } from '@/services/api.js'
+import {categoryAPI, postAPI} from '@/services/api.js'
 
 export const usePostStore = defineStore({
     id: 'post',
     state: () => {
         return {
-            posts: []
+            posts: [],
+            categories: []
         }
     },
 
     getters: {
         getPosts: (state) => state.posts,
+        getCategories: (state) => state.categories,
+        getPostByCategoryId: (state) => (id) => {
+            return state.posts.filter(post => post.category_id === id)
+        }
+
     },
 
     actions: {
         async fetch () {
             this.posts = await postAPI.getAll()
+            this.categories = await categoryAPI.getAll()
         },
 
         async add (post) {

@@ -80,3 +80,22 @@ export const postAPI = {
         }
     }
 }
+
+export const categoryAPI = {
+    async getAll() {
+        const response = await axiosInstance.get('/categories')
+        if (response.status === 200) {
+            return response.data.data
+        }
+        return []
+    },
+    async saveNew(category) {
+        const response = await axiosInstance.post('/categories', category)
+        if (response.status === 201) {
+            return response.data
+        }
+        return {
+            success: false
+        }
+    }
+}
