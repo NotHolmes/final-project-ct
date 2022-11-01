@@ -31,28 +31,31 @@ class ContractsController extends Controller
 //            $contracts = User::
 //        }
 
-        $message = Message::where('from','user01@api.example.com')->orWhere('to','user01@api.example.com')->get();
+        $message = Message::where('from',auth()->user()->email)->orWhere('to',auth()->user()->email)->get();
         $contacts = $message->map(function($message , $id){
-                if($message->from == 'user01@api.example.com') {
-                    return [
-                        'id'=> '1',
-                        'email' => $message->to,
-                        'point'=> '0',
-                        'image_path'=> null
-                    ];
+                if($message->from == auth()->user()->email) {
+                    return User::where('email',$message->to)->first();
+//                    return [
+//                        'id'=> $user_->get('id'),
+//                        'email' => $user_->get('email'),
+//                        'point'=> $user_->get('point'),
+//                        'image_path'=> $user_->get('image_path')
+//                    ];
                 }
-                if($message->to == 'user01@api.example.com') {
-                return [
-                    'id'=> '1',
-                    'email' => $message->from,
-                    'point'=> '0',
-                    'image_path'=> null
-                    ];
+                if($message->to == auth()->user()->email) {
+                    return User::where('email',$message->from)->first();
+//                    return [
+//                        'id'=> $user_->get('id'),
+//                        'email' => $user_->get('email'),
+//                        'point'=> $user_->get('point'),
+//                        'image_path'=> $user_->get('image_path')
+//                    ];
                 }
         });
 
         return response()->json($contacts->unique());
-//                $contacts = User::all();
+
+//                $contacts = User::where('email','user02@api.example.com')->get();
 //                return response()->json($contacts);
 //        return UserResource::collection($contacts);
     }
