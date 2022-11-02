@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
 
     socket.broadcast.emit('chatroom', {
         // message: data.message ,
-        // sender_id : data.sender_id
+        from: data.from,
         text: data.text,
         to : data.to
     })

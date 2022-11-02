@@ -11,13 +11,25 @@ import axios from 'axios';
 import MessageComposer from './MessageComposer.vue';
 import MessagesFeed from './MessagesFeed.vue';
 import SocketioService from '@/services/socketio.js'
+import { useAuthStore } from '@/stores/auth.js';
 
 export default {
-    // setup(){
-    //     const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
-    //     const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
-    //     return {token}
-    // },
+    setup(){
+        const auth_store = useAuthStore()
+        return { auth_store }
+    },
+    data() {
+        return {
+            auth : null
+        };
+    },
+    mounted(){
+        if(this.auth_store.isAuthen){
+                this.auth = this.auth_store.getAuth
+            } else {
+                this.auth = null
+        }
+    },
     props: {
         token: {
             type: String,
@@ -32,7 +44,21 @@ export default {
             type: Array,
             default: []
         },
+        user: {
+            type: Object,
+            required: true
+        }
 
+    },
+    watch: {
+            auth_store: {
+                immediate: true,
+                deep: true,
+                handler(newValue, oldValue){
+                    console.log(newValue.getAuth)
+                    this.auth = this.auth_store.getAuth
+                }
+            }
     },
     methods: {
         async sendMessage(text) {
@@ -47,6 +73,7 @@ export default {
 
             console.log(SocketioService.getId())
             SocketioService.sendToServer('hello.message', {
+                from: this.auth.email,
                 text:text,
                 to:this.contact.email
             })
@@ -55,7 +82,11 @@ export default {
 
         },
         listenChatroom(data) {
-            this.messages.push(data)
+            console.log(this.contact.email)
+            console.log(data)
+            if(this.contact.email == data.from){
+                this.messages.push(data)
+            }
         }
     },
     created() {

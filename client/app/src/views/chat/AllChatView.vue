@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
             Welcome , {{ auth.email }}
-        <Conversation :contact="selectedContact" :messages="messages" :token="token" @new="saveNewMessage" ></Conversation>
+        <Conversation :contact="selectedContact" :messages="messages" :user="auth" :token="token" @new="saveNewMessage" ></Conversation>
         <ContactsList :contacts="contacts" :token="token" @selected="stratConversationWith"></ContactsList>
 
     </div>
