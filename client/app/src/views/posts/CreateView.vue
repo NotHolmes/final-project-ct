@@ -1,5 +1,40 @@
 <template>
 
+    <div class="mt-16 w-11/12 lg:w-2/6 mx-auto">
+        <div class="bg-gray-200 dark:bg-gray-700 h-1 flex items-center justify-between">
+            <div class="w-1/3 bg-indigo-700 h-1 flex items-center">
+                <div class="bg-indigo-700 h-6 w-6 rounded-full shadow flex items-center justify-center">
+                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/thin_with_steps-svg1.svg" alt="check"/>
+                </div>
+            </div>
+            <div class="w-1/3 flex justify-between bg-indigo-700 h-1 items-center relative">
+                <div class="absolute right-0 -mr-2">
+                    <div class="relative bg-white dark:bg-gray-800 shadow-lg px-2 py-1 rounded mt-16 -mr-12">
+                        <svg class="absolute top-0 -mt-1 w-full right-0 left-0 text-white dark:text-gray-800" width="16px" height="8px" viewBox="0 0 16 8" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="Progress-Bars" transform="translate(-322.000000, -198.000000)" fill="currentColor">
+                                    <g id="Group-4" transform="translate(310.000000, 198.000000)">
+                                        <polygon id="Triangle" points="20 0 28 8 12 8"></polygon>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        <p tabindex="0" class="focus:outline-none text-indigo-700 dark:text-indigo-400 text-xs font-bold">Step 3: Analyzing</p>
+                    </div>
+                </div>
+                <div class="bg-indigo-700 h-6 w-6 rounded-full shadow flex items-center justify-center -ml-2">
+                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/thin_with_steps-svg1.svg" alt="check"/>
+                </div>
+                <div class="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow flex items-center justify-center -mr-3 relative">
+                    <div class="h-3 w-3 bg-indigo-700 rounded-full"></div>
+                </div>
+            </div>
+            <div class="w-1/3 flex justify-end">
+                <div class="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow"></div>
+            </div>
+        </div>
+    </div>
+
     <form>
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
             <div class="mb-6">
@@ -9,18 +44,24 @@
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Category</label>
-                    <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
+                    <select v-model="selectedCategory" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option disabled>Choose category</option>
+                        <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                    </select>
                 </div>
             </div>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Color</label>
-                <select id="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
+                <select id="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option disabled>Choose color</option>
+                    <option v-for="color in colors" :key="color.id" :value="color.name">{{ color.name }}</option>
+                </select>
             </div>
             <div>
                 <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Brand</label>
-                <select id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
+                <input id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
             <div>
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
@@ -30,22 +71,36 @@
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time</label>
                 <input type="time" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
-            <div>
-                <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unique visitors (per month)</label>
-                <input type="number" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required="">
+
+
+            <div class="">
+                <label for="upload" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Upload
+                    Image(jpg,png,svg,jpeg)</label>
+                <div class="rounded-lg bg-gray-50 lg:w-full" id="upload">
+                    <div class="m-4">
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                                <div class="flex flex-col items-center justify-center pt-7">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                        <path fill-rule="event"
+                                              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                              clip-rule="event" />
+                                    </svg>
+                                    <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+                                        Select an image</p>
+                                </div>
+                                <input type="file" accept="image/*" class="opacity-0" @change="onChange" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div id="preview" class="mt-6">
+                    <img v-if="post.image" :src="post.imageUrl"  alt=""/>
+                </div>
             </div>
-        </div>
-        <div class="mb-6">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email address</label>
-            <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required="">
-        </div>
-        <div class="mb-6">
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
-            <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required="">
-        </div>
-        <div class="mb-6">
-            <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirm password</label>
-            <input type="password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required="">
+
         </div>
         <div class="flex items-start mb-6">
             <div class="flex items-center h-5">
@@ -61,48 +116,96 @@
 </template>
 
 <script>
-import RewardCard from '@/components/rewards/RewardCard.vue'
-import { useRewardStore } from '@/stores/reward.js'
 import SocketioService from '@/services/socketio.js'
+import { usePostStore } from "@/stores/post.js";
 
 export default {
   setup() {
-    const reward_store = useRewardStore()
-    return { reward_store }
+    const post_store = usePostStore()
+    return { post_store }
   },
   data() {
     return {
-      reward: {
+      post: {
         name: '',
         detail: '',
         point: 1,
         total_amount: 1,
-        error: null
-      }
+        error: null,
+          image: null,
+          imageUrl: null,
+
+      },
+      categories: null,
+        selectedCategory: null,
+        colors: [
+            { name: 'Red', value: '#f44336' },
+            { name: 'Pink', value: '#e91e63' },
+            { name: 'Purple', value: '#9c27b0' },
+            { name: 'Deep Purple', value: '#673ab7' },
+            { name: 'Indigo', value: '#3f51b5' },
+            { name: 'Blue', value: '#2196f3' },
+            { name: 'Light Blue', value: '#03a9f4' },
+            { name: 'Cyan', value: '#00bcd4' },
+            { name: 'Teal', value: '#009688' },
+            { name: 'Green', value: '#4caf50' },
+            { name: 'Light Green', value: '#8bc34a' },
+            { name: 'Lime', value: '#cddc39' },
+            { name: 'Yellow', value: '#ffeb3b' },
+            { name: 'Amber', value: '#ffc107' },
+            { name: 'Orange', value: '#ff9800' },
+            { name: 'Deep Orange', value: '#ff5722' },
+            { name: 'Brown', value: '#795548' },
+            { name: 'Grey', value: '#9e9e9e' },
+            { name: 'Blue Grey', value: '#607d8b' },
+            { name: 'Black', value: '#000000' },
+        ],
+        brand: null,
     }
-  },
-  components: {
-    RewardCard
   },
   created() {
     SocketioService.setupSocketConnection()
+      SocketioService.getSocket().on('categories.index',
+          this.refreshSocketCategories)
   },
   methods: {
-    async saveNewReward() {
+      onChange(e) {
+          console.table(e.target.files)
+          const file = e.target.files[0]
+          this.post.image = file
+          this.post.imageUrl = URL.createObjectURL(file)
+      },
+      async refreshCategories() {
+          try {
+              await this.post_store.fetch()
+              this.categories = this.post_store.getCategories
+          } catch (error) {
+              this.error = error
+          }
+      },
+      async refreshSocketCategories(data) {
+          if (data.refresh) {
+              await this.refreshCategories()
+          }
+      },
+    async saveNewPost() {
       try {
         this.error = null
-        const reward_id = await this.reward_store.add(this.reward)
-        if (reward_id) {
-          SocketioService.sendToServer('rewards.create',
+        const post = await this.post_store.add(this.post)
+        if (post) {
+          SocketioService.sendToServer('posts.create',
                                       {success: true})
-          this.$router.push(`/rewards/${reward_id}`)
+          this.$router.push(`/posts/${post_id}`)
         }
       } catch(error) {
         console.log(error)
         this.error = error.message
       }
     }
-  }
+  },
+    async mounted() {
+        await this.refreshCategories()
+    }
 }
 
 </script>
