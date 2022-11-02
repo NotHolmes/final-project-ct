@@ -71,9 +71,17 @@ class ContractsController extends Controller
      */
 
     public function getMessagesFor($email){
+        Message::where('from', $email)->where('to', auth()->user()->email)->update(['read' => true]);
 
-        $message = Message::where('from',$email)->orWhere('to',$email)->get();
-        return MessageResource::collection($message);
+        $messages = Message::where(function($q) use ($email) {
+            $q->where('from', auth()->user()->email);
+            $q->where('to', $email);
+        })->orWhere(function($q) use ($email) {
+            $q->where('from', $email);
+            $q->where('to', auth()->user()->email);
+        })
+            ->get();
+        return response()->json($messages);
     }
 
 

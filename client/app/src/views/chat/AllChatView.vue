@@ -70,7 +70,7 @@ import { useAuthStore } from '@/stores/auth.js';
                 this.updateUnreadCount(contact,true);
                 const response = await axios.get(`http://localhost/api/conversation/${contact.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.selectedContact = contact;
-                this.messages = response.data.data
+                this.messages = response.data
                 console.log('Message :')
                 console.log(this.messages)
                 console.log('Contact :')
