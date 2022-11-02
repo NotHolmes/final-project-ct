@@ -24,23 +24,27 @@
                             <h3 class="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
                                 Sign Up
                             </h3>
-                            <form @submit.prevent="saveNewUser">
+
+                            <Form @submit.prevent="saveNewUser">
                                 <div class="mb-1 sm:mb-2">
                                     <label for="name" class="inline-block mb-1 font-medium">Name</label>
-                                    <input
-                                        placeholder="John"
+                                    <Field
+                                        placeholder="User01"
                                         required=""
                                         type="text"
                                         class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                                         id="name"
                                         name="name"
                                         v-model="user.name"
+                                        v-bind:rules="[validateNull]"
                                     />
                                 </div>
+                                <ErrorMessage class="text-red-500" name="name"/>
+
 
                                 <div class="mb-1 sm:mb-2">
                                     <label for="email" class="inline-block mb-1 font-medium">E-mail</label>
-                                    <input
+                                    <Field
                                         placeholder="user01@api.example.com"
                                         required=""
                                         type="email"
@@ -49,20 +53,24 @@
                                         name="email"
                                         v-model="user.email"
                                         autocomplete="off"
+                                        v-bind:rules="[validateNull, validateEmail]"
                                     />
                                 </div>
+                                <ErrorMessage class="text-red-500" name="email"/>
 
                                 <div class="mb-1 sm:mb-2">
                                     <label for="password" class="inline-block mb-1 font-medium">Password</label>
-                                    <input
-                                        placeholder="Anything more than 7 character"
+                                    <Field
+                                        placeholder="Password between 7-30 characters"
                                         required=""
                                         type="password"
                                         class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                                         id="password"
                                         name="password"
                                         v-model="user.password"
+                                        v-bind:rules="[validateNull, validatePassword]"
                                     />
+                                    <ErrorMessage class="text-red-500" name="password"/>
                                 </div>
 
                                 <div class="mb-1 sm:mb-2">
@@ -74,7 +82,7 @@
                                         </label></li>
 
                                     </ul>
-                                    <input
+                                    <Field
                                         placeholder="Please confirm your password"
                                         required=""
                                         type="password"
@@ -82,7 +90,9 @@
                                         id="confirm_password"
                                         name="confirm_password"
                                         v-model="user.confirm_password"
+                                        v-bind:rules="[validateNull, validateConfirmPassword]"
                                     />
+                                    <ErrorMessage class="text-red-500" name="confirm_password"/>
                                 </div>
 
                                 <div class="mt-4 mb-2 sm:mb-4">
@@ -110,7 +120,7 @@
                                 <p class="text-xs text-gray-600 sm:text-sm">
                                     We respect your privacy. Unsubscribe at any time.
                                 </p>
-                            </form>
+                            </Form>
                         </div>
                     </div>
                 </div>
@@ -120,10 +130,16 @@
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth.js'
-import SocketioService from '@/services/socketio.js'
 
+import { useAuthStore } from '@/stores/auth.js'
+import  {Form, Field, ErrorMessage } from 'vee-validate';
 export default {
+
+    components:{
+        Form,
+        Field,
+        ErrorMessage,
+    },
     setup() {
         const auth_store = useAuthStore()
         return { auth_store }
@@ -143,8 +159,37 @@ export default {
         }
     },
     methods: {
+        onSubmit(){
+          console.log('Submitting :(');
+        },
+
+        validateNull(value){
+            if (!value ){
+                return "This field is required";
+            }
+            return true;
+        },
+        validateEmail(){
+            const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+            if (!regex.test(this.user.email)){
+                return 'Valid Email Pattern'
+            }
+            return true;
+        },
+        validatePassword(){
+            if ( this.user.password.length<7 || this.user.password.length>30){
+                return 'Password must be between 7-30 characters';
+            }
+            return true;
+        },
+        validateConfirmPassword(){
+            if ( this.user.password != this.user.confirm_password){
+                return "Password not match"
+            }
+            return true;
+        },
         async saveNewUser(){
-            if( (this.user.password == this.user.confirm_password) && (this.user.password.length>=7) ){
+            if( (this.user.password == this.user.confirm_password) && (this.user.password.length>=7 && this.user.password.length<=30) ){
                 this.disabledButton = true
                 try {
                     this.error = null  //Bug Below
