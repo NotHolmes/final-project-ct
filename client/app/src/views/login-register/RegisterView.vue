@@ -170,6 +170,7 @@ export default {
         },
 
         validateUser(){
+            this.user.duplicatedUser = true;
             for (let i=0 ; i<this.users.length; i++){
                 // console.log(this.users[i].email)
                 if ( this.user.email == this.users[i].email ){
