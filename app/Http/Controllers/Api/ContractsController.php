@@ -89,4 +89,11 @@ class ContractsController extends Controller
     {
         //
     }
+
+    public function search(Request $request) {
+        $q = $request->query('q');
+        $users = Reward::where('email', 'LIKE', "%{$q}%")
+            ->get();
+        return $users;
+    }
 }

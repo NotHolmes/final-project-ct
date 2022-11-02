@@ -105,10 +105,25 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+
         $user = new User();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->password = password_hash($request->get('password'),PASSWORD_DEFAULT);
+
         if ($user->save()) {
             return response()->json([
                 'success' => true,
@@ -121,5 +136,12 @@ class AuthController extends Controller
             'message' => 'User saved failed'
         ],
             Response::HTTP_BAD_REQUEST);
+    }
+
+    public function search(Request $request) {
+        $q = $request->query('q');
+        $users = Reward::where('email', 'LIKE', "%{$q}%")
+            ->get();
+        return $users;
     }
 }
