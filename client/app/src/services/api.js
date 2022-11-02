@@ -78,6 +78,17 @@ export const postAPI = {
         return {
             success: false
         }
+    },
+    async search(query) {
+        const response = await axiosInstance.get('/posts/search', {
+            params: {
+                query: query
+            }
+        })
+        if (response.status === 200) {
+            return response.data.data
+        }
+        return []
     }
 }
 

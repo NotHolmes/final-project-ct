@@ -36,7 +36,10 @@ Route::apiResource('/contacts' , \App\Http\Controllers\Api\ContactController::cl
 
 Route::get('/conversation/{id}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
 
+// post/search
+Route::get('/posts/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+
 Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 
 Route::group([

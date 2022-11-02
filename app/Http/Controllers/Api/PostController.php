@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\SearchResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Searchable\Search;
 
 class PostController extends Controller
 {
@@ -171,4 +173,13 @@ class PostController extends Controller
             'message' => "Post {$title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
     }
+
+    public function search(Request $request){
+        $results = (new Search())->registerModel(Post::class, ['title', 'description', 'color', 'brand', 'datetime', 'latitude', 'longitude'])
+            ->search($request->get('query'));
+
+//        return response()->json($results);
+        return SearchResource::collection($results);
+    }
+
 }

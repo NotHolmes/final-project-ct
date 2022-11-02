@@ -15,8 +15,7 @@ export const usePostStore = defineStore({
         getCategories: (state) => state.categories,
         getPostByCategoryId: (state) => (id) => {
             return state.posts.filter(post => post.category_id === id)
-        }
-
+        },
     },
 
     actions: {
@@ -34,6 +33,12 @@ export const usePostStore = defineStore({
                 return response.post_id
             }
             return false
+        },
+        async search(query) {
+            console.table("searching...")
+            this.posts = await postAPI.search(query)
+            // display post count
+            console.table("found ", this.posts.length)
         },
 
         delete (id) {
