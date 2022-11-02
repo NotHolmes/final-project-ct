@@ -1,9 +1,11 @@
 <template>
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div class="grid gap-5 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
-            <post-card v-for="post in posts" :key="post.id"
+            <div>
+                <post-card v-for="post in posts" :key="post.id"
                            :post="{...post}" :url="`posts/${post.id}`">
-            </post-card>
+                </post-card>
+            </div>
         </div>
     </div>
 </template>
@@ -25,22 +27,14 @@ export default {
         SocketioService.setupSocketConnection()
         SocketioService.getSocket().on('posts.index',
                               this.refreshSocketPosts)
-        const success = (position) => {
-            const latitude = position.coords.latitude
-            const longitude = position.coords.longitude
-            console.log(latitude)
-            console.log(longitude)
-        }
-        const error = (err) => {
-            console.log(error)
-        }
-        navigator.geolocation.getCurrentPosition(success, error);
     },
     data() {
         return {
             title: "Posts",
             error: null,
             posts: null,
+            latitude: null,
+            longitude: null
         }
     },
     components: {
@@ -63,10 +57,38 @@ export default {
             } catch (error) {
                 this.error = error
             }
-        }
+        },
+        getLatiLong() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    this.latitude = position.coords.latitude
+                    this.longitude = position.coords.longitude
+                    console.log(this.latitude)
+                    console.log(this.longitude)
+                })
+            }
+        },
+        nearByPost() {
+            var longitude = this.longitude
+            var latitude = this.latitude
+            function calDistance(lat, long) {
+                var dlong = long - longitude
+                var dlat = lat - latitude
+                var c = Math.sqrt(Math.pow(dlong, 2) + Math.pow(dlat, 2))
+                var km = c / (1 / 108.4)
+                var m = km * 1000
+                console.log(m)
+                return m <= 500
+            }
+            this.posts = this.posts.filter(function (post) {
+                return calDistance(post.latitude, post.longitude)
+            })
+        },
     },
     async mounted() {
+        this.getLatiLong()
         await this.refreshPosts()
+        this.nearByPost()
     }
 }
 
