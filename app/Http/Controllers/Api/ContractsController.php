@@ -9,7 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\DB;
 
 class ContractsController extends Controller
 {
@@ -41,7 +41,26 @@ class ContractsController extends Controller
                 return $contact;
             }
         })->values();
-        return response()->json($filtered_contacts->unique());
+
+        $filtered_contacts = $filtered_contacts->unique();
+
+        $unreadIds = DB::table('messages')->select(DB::raw('`from` as sender_id, count(`from`) as messages_count'))
+            ->where('to', $email)
+            ->where('read', false)
+            ->groupBy('from')
+            ->get();
+
+        $filtered_contacts = $filtered_contacts->map(function($contact) use ($unreadIds) {
+            $contactUnread = $unreadIds->where('sender_id',$contact->email)->first();
+            if ($contactUnread != null)
+                $contact->unread = $contactUnread->messages_count;
+            else
+                $contact->unread =  0 ;
+
+            return $contact;
+        });
+
+        return response()->json($filtered_contacts);
     }
 
     /**
@@ -52,18 +71,20 @@ class ContractsController extends Controller
      */
 
     public function getMessagesFor($email){
+
         $message = Message::where('from',$email)->orWhere('to',$email)->get();
         return MessageResource::collection($message);
     }
+
+
     public function send(Request $request){
                 $message = Message::factory()->create([
                    'from' => auth()->user()->email,
                     'to' => $request->contact_email,
                     'text' =>$request->text
-
                 ]);
                 return response()->json($message);
-            }
+    }
 
     public function store(Request $request)
     {

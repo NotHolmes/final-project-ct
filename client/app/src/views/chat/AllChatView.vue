@@ -50,8 +50,8 @@ import { useAuthStore } from '@/stores/auth.js';
 
             const response = await axios.get(`http://localhost/api/contacts/${this.auth.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
             this.contacts = response.data
-            this.selectedContact = this.contacts[0]
-            this.stratConversationWith(this.selectedContact)
+            // this.selectedContact = this.contacts[0]
+            // this.stratConversationWith(this.selectedContact)
 
         },
 
@@ -67,7 +67,7 @@ import { useAuthStore } from '@/stores/auth.js';
         },
         methods: {
             async stratConversationWith(contact){
-                
+                this.updateUnreadCount(contact,true);
                 const response = await axios.get(`http://localhost/api/conversation/${contact.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.selectedContact = contact;
                 this.messages = response.data.data
@@ -81,6 +81,21 @@ import { useAuthStore } from '@/stores/auth.js';
                 console.log('SAVEEEEEEEE')
                 this.messages.push(text);
                 console.log(this.messages)
+            },
+
+            updateUnreadCount(contact, reset){
+                this.contacts = this.contacts.map((single) => {
+                    if (single.email != contact.email){
+                        return single;
+                    }
+
+                    if (reset)
+                        single.unread = 0;
+                    else
+                        single.unread += 1;
+
+                    return single;
+                })
             }
 
         },

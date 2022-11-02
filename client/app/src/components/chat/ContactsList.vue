@@ -16,6 +16,7 @@
                 <div class="contacts">
                     <p class="email">{{ contact.email }} </p>
                 </div>
+                <span class="unread" v-if="contact.unread"> {{ contact.unread }}</span>
             </li>
         </ul>
     </div>
@@ -43,7 +44,8 @@ export default {
             showContactInput: false ,
             addContactInput: '',
             contactAdd : null ,
-            duplicateContact : false
+            duplicateContact : false ,
+            sortedContacts_: [],
         };
     },
     methods: {
@@ -78,12 +80,12 @@ export default {
                 alert("Email not found.")
                 return ;
             } else {
-                this.contacts.push(this.contactAdd)
+                this.contacts.unshift(this.contactAdd)
                 e.preventDefault();
             }
-
-            
         },
+    }, computed: {
+
     }
 }
 </script>
@@ -97,6 +99,14 @@ export default {
     max-height: 600px;
     overflow: scroll;
     border-left: 1px solid #a6a6a6;
+}
+
+.unread {
+        position: absolute;
+        background-color: green;
+        display: flex;
+        right: 11px;
+        top: 20px;
 }
 
 div>ul {
