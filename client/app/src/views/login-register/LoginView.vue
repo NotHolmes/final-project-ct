@@ -102,6 +102,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import SocketioService from '@/services/socketio.js'
 
 export default {
     setup() {
@@ -116,6 +117,11 @@ export default {
             disabledButton: false
         }
     },
+    created() {
+        SocketioService.setupSocketConnection(
+        SocketioService.getSocket().on('login',
+            this.refreshSocketPosts)
+    },
     methods: {
         async onFormSubmit() {
             this.error = null
@@ -123,6 +129,8 @@ export default {
             // console.log(this.auth_store.login(this.email, this.password))
             try {
                 if (await this.auth_store.login(this.email, this.password)) {
+                    SocketioService.sendToServer('login',
+                        {success: true})
                     this.$router.push('/')
                 } else {
                     this.$router.push('/register')

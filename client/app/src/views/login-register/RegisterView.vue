@@ -138,6 +138,7 @@
 import { useAuthStore } from '@/stores/auth.js'
 import  {Form, Field, ErrorMessage } from 'vee-validate';
 import axios from "axios";
+import SocketioService from '@/services/socketio.js'
 
 export default {
 
@@ -158,23 +159,40 @@ export default {
                 password: '',
                 confirm_password:'',
                 disabledButton: false,
-                duplicatedUser: true,
+                duplicatedUser: false,
                 // error: null,
             },
             users: []
         }
     },
+    created() {
+        SocketioService.setupSocketConnection()
+        SocketioService.getSocket().on('register',
+            this.refreshSocketUsers)
+    },
     methods: {
         onSubmit(){
           console.log('Submitting :(');
         },
-
+        async refreshSocketUsers(data) {
+            if (data.refresh) {
+                await this.refreshUsers()
+            }
+        },
+        async refreshUsers() {
+            try {
+                await this.auth_store.fetch()
+                this.user = this.auth_store.getPosts
+            } catch (error) {
+                this.error = error
+            }
+        },
         validateUser(){
-            this.user.duplicatedUser = true;
+            this.user.duplicatedUser = false;
             for (let i=0 ; i<this.users.length; i++){
                 // console.log(this.users[i].email)
                 if ( this.user.email == this.users[i].email ){
-                    this.user.duplicatedUser = false;
+                    this.user.duplicatedUser = true;
                     return "Email is duplicate";
                 }
             }
@@ -210,7 +228,7 @@ export default {
             if( (this.user.password == this.user.confirm_password)
                 && (this.user.password.length>=7
                 && this.user.password.length<=30)
-                && this.user.duplicatedUser ){
+                && !this.user.duplicatedUser ){
 
                 this.disabledButton = true
 
@@ -222,6 +240,8 @@ export default {
 
                     console.log(response)
                     if (response) {
+                        SocketioService.sendToServer('register',
+                            {success: true})
                         this.$router.push('/login/')
                     }else{
                         this.disabledButton = false
@@ -236,7 +256,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://localhost/api/contracts')
+        axios.get('http://localhost/api/users')
             .then(async (resp) => {
                 this.users = await resp.data.data;
             })
