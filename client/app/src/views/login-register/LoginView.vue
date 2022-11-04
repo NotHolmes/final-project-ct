@@ -27,7 +27,7 @@
                                 Sign In
                             </h3>
 
-                            <div v-if="error">
+                            <div v-if="error" class="text-red-500">
                                 {{ error }}
                             </div>
 
@@ -118,9 +118,7 @@ export default {
         }
     },
     created() {
-        SocketioService.setupSocketConnection(
-        SocketioService.getSocket().on('login',
-            this.refreshSocketPosts)
+        SocketioService.setupSocketConnection()
     },
     methods: {
         async onFormSubmit() {
@@ -133,13 +131,15 @@ export default {
                         {success: true})
                     this.$router.push('/')
                 } else {
-                    this.$router.push('/register')
+                    // this.error = "Please check your email or password again :)"
+                    this.error = "Server has a problem"
                     this.disabledButton = false
                 }
             } catch (error) {
-                // console.log(error)
-                this.$router.push('/register')
-                this.error = error.message
+                console.log(error)
+                this.error = "Please check your email or password again :)"
+
+                // this.error = error.message
                 this.disabledButton = false
             }
         }

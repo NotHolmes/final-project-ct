@@ -167,25 +167,10 @@ export default {
     },
     created() {
         SocketioService.setupSocketConnection()
-        SocketioService.getSocket().on('register',
-            this.refreshSocketUsers)
     },
     methods: {
         onSubmit(){
           console.log('Submitting :(');
-        },
-        async refreshSocketUsers(data) {
-            if (data.refresh) {
-                await this.refreshUsers()
-            }
-        },
-        async refreshUsers() {
-            try {
-                await this.auth_store.fetch()
-                this.user = this.auth_store.getPosts
-            } catch (error) {
-                this.error = error
-            }
         },
         validateUser(){
             this.user.duplicatedUser = false;
