@@ -25,7 +25,7 @@ class ContractsController extends Controller
 
     public function index($email)
     {
-        $message = Message::where('from',$email)->orWhere('to',$email)->get();
+        $message = Message::where('from',$email)->orWhere('to',$email)->orderBy('created_at','desc')->get();
         $contacts = $message->map(function($message , $id) use ($email) {
             if($message->from == $email) {
                 return User::where('email',$message->to)->first();
@@ -36,6 +36,7 @@ class ContractsController extends Controller
             }
         });
 
+        
         $filtered_contacts = $contacts->filter(function ($contact) use ($email){
             if($contact->email != $email){
                 return $contact;
