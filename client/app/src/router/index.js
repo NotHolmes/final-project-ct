@@ -59,8 +59,8 @@ const router = createRouter({
             component: () => import('@/views/posts/AllPostView.vue')
         },
         {
-            path: '/contracts',
-            name: 'contracts',
+            path: '/contacts',
+            name: 'contacts',
             component: () => import('@/views/chat/AllChatView.vue')
         },
         {

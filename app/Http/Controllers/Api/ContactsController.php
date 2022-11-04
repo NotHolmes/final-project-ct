@@ -9,9 +9,10 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class ContractsController extends Controller
+class ContactsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +37,7 @@ class ContractsController extends Controller
             }
         });
 
-        
+
         $filtered_contacts = $contacts->filter(function ($contact) use ($email){
             if($contact->email != $email){
                 return $contact;
@@ -82,6 +83,11 @@ class ContractsController extends Controller
             $q->where('to', auth()->user()->email);
         })
             ->get();
+
+        $$messages = $messages->map(function($message) {
+            $message->send_at = Carbon::parse($message->created_at)->format('d/m/Y H:i');
+            return $message;
+        });
         return response()->json($messages);
     }
 
