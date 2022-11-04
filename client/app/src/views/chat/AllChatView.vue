@@ -1,8 +1,8 @@
 <template>
     <div class="chat">
-            Welcome , {{ auth.email }}
+<!--            Welcome , {{ auth.email }}-->
+        <ContactsList :contacts="contacts" :token="token" @selected="stratConversationWith" class="aside"></ContactsList>
         <Conversation :contact="selectedContact" :messages="messages" :user="auth" :token="token" @new="saveNewMessage" ></Conversation>
-        <ContactsList :contacts="contacts" :token="token" @selected="stratConversationWith"></ContactsList>
 
     </div>
 </template>
@@ -108,5 +108,33 @@ import { useAuthStore } from '@/stores/auth.js';
 <style scoped>
 .chat {
     display: flex;
+}
+.aside{
+    /*margin-left: 30%;*/
+    width: 260px;
+    height: 800px;
+    display: inline-block;
+    font-size: 15px;
+    vertical-align: top;
+    width: 30%;
+    flex: 0.5;
+}
+.right{
+    margin-right: 50%;
+
+}
+
+.container {
+    margin: 0 auto;
+    width: 750px;
+    background: #444753;
+    border-radius: 5px;
+}
+
+.clearfix:after {
+    display: block;
+    content: " ";
+    clear: both;
+    height: 0;
 }
 </style>

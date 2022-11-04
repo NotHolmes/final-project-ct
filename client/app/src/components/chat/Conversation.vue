@@ -1,5 +1,6 @@
 <template>
     <div class="conversation">
+        <h1 class="contactName">{{ contact? contact.name : 'Un-know Person'}}</h1>
         <MessagesFeed :contact="contact" :messages="messages"></MessagesFeed>
         <MessageComposer @send="sendMessage"></MessageComposer>
     </div>
@@ -33,7 +34,7 @@ export default {
     props: {
         token: {
             type: String,
-            required: true 
+            required: true
         }
         ,
         contact: {
@@ -102,5 +103,15 @@ export default {
 <style scoped>
 .conversation {
     flex: 2cm;
+}
+
+.contactName{
+    /*margin-left: 5px;*/
+    /*margin-right: ;*/
+    /*margin: 10px;*/
+    width:95%;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #aaaaaa ;
 }
 </style>
