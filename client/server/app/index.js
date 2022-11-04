@@ -31,5 +31,9 @@ io.on('connection', (socket) => {
         text: data.text,
         to : data.to
     })
+
+    socket.broadcast.emit('list.update')
+
+
   });
 })

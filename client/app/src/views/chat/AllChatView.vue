@@ -12,6 +12,7 @@ import axios from 'axios'
 import ContactsList from '@/components/chat/ContactsList.vue';
 import Conversation from '@/components/chat/Conversation.vue';
 import { useAuthStore } from '@/stores/auth.js';
+import SocketioService from '@/services/socketio.js'
 
     export default{
         setup(){
@@ -63,7 +64,14 @@ import { useAuthStore } from '@/stores/auth.js';
                     console.log(newValue.getAuth)
                     this.auth = this.auth_store.getAuth
                 }
-            }
+            },
+            // contacts:{
+            //     immediate: true,
+            //     deep: true,
+            //     handler(newValue, oldValue){
+            //         console.log('newValue')
+            //     }
+            // }
         },
         methods: {
             async stratConversationWith(contact){
@@ -96,8 +104,17 @@ import { useAuthStore } from '@/stores/auth.js';
 
                     return single;
                 })
-            }
+            },
+            async updateList(){
+                console.log('updateja')
+                const response = await axios.get(`http://localhost/api/contacts/${this.auth.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+                this.contacts = response.data
+            },
 
+        },
+        created() {
+            SocketioService.setupSocketConnection()
+            SocketioService.getSocket().on('list.update', this.updateList)
         },
 
 

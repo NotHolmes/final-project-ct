@@ -82,9 +82,7 @@ export default {
 
         },
         listenChatroom(data) {
-            console.log(this.contact.email)
-            console.log(data)
-            if(this.contact.email == data.from && this.auth.email == data.to){
+            if(this.contact != null && this.contact.email == data.from && this.auth.email == data.to){
                 this.messages.push(data)
             }
         }
