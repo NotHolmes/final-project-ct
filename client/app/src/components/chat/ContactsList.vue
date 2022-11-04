@@ -32,6 +32,7 @@
 
 <script>
 import axios from 'axios'
+// import SocketioService from '@/services/socketio.js'
 
 export default {
     props: {
@@ -90,21 +91,19 @@ export default {
                 e.preventDefault();
             }
         },
-    },
-    computed: {
-        sortedContacts() {
-            return _.sortBy(this.contacts, [(contact) => {
-                if (contact == this.selected) {
-                    return Infinity;
-                }
-                return contact.unread;
-            }]).reverse();
-            // return this.contacts;
+    
 
-
-        }
-    }
-}
+        async updateList() {
+            console.log('update LISTTTTTT')
+            const response = await axios.get(`http://localhost/api/contacts/get/${this.addContactInput}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+            this.contactAdd = response.data
+        },
+    }, 
+    // created() {
+    //     SocketioService.setupSocketConnection()
+    //     SocketioService.getSocket().on('updateList', this.updateList)
+    // },
+    
 </script>
 
 <style scoped>
