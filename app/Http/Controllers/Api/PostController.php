@@ -41,7 +41,7 @@ class PostController extends Controller
             'color' => 'required',
             'brand' => 'required',
             'description' => 'required',
-            'reward' => 'sometimes|required|numeric',
+            'reward' => 'nullable|numeric',
             'is_lost' => 'required',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -125,7 +125,7 @@ class PostController extends Controller
             'color' => 'sometimes|required',
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
-            'reward' => 'sometimes|required|numeric',
+            'reward' => 'nullable|numeric',
             'is_lost' => 'required|boolean',
             'latitude' => 'sometimes|required|numeric',
             'longitude' => 'sometimes|required|numeric',
@@ -151,7 +151,6 @@ class PostController extends Controller
 
             $datetime = $date . ' ' . $time;
             $datetime = strtotime($datetime);
-
             $post->datetime = $datetime;
         }
 
