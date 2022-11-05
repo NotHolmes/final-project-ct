@@ -66,6 +66,9 @@ export default {
                 this.posts = this.posts.filter(function (post) {
                     return calDistance(post.latitude, post.longitude)
                 })
+                this.posts = this.posts.filter(function (post) {
+                    return post.is_lost && ! post.is_done
+                })
             } catch (error) {
                 this.error = error
             }
