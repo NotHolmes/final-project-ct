@@ -1,29 +1,43 @@
 <template>
     <div class="contacts-list">
 
-        <div class="">
-            <button @click="toggleVisible()" class="inline-flex items-center justify-center h-12 px-6 text-white font-medium tracking-wide transition duration-200 rounded shadow-md bg-cyan-300 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none">
-                {{ showContactInput ? "ซ่อน" : "เพิ่มผู้ติดต่อ"  }}
+        <div class="border rounded">
+            <button @click="toggleVisible()" class="inline-flex items-center justify-center h-10 px-3 text-white font-medium tracking-wide transition duration-200 rounded shadow-md bg-cyan-300 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none">
+                {{ showContactInput ? "Hide" : "Add contact"  }}
             </button>
         </div>
         <span v-show="showContactInput">
             <input v-model="addContactInput" @keydown.enter="addContact" placeholder="user01@api.example.com" type="text" name="" id="">
         </span>
 
-        <div class="my-4">รายชื่อผู้ติดต่อ</div>
+        <div class="grid min-w-full border rounded" style="min-height: 80vh;">
 
-<!--        <div class="searchbar">-->
+        <ul class="overflow-auto" >
+
+            <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
+            <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)"                :class="{ 'selected': contact === selected }">
+
+                <a class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+<!--                    <img class="h-10 w-10 rounded-full object-cover"-->
+<!--                         src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"-->
+<!--                         alt="username" />-->
+                    <div class="w-full pb-2">
+                        <div class="flex justify-between">
+                            <span class="block ml-2 h-10 w-10 font-semibold text-base text-gray-600 object-cover  ">{{ contact.name }}</span>
+                            <span v-if="contact.unread > 0" class="rounded-full font-semibold bg-red-600 p-3 ml-2 text-gray-200">{{ contact.unread }}</span>
+                        </div>
+<!--                        <span class="block ml-2 text-sm text-gray-600">Hello world!!</span>-->
+                    </div>
+                </a>
+
+            </li>
+        </ul>
+
+        </div>
+        <!--        <div class="searchbar">-->
 <!--            <input type="text" placeholder="search">-->
 <!--        </div>-->
 
-        <ul>
-            <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)"                :class="{ 'selected': contact === selected }">
-                <div class="contacts">
-                    <p class="email">{{ contact.name }} </p>
-                </div>
-                <span class="unread" v-if="contact.unread"> {{ contact.unread }}</span>
-            </li>
-        </ul>
     </div>
 </template>
 
@@ -97,71 +111,71 @@ export default {
 }
 </script>
 
-<style scoped>
-.contacts-list {
-    margin-top: 12px;
-    flex: 2cm;
-    max-height: 600px;
-    overflow: scroll;
-    /*border-left: 1px solid #a6a6a6;*/
-    margin-right: 10px;
-    margin-left: 10px;
-    /*background: #2d3748;*/
-}
+<!--<style scoped>-->
+<!--.contacts-list {-->
+<!--    margin-top: 12px;-->
+<!--    flex: 2cm;-->
+<!--    max-height: 600px;-->
+<!--    overflow: scroll;-->
+<!--    /*border-left: 1px solid #a6a6a6;*/-->
+<!--    margin-right: 10px;-->
+<!--    margin-left: 10px;-->
+<!--    /*background: #2d3748;*/-->
+<!--}-->
 
-div>ul {
-    list-style-type: none;
-    /*padding-left: 25px;*/
-    text-align: center;
-    border: 1px solid #a6a6a6;
-    padding-left: 10px;
-    padding-right: 10px;
-}
+<!--div>ul {-->
+<!--    list-style-type: none;-->
+<!--    /*padding-left: 25px;*/-->
+<!--    text-align: center;-->
+<!--    border: 1px solid #a6a6a6;-->
+<!--    padding-left: 10px;-->
+<!--    padding-right: 10px;-->
+<!--}-->
 
-ul>li {
-    display: flex;
-    padding-top: 14px;
-    border-bottom: 1px solid #aaaaaa;
-    height: 60px;
-    position: relative;
-    cursor: pointer;
-    margin: auto;
-    /*float: contour;*/
-    /*margin-left: 12px;*/
+<!--ul>li {-->
+<!--    display: flex;-->
+<!--    padding-top: 14px;-->
+<!--    border-bottom: 1px solid #aaaaaa;-->
+<!--    height: 60px;-->
+<!--    position: relative;-->
+<!--    cursor: pointer;-->
+<!--    margin: auto;-->
+<!--    /*float: contour;*/-->
+<!--    /*margin-left: 12px;*/-->
 
-    /*width: 50%;*/
-    /*&.li{*/
-    /*    background: #407FFF;*/
-    /*}*/
+<!--    /*width: 50%;*/-->
+<!--    /*&.li{*/-->
+<!--    /*    background: #407FFF;*/-->
+<!--    /*}*/-->
 
-}
+<!--}-->
 
-ul>li>selected {
-    display: flex;
-    padding-top: 14px;
-    border-bottom: 1px solid #aaaaaa;
-    height: 60px;
-    position: relative;
-    cursor: pointer;
-    margin: auto;
-    /*width: 50%;*/
-    /*&.li{*/
-    background: #407FFF;
-    /*}*/
-}
+<!--ul>li>selected {-->
+<!--    display: flex;-->
+<!--    padding-top: 14px;-->
+<!--    border-bottom: 1px solid #aaaaaa;-->
+<!--    height: 60px;-->
+<!--    position: relative;-->
+<!--    cursor: pointer;-->
+<!--    margin: auto;-->
+<!--    /*width: 50%;*/-->
+<!--    /*&.li{*/-->
+<!--    background: #407FFF;-->
+<!--    /*}*/-->
+<!--}-->
 
 
-.main-contact {
-    /*display: inline-block;*/
-    /*float: left;*/
-    margin-right: 10px;
-    margin-left: 5px;
-    margin-top: 5px;
-    /*float:*/
-    /*width: 20%;*/
-}
+<!--.main-contact {-->
+<!--    /*display: inline-block;*/-->
+<!--    /*float: left;*/-->
+<!--    margin-right: 10px;-->
+<!--    margin-left: 5px;-->
+<!--    margin-top: 5px;-->
+<!--    /*float:*/-->
+<!--    /*width: 20%;*/-->
+<!--}-->
 
-.searchbar{
-    border-radius:5px 0 0 5px;
-}
-</style>
+<!--.searchbar{-->
+<!--    border-radius:5px 0 0 5px;-->
+<!--}-->
+<!--</style>-->
