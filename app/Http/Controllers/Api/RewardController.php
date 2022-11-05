@@ -20,6 +20,7 @@ class RewardController extends Controller
     {
         $rewards = Reward::get();
         return RewardResource::collection($rewards);
+//        return response()->json(auth()->user());
     }
 
     /**

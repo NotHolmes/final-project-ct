@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -16,9 +17,16 @@ class AuthController extends Controller
      *
      * @return void
      */
+    public function index()
+    {
+        $users = User::get();
+
+        return UserResource::collection($users);
+    }
+
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
     /**
@@ -30,7 +38,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
-            'password' => ['required', 'string', 'min:6']
+            'password' => ['required', 'string', 'min:7']
         ]);
 
         if ($validator->fails()) {
@@ -40,6 +48,7 @@ class AuthController extends Controller
         if (! $token = JWTAuth::attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED); // 401
         }
+
 
         return $this->respondWithToken($token);
     }
@@ -52,6 +61,8 @@ class AuthController extends Controller
     public function me()
     {
         return new UserResource( auth()->user());
+//        return response()->json(auth()->check());
+
     }
 
     /**
@@ -90,5 +101,65 @@ class AuthController extends Controller
             'expires_in' => config('jwt.ttl') * 60,
             //    'user' => new UserResource(auth()->user())
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required','unique',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = password_hash($request->get('password'),PASSWORD_DEFAULT);
+//        $user->point = $request->get('point');
+
+        if ($user->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'User saved successfully with id ' . $user->id,
+                'user_id' => $user->id
+            ], Response::HTTP_CREATED);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'User saved failed'
+        ],
+            Response::HTTP_BAD_REQUEST);
+    }
+
+    public function search(Request $request) {
+        $q = $request->query('q');
+        $users = Reward::where('email', 'LIKE', "%{$q}%")
+            ->get();
+        return $users;
+    }
+
+    public function update(Request $request, User $user){
+        if ($request->has('name')) $user->name = $request->get('name');
+        if ($request->has('email')) $user->email = $request->get('email');
+        if ($request->has('point')) $user->point = $request->get('point');
+        if ($user->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'User updated successfully with id ' . $user->id,
+                'reward_id' => $user->id
+            ], Response::HTTP_OK);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'User saved failed'
+        ], Response::HTTP_BAD_REQUEST);
     }
 }
