@@ -13,15 +13,15 @@
 
         <div class="my-4">รายชื่อผู้ติดต่อ</div>
 
-                <div class="searchbar">
-                    <input type="text" placeholder="search">
-                </div>
+<!--        <div class="searchbar">-->
+<!--            <input type="text" placeholder="search">-->
+<!--        </div>-->
 
         <ul>
             <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)"                :class="{ 'selected': contact === selected }">
-            <div class="contacts">
+                <div class="contacts">
                     <p class="email">{{ contact.name }} </p>
-            </div>
+                </div>
                 <span class="unread" v-if="contact.unread"> {{ contact.unread }}</span>
             </li>
         </ul>
@@ -32,7 +32,6 @@
 
 <script>
 import axios from 'axios'
-// import SocketioService from '@/services/socketio.js'
 
 export default {
     props: {
@@ -91,19 +90,14 @@ export default {
                 e.preventDefault();
             }
         },
-    
-
         async updateList() {
             console.log('update LISTTTTTT')
             const response = await axios.get(`http://localhost/api/contacts/get/${this.addContactInput}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
             this.contactAdd = response.data
         },
-    }, 
-    // created() {
-    //     SocketioService.setupSocketConnection()
-    //     SocketioService.getSocket().on('updateList', this.updateList)
-    // },
-    
+    },
+
+}
 </script>
 
 <style scoped>
