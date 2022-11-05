@@ -189,7 +189,7 @@ class PostController extends Controller
         $image_name = time().$image->getClientOriginalName();
         $image_name = str_replace(' ', '', $image_name);
         $image_path = $image->storeAs('images', $image_name, 'public');
-        $image_path = '/storage/'.$image_path;
+        $image_path = env('APP_URL').'/storage/'.$image_path;
         return $image_path;
     }
 

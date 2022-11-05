@@ -1,5 +1,6 @@
 <template>
     <div class="overflow-hidden transition-shadow duration-300 bg-white rounded">
+        <span>{{post.image}}</span>
         <a href="/" aria-label="Article"><img v-bind:src="post.image" class="object-cover w-full h-64 rounded" alt="" /></a>
         <div class="py-5">
             <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
