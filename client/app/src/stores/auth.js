@@ -50,6 +50,7 @@ export const useAuthStore = defineStore({
             this.auth = await authAPI.me()
             localStorage.setItem('auth.email', this.auth.email)
             localStorage.setItem('auth.point', this.auth.point)
+            localStorage.setItem('auth.name', this.auth.name)
             // localStorage.setItem('auth.check',true)
             return true
         },

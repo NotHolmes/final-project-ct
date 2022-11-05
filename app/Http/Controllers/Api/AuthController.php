@@ -38,7 +38,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
-            'password' => ['required', 'string', 'min:6']
+            'password' => ['required', 'string', 'min:7']
         ]);
 
         if ($validator->fails()) {
@@ -123,6 +123,7 @@ class AuthController extends Controller
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->password = password_hash($request->get('password'),PASSWORD_DEFAULT);
+//        $user->point = $request->get('point');
 
         if ($user->save()) {
             return response()->json([
@@ -143,5 +144,22 @@ class AuthController extends Controller
         $users = Reward::where('email', 'LIKE', "%{$q}%")
             ->get();
         return $users;
+    }
+
+    public function update(Request $request, User $user){
+        if ($request->has('name')) $user->name = $request->get('name');
+        if ($request->has('email')) $user->email = $request->get('email');
+        if ($request->has('point')) $user->point = $request->get('point');
+        if ($user->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'User updated successfully with id ' . $user->id,
+                'reward_id' => $user->id
+            ], Response::HTTP_OK);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'User saved failed'
+        ], Response::HTTP_BAD_REQUEST);
     }
 }
