@@ -40,51 +40,60 @@
 
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
+            <Form @submit.prevent="saveNewPost">
+
             <div class="mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
-                <input v-model="post.title" type="text" id="title" autocomplete="off"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required="">
+                <Field v-bind:rules="[validateNull]" v-model="post.title" type="text" id="title" name="title" autocomplete="off"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required=""/>
+                <ErrorMessage class="text-red-500" name="title"></ErrorMessage>
             </div>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Category</label>
-                    <select v-model="post.category_id" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <Field v-bind:rules="[validateNull]" as="select" v-model="post.category_id" name="category" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option disabled>Choose category</option>
                         <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
-                    </select>
+                    </Field>
+                    <ErrorMessage class="text-red-500" name="title"></ErrorMessage>
                 </div>
             </div>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Color</label>
-                <select v-model="post.color" id="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <Field v-bind:rules="[validateNull]" as="select" name="color" v-model="post.color" id="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option disabled>Choose color</option>
                     <option v-for="color in colors" :key="color.id" :value="color.name">{{ color.name }}</option>
-                </select>
+                </Field>
+                <ErrorMessage class="text-red-500" name="color"></ErrorMessage>
             </div>
             <div>
                 <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Brand</label>
-                <input placeholder="Brand" v-model="post.brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <Field placeholder="Brand" v-bind:rules="validateNull" v-model="post.brand" type="text" id="brand" name="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                <ErrorMessage class="text-red-500" name="brand"></ErrorMessage>
             </div>
             <div>
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
-                <input v-model="post.date" type="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <Field v-bind:rules="validateNull" v-model="post.date" type="date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                <ErrorMessage class="text-red-500" name="date"></ErrorMessage>
             </div>
             <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time</label>
-                <input v-model="post.time" type="time" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <Field v-bind:rules="validateNull" v-model="post.time" type="time" id="time" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                <ErrorMessage class="text-red-500" name="time"></ErrorMessage>
             </div>
-
 
             <div v-if="post.is_lost === '1'">
                 <label for="reward" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reward</label>
-                <input placeholder="Reward" v-model="post.reward" type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <Field v-bind:rules="validateReward" placeholder="Reward" v-model="post.reward" type="number" id="reward" name="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                <ErrorMessage class="text-red-500" name="reward"></ErrorMessage>
             </div>
             <span v-if="post.is_lost === '1'"></span>
 
             <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Description</label>
-                <textarea placeholder="Description..." v-model="post.description" id="description" rows="10" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""></textarea>
+                <Field placeholder="Description..." as="textarea" v-bind:rules="validateNull" v-model="post.description" id="description" name="description" rows="10" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                <ErrorMessage class="text-red-500" name="description"></ErrorMessage>
             </div>
             <span></span>
 
@@ -106,7 +115,7 @@
                                     <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
                                         Select an image</p>
                                 </div>
-                                <input type="file" accept="image/*" class="opacity-0" @change="onChange" />
+                                    <input required type="file" accept="image/*" name="image" id="image" class="opacity-0" @change="onChange" />
                             </label>
                         </div>
                     </div>
@@ -157,6 +166,7 @@
                     class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
                 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            </Form>
         </div>
 
 </template>
@@ -165,8 +175,16 @@
 import SocketioService from '@/services/socketio.js'
 import { usePostStore } from "@/stores/post.js";
 import { useAuthStore } from "@/stores/auth.js";
+// import Form Field ErrorMessage from vee
+import { Form, Field, ErrorMessage } from 'vee-validate';
 
 export default {
+    components: {
+        Form,
+        Field,
+        ErrorMessage
+
+    },
   setup() {
     const post_store = usePostStore()
       const auth_store = useAuthStore()
@@ -182,6 +200,7 @@ export default {
             brand: null,
           color: null,
             date: null,
+          reward: null,
           is_lost: this.$route.params.is_lost,
             time: null,
             image: null,
@@ -230,6 +249,19 @@ export default {
           this.refreshSocketCategories)
   },
   methods: {
+        validateReward(){
+            const regex = /^[+-]?(\d*\.)?\d+$/i;
+            if(!regex.test(this.post.reward)){
+                return "Numbers only"
+            }
+        return true
+        },
+      validateNull(value){
+          if (!value ){
+              return "This field is required";
+          }
+          return true;
+      },
       onMapClick(event) {
           // console.table(event.latLng.toJSON().lat)
           //   console.table(event.latLng.toJSON().lng)
