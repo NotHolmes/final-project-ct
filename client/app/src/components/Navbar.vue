@@ -68,7 +68,7 @@
                     >
                 </li>
                 <li>
-                    <RouterLink to="/contracts"
+                    <RouterLink to="/chat"
                                 href="/"
                                 aria-label="Chat"
                                 title="Chat"

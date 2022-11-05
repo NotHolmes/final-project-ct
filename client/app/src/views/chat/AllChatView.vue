@@ -49,7 +49,7 @@ import SocketioService from '@/services/socketio.js'
                 this.auth = null
             }
 
-            const response = await axios.get(`http://localhost/api/contacts/${this.auth.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+            const response = await axios.get('http://localhost/api/contacts',{ headers: {"Authorization" : 'Bearer ' + this.token } })
             this.contacts = response.data
             // this.selectedContact = this.contacts[0]
             // this.stratConversationWith(this.selectedContact)
@@ -107,7 +107,7 @@ import SocketioService from '@/services/socketio.js'
             },
             async updateList(){
                 console.log('updateja')
-                const response = await axios.get(`http://localhost/api/contacts/${this.auth.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+                const response = await axios.get('http://localhost/api/contacts',{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.contacts = response.data
             },
 

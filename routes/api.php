@@ -31,8 +31,8 @@ Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeControll
 
 
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
-Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class)
-Route::get('/contacts/{email}' , [\App\Http\Controllers\Api\ContactsController::class,'index']);
+Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
+Route::apiResource('/contacts' , \App\Http\Controllers\Api\ContactsController::class);
 Route::get('/contacts/get/{email}' , [\App\Http\Controllers\Api\ContactsController::class,'getContact']);
 Route::get('/conversation/{email}' , [\App\Http\Controllers\Api\ContactsController::class,'getMessagesFor']);
 Route::post('/conversation/send', [\App\Http\Controllers\Api\ContactsController::class,'send']);

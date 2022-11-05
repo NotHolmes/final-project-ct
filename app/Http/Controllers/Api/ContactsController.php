@@ -24,8 +24,9 @@ class ContactsController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index($email)
+    public function index()
     {
+        $email = auth()->user()->email;
         $message = Message::where('from',$email)->orWhere('to',$email)->orderBy('created_at','desc')->get();
         $contacts = $message->map(function($message , $id) use ($email) {
             if($message->from == $email) {
