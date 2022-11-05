@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
@@ -83,6 +84,11 @@ class ContactController extends Controller
             $q->where('to', auth()->user()->email);
         })
             ->get();
+
+        $messages = $messages->map(function($message) {
+            $message->send_at = Carbon::parse($message->created_at)->format('d/m/Y H:i');
+            return $message;
+        });
         return response()->json($messages);
     }
 
