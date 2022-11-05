@@ -37,7 +37,7 @@ class PostController extends Controller
             'title' => 'required',
             'user_id' => 'required|integer',
             'category_id' => 'required|integer',
-            'image' => 'required',
+//            'image' => 'required|mimes:jpg,jpeg,png,gif|max:2048',
             'color' => 'required',
             'brand' => 'required',
             'description' => 'required',
@@ -53,8 +53,6 @@ class PostController extends Controller
                 'message' => $validator->errors()
             ], Response::HTTP_BAD_REQUEST);
         }
-
-
 
         $post = new Post();
         $post->title = $request->get('title');

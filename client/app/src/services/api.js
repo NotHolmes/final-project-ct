@@ -71,7 +71,11 @@ export const postAPI = {
         return []
     },
     async saveNew(post) {
-        const response = await axiosInstance.post('/posts', post)
+        const response = await axiosInstance.post('/posts', post, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         if (response.status === 201) {
             return response.data
         }

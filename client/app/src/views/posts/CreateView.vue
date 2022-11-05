@@ -150,7 +150,7 @@
                 </div>
                 <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
             </div>
-            <button type="button"
+            <button type="submit"
                     @click="saveNewPost()"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
@@ -247,9 +247,6 @@ export default {
           const file = e.target.files[0]
           this.post.image = file
           this.post.imageUrl = URL.createObjectURL(file)
-          this.post.image = URL.createObjectURL(file)
-          console.table(this.post.image)
-          console.table(this.post.imageUrl)
       },
       async refreshCategories() {
           try {
@@ -266,10 +263,9 @@ export default {
       },
     async saveNewPost() {
       try {
-          console.table(this.post)
         this.error = null
-        const post = await this.post_store.add(this.post)
-        if (post) {
+        const post_id = await this.post_store.add(this.post)
+        if (post_id) {
           SocketioService.sendToServer('posts.create',
                                       {success: true})
           this.$router.push(`/posts/${post_id}`)
