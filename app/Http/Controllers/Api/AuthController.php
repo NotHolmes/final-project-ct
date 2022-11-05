@@ -123,7 +123,9 @@ class AuthController extends Controller
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->password = password_hash($request->get('password'),PASSWORD_DEFAULT);
-//        $user->point = $request->get('point');
+
+        if($request->has('point'))
+        $user->point = $request->get('point');
 
         if ($user->save()) {
             return response()->json([
