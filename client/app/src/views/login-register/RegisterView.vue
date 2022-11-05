@@ -14,7 +14,7 @@
                             If you found something you can post to find the owner <br>
                             This is a community for who want to find and lost :)
                         </p>
-                        <a href="/client/app/public" aria-label="" class="inline-flex items-center font-semibold tracking-wider transition-colors duration-200 text-teal-accent-400 hover:text-teal-accent-700">
+                        <a href="/" aria-label="" class="inline-flex items-center font-semibold tracking-wider transition-colors duration-200 text-teal-accent-400 hover:text-teal-accent-700">
                             Learn more
                             <svg class="inline-block w-3 ml-2" fill="currentColor" viewBox="0 0 12 12">
                                 <path d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z"></path>
