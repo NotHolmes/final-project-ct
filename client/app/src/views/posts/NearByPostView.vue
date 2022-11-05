@@ -1,11 +1,9 @@
 <template>
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div class="grid gap-5 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
-            <div>
-                <post-card v-for="post in posts" :key="post.id"
-                           :post="{...post}" :url="`posts/${post.id}`">
-                </post-card>
-            </div>
+            <post-card v-for="post in posts" :key="post.id"
+                       :post="{...post}" :url="`posts/${post.id}`">
+            </post-card>
         </div>
     </div>
 </template>
@@ -54,41 +52,44 @@ export default {
             try {
                 await this.post_store.fetch()
                 this.posts = this.post_store.getPosts
+                var longitude = this.longitude
+                var latitude = this.latitude
+                function calDistance(lat, long) {
+                    var dlong = long - longitude
+                    var dlat = lat - latitude
+                    var c = Math.sqrt(Math.pow(dlong, 2) + Math.pow(dlat, 2))
+                    var km = c / (1 / 108.4)
+                    var m = km * 1000
+                    console.log(m)
+                    return m <= 500
+                }
+                this.posts = this.posts.filter(function (post) {
+                    return calDistance(post.latitude, post.longitude)
+                })
             } catch (error) {
                 this.error = error
             }
         },
-        getLatiLong() {
+        getLatiLong(closure) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((position) => {
                     this.latitude = position.coords.latitude
                     this.longitude = position.coords.longitude
                     console.log(this.latitude)
                     console.log(this.longitude)
+                    closure()
+                }, (error) => {
+                    if (error.code = 1) {
+                        this.error = "Please allow location access."
+                    } 
                 })
             }
         },
-        nearByPost() {
-            var longitude = this.longitude
-            var latitude = this.latitude
-            function calDistance(lat, long) {
-                var dlong = long - longitude
-                var dlat = lat - latitude
-                var c = Math.sqrt(Math.pow(dlong, 2) + Math.pow(dlat, 2))
-                var km = c / (1 / 108.4)
-                var m = km * 1000
-                console.log(m)
-                return m <= 500
-            }
-            this.posts = this.posts.filter(function (post) {
-                return calDistance(post.latitude, post.longitude)
-            })
-        },
     },
     async mounted() {
-        this.getLatiLong()
-        await this.refreshPosts()
-        this.nearByPost()
+        this.getLatiLong(() => {
+            this.refreshPosts()
+        })
     }
 }
 
