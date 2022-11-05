@@ -1,5 +1,5 @@
-import {defineStore} from 'pinia'
-import {authAPI} from '@/services/api'
+import { defineStore } from 'pinia'
+import { authAPI } from '@/services/api'
 
 const auth_storage = {
     auth: localStorage.getItem('auth'),
@@ -30,29 +30,29 @@ export const useAuthStore = defineStore({
         getName: (state) => state.auth.name ,
         getEmail: (state) => state.auth.email,
 
+      getId: (state) => state.auth.id,
         getPoint: (state) => state.auth.point,
 
-        isAuthen(state) {
-            return state.auth.email != null
-        }
-    },
+    isAuthen(state) {
+      return state.auth.email != null
+    }
+  },
 
-    actions: {
-        async login(email, password) {
-            if (await authAPI.login(email, password)) {
-                this.fetch()
-                return true
-            }
-            return false
-        },
+  actions: {
+    async login (email, password) {
+      if (await authAPI.login(email, password)) {
+        this.fetch()
+        return true
+      }
+      return false
+    },
 
         async fetch() {
             this.auth = await authAPI.me()
             localStorage.setItem('auth.email', this.auth.email)
             localStorage.setItem('auth.point', this.auth.point)
             localStorage.setItem('auth.name', this.auth.name)
-            // localStorage.setItem('auth.check',true)
-            return true
+            localStorage.setItem('auth.id', this.auth.id)
         },
 
         async add(user) {
@@ -66,14 +66,18 @@ export const useAuthStore = defineStore({
             return false
         },
 
-        logout() {
-            authAPI.logout()
-            localStorage.removeItem('auth.email')
-            localStorage.removeItem('auth.point')
-            this.auth = {
-                email: null,
-                point: null
-            }
-        }
+    logout () {
+      authAPI.logout()
+      localStorage.removeItem('auth.email')
+      localStorage.removeItem('auth.id')
+        localStorage.removeItem('auth.point')
+        localStorage.removeItem('auth.name')
+      this.auth = {
+        email: null,
+          id: null,
+          name: null,
+          point: null,
+      }
     }
+  }
 })

@@ -37,7 +37,11 @@ Route::apiResource('/users' , \App\Http\Controllers\Api\UsersController::class);
 
 Route::get('/conversation/{id}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
 
+// post/search
+Route::get('/posts/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
 Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+
+Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 
 Route::group([
     'middleware' => 'api',
@@ -50,4 +54,3 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
     Route::post('update', [AuthController::class, 'update']);
 });
-

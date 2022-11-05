@@ -1,171 +1,47 @@
 <template>
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+
+            <div class="relative text-lg bg-transparent text-gray-800 mb-10">
+
+                <div class="absolute right-11 top-1 inline-flex">
+                    <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
+                    <select v-model="selectedCategory" class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none border-transparent focus:border-transparent focus:ring-0">
+                        <option :value="null">All Categories</option>
+                                <option v-for="category in categories" :value="category.id">
+                                    {{ category.name }}
+                                </option>
+                    </select>
+                </div>
+
+                <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
+                    <input v-model="query" class="bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none w-4/5 outline-none border-transparent focus:border-transparent focus:ring-0" type="text" placeholder="Search">
+                    <button type="submit" class="absolute right-0 top-2 mt-3 mr-4">
+                        <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px" height="512px">
+          <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"/>
+      </svg>
+                    </button>
+                </div>
+
+            </div>
+
             <div class="grid gap-5 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
-                <div class="overflow-hidden transition-shadow duration-300 bg-white rounded">
-                    <a href="/" aria-label="Article"><img src="https://images.pexels.com/photos/932638/pexels-photo-932638.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=3&amp;h=750&amp;w=1260" class="object-cover w-full h-64 rounded" alt="" /></a>
-                    <div class="py-5">
-                        <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-                            13 Jul 2020
-                        </p>
-                        <a href="/" aria-label="Article" class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"><p class="text-2xl font-bold leading-5">Diving to the deep</p></a>
-                        <p class="mb-4 text-gray-700">
-                            Sed ut perspiciatis unde omnis iste natus error sit sed quia consequuntur magni voluptatem doloremque.
-                        </p>
-                        <div class="flex space-x-4">
-                            <a href="/" aria-label="Likes" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
-                                <div class="mr-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"
-                                    >
-                                        <polyline points="6 23 1 23 1 12 6 12" fill="none" stroke-miterlimit="10"></polyline>
-                                        <path d="M6,12,9,1H9a3,3,0,0,1,3,3v6h7.5a3,3,0,0,1,2.965,3.456l-1.077,7A3,3,0,0,1,18.426,23H6Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path>
-                                    </svg>
-                                </div>
-                                <p class="font-semibold">7.4K</p>
-                            </a>
-                            <a href="/" aria-label="Comments" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
-                                <div class="mr-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"
-                                    >
-                                        <polyline points="23 5 23 18 19 18 19 22 13 18 12 18" fill="none" stroke-miterlimit="10"></polyline>
-                                        <polygon points="19 2 1 2 1 14 5 14 5 19 12 14 19 14 19 2" fill="none" stroke="currentColor" stroke-miterlimit="10"></polygon>
-                                    </svg>
-                                </div>
-                                <p class="font-semibold">81</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="overflow-hidden transition-shadow duration-300 bg-white rounded">
-                    <a href="/" aria-label="Article"><img src="https://images.pexels.com/photos/1576937/pexels-photo-1576937.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" class="object-cover w-full h-64 rounded" alt="" /></a>
-                    <div class="py-5">
-                        <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-                            4 Nov 2020
-                        </p>
-                        <a href="/" aria-label="Article" class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"><p class="text-2xl font-bold leading-5">Conquer the World</p></a>
-                        <p class="mb-4 text-gray-700">
-                            Sed ut perspiciatis unde omnis iste natus error sit sed quia consequuntur magni voluptatem doloremque.
-                        </p>
-                        <div class="flex space-x-4">
-                            <a href="/" aria-label="Likes" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
-                                <div class="mr-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"
-                                    >
-                                        <polyline points="6 23 1 23 1 12 6 12" fill="none" stroke-miterlimit="10"></polyline>
-                                        <path d="M6,12,9,1H9a3,3,0,0,1,3,3v6h7.5a3,3,0,0,1,2.965,3.456l-1.077,7A3,3,0,0,1,18.426,23H6Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path>
-                                    </svg>
-                                </div>
-                                <p class="font-semibold">7.4K</p>
-                            </a>
-                            <a href="/" aria-label="Comments" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
-                                <div class="mr-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"
-                                    >
-                                        <polyline points="23 5 23 18 19 18 19 22 13 18 12 18" fill="none" stroke-miterlimit="10"></polyline>
-                                        <polygon points="19 2 1 2 1 14 5 14 5 19 12 14 19 14 19 2" fill="none" stroke="currentColor" stroke-miterlimit="10"></polygon>
-                                    </svg>
-                                </div>
-                                <p class="font-semibold">81</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="overflow-hidden transition-shadow duration-300 bg-white rounded">
-                    <a href="/" aria-label="Article"><img src="https://images.pexels.com/photos/2123755/pexels-photo-2123755.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" class="object-cover w-full h-64 rounded" alt="" /></a>
-                    <div class="py-5">
-                        <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-                            28 Dec 2020
-                        </p>
-                        <a href="/" aria-label="Article" class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700">
-                            <p class="text-2xl font-bold leading-5">
-                                Explore the beautiful
-                            </p>
-                        </a>
-                        <p class="mb-4 text-gray-700">
-                            Sed ut perspiciatis unde omnis iste natus error sit sed quia consequuntur magni voluptatem doloremque.
-                        </p>
-                        <div class="flex space-x-4">
-                            <a href="/" aria-label="Likes" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
-                                <div class="mr-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"
-                                    >
-                                        <polyline points="6 23 1 23 1 12 6 12" fill="none" stroke-miterlimit="10"></polyline>
-                                        <path d="M6,12,9,1H9a3,3,0,0,1,3,3v6h7.5a3,3,0,0,1,2.965,3.456l-1.077,7A3,3,0,0,1,18.426,23H6Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path>
-                                    </svg>
-                                </div>
-                                <p class="font-semibold">7.4K</p>
-                            </a>
-                            <a href="/" aria-label="Comments" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
-                                <div class="mr-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"
-                                    >
-                                        <polyline points="23 5 23 18 19 18 19 22 13 18 12 18" fill="none" stroke-miterlimit="10"></polyline>
-                                        <polygon points="19 2 1 2 1 14 5 14 5 19 12 14 19 14 19 2" fill="none" stroke="currentColor" stroke-miterlimit="10"></polygon>
-                                    </svg>
-                                </div>
-                                <p class="font-semibold">81</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 <post-card v-for="post in posts" :key="post.id"
                            :post="{...post}" :url="`posts/${post.id}`">
                 </post-card>
             </div>
         </div>
+
+<!--    <section class="text-gray-600 body-font relative">-->
+<!--        <div class="absolute inset-0 bg-gray-300">-->
+<!--            <GMapMap-->
+<!--                :center="{lat: 13.556, lng: 100.8}"-->
+<!--                :zoom="13"-->
+<!--                map-type-id="terrain"-->
+<!--                style="width: 100vw; height: 900px"-->
+<!--            >-->
+<!--            </GMapMap>-->
+<!--        </div>-->
+<!--    </section>-->
 
  </template>
 
@@ -175,6 +51,7 @@ import PostCard from '@/components/posts/PostCard.vue'
 import { usePostStore } from '@/stores/post.js'
 import { useAuthStore } from '@/stores/auth.js'
 import SocketioService from '@/services/socketio.js'
+
 
 export default {
     setup() {
@@ -186,18 +63,42 @@ export default {
         SocketioService.setupSocketConnection()
         SocketioService.getSocket().on('posts.index',
                               this.refreshSocketPosts)
+        SocketioService.getSocket().on('categories.index',
+                              this.refreshSocketCategories)
     },
     data() {
         return {
             title: "Posts",
             error: null,
             posts: null,
+            categories: null,
+            query: null,
+            selectedCategory: "All Categories",
+        }
+    },
+    watch: {
+        selectedCategory: function (newVal, oldVal) {
+            if(newVal === null) {
+                this.posts = this.post_store.posts
+            } else {
+                this.posts = this.post_store.getPostByCategoryId(newVal)          }
+        },
+        query: function(newVal, oldVal){
+            if(newVal === null || newVal === "")
+                this.refreshPosts()
+            else
+                this.searchPosts();
         }
     },
     components: {
         PostCard
     },
     methods: {
+        async searchPosts() {
+            await this.post_store.search(this.query)
+            this.posts = this.post_store.getPosts
+        },
+
         selectPost(post) {
             console.table(post)
             this.$router.push(`posts/${post.id}`)
@@ -214,10 +115,24 @@ export default {
             } catch (error) {
                 this.error = error
             }
-        }
+        },
+        async refreshSocketCategories(data) {
+            if (data.refresh) {
+                await this.refreshCategories()
+            }
+        },
+        async refreshCategories() {
+            try {
+                await this.post_store.fetch()
+                this.categories = this.post_store.getCategories
+            } catch (error) {
+                this.error = error
+            }
+        },
     },
     async mounted() {
         await this.refreshPosts()
+        await this.refreshCategories()
     }
 }
 

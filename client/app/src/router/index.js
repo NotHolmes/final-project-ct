@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CoinDeskView from '@/views/CoinDeskView.vue'
 
@@ -67,6 +67,26 @@ const router = createRouter({
             path: '/register',
             name: 'register',
             component: () => import('@/views/login-register/RegisterView.vue')
+        },
+        {
+            path: '/nearby',
+            name: 'nearby',
+            component: () => import('@/views/posts/NearByPostView.vue')
+        },
+        {
+            path: '/posts/:id',
+            name: 'posts.show',
+            component: () => import('@/views/posts/DetailView.vue')
+        },
+        {
+            path: '/posts/precreate',
+            name: 'posts.precreate',
+            component: () => import('@/views/posts/PreCreateView.vue')
+        },
+        {
+            path: '/posts/create/:is_lost',
+            name: 'posts.create',
+            component: () => import('@/views/posts/CreateView.vue')
         },
     ]
 })

@@ -53,24 +53,24 @@ export const authAPI = {
 }
 
 export const rewardAPI = {
-    async getAll() {
-        const response = await axiosInstance.get('/rewards')
-        if (response.status == 200) {
-            return response.data.data
-        }
-        return []
-    },
-    async saveNew(reward) {
-        reward.balance = reward.total_amount
-        reward.is_active = true
-        const response = await axiosInstance.post('/rewards', reward)
-        if (response.status == 201) {
-            return response.data
-        }
-        return {
-            success: false
-        }
+  async getAll () {
+    const response = await axiosInstance.get('/rewards')
+    if (response.status == 200) {
+      return response.data.data
     }
+    return []
+  },
+  async saveNew (reward) {
+    reward.balance = reward.total_amount
+    reward.is_active = true
+    const response = await axiosInstance.post('/rewards', reward)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  }
 }
 
 export const postAPI = {
@@ -82,7 +82,41 @@ export const postAPI = {
         return []
     },
     async saveNew(post) {
-        const response = await axiosInstance.post('/posts', post)
+        const response = await axiosInstance.post('/posts', post, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        if (response.status === 201) {
+            return response.data
+        }
+        return {
+            success: false
+        }
+    },
+    async search(query) {
+        const response = await axiosInstance.get('/posts/search', {
+            params: {
+                query: query
+            }
+        })
+        if (response.status === 200) {
+            return response.data.data
+        }
+        return []
+    }
+}
+
+export const categoryAPI = {
+    async getAll() {
+        const response = await axiosInstance.get('/categories')
+        if (response.status === 200) {
+            return response.data.data
+        }
+        return []
+    },
+    async saveNew(category) {
+        const response = await axiosInstance.post('/categories', category)
         if (response.status === 201) {
             return response.data
         }
