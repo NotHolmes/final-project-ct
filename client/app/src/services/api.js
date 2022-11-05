@@ -19,7 +19,7 @@ export const authAPI = {
       email,
       password
     })
-    if (response.status == 200) {
+    if (response.status === 200) {
       localStorage.setItem(JWT_TOKEN_LOCALSTORAGE_KEY, response.data.access_token)
       return true
     }
@@ -31,7 +31,8 @@ export const authAPI = {
       axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + _token
     }
     const response = await axiosInstance.post('/auth/me')
-    if (response.status == 200) {
+    if (response.status === 200) {
+        // console.table(response)
       return response.data.data
     }
     return {}

@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import { authAPI } from '@/services/api'
 
 const auth_storage = {
+    id: localStorage.getItem('auth.id'),
   email: localStorage.getItem('auth.email'),
-  point: localStorage.getItem('auth.point')
 }
 
 export const useAuthStore = defineStore({
@@ -11,8 +11,8 @@ export const useAuthStore = defineStore({
   state: () => {
     return {
       auth: {
+          id: auth_storage.id,
         email: auth_storage.email,
-        point: auth_storage.point
       }
     }
   },
@@ -22,7 +22,7 @@ export const useAuthStore = defineStore({
 
     getEmail: (state) => state.auth.email,
 
-    getPoint: (state) => state.auth.point,
+      getId: (state) => state.auth.id,
 
     isAuthen (state) {
       return state.auth.email != null
@@ -41,16 +41,16 @@ export const useAuthStore = defineStore({
     async fetch () {
       this.auth = await authAPI.me()
       localStorage.setItem('auth.email', this.auth.email)
-      localStorage.setItem('auth.point', this.auth.point)
+        localStorage.setItem('auth.id', this.auth.id)
     },
 
     logout () {
       authAPI.logout()
       localStorage.removeItem('auth.email')
-      localStorage.removeItem('auth.point')
+      localStorage.removeItem('auth.id')
       this.auth = {
         email: null,
-        point: null
+          id: null,
       }
     }
   }
