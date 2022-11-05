@@ -9,20 +9,60 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
-
-class ContractsController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
-        $contracts = User::all();
+        $email = auth()->user()->email;
+        $message = Message::where('from',$email)->orWhere('to',$email)->orderBy('created_at','desc')->get();
+        $contacts = $message->map(function($message , $id) use ($email) {
+            if($message->from == $email) {
+                return User::where('email',$message->to)->first();
 
-        return UserResource::collection($contracts);
+            }
+            if($message->to == $email) {
+                return User::where('email',$message->from)->first();
+            }
+        });
+
+
+        $filtered_contacts = $contacts->filter(function ($contact) use ($email){
+            if($contact->email != $email){
+                return $contact;
+            }
+        })->values();
+
+        $filtered_contacts = $filtered_contacts->unique();
+
+        $unreadIds = DB::table('messages')->select(DB::raw('`from` as sender_id, count(`from`) as messages_count'))
+            ->where('to', $email)
+            ->where('read', false)
+            ->groupBy('from')
+            ->get();
+
+        $filtered_contacts = $filtered_contacts->map(function($contact) use ($unreadIds) {
+            $contactUnread = $unreadIds->where('sender_id',$contact->email)->first();
+            if ($contactUnread != null)
+                $contact->unread = $contactUnread->messages_count;
+            else
+                $contact->unread =  0 ;
+
+            return $contact;
+        });
+
+        return response()->json($filtered_contacts);
     }
 
     /**
@@ -32,9 +72,28 @@ class ContractsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getMessagesFor($id){
-        $message = Message::where('from',$id)->orWhere('to',$id)->get();
-        return MessageResource::collection($message);
+    public function getMessagesFor($email){
+        Message::where('from', $email)->where('to', auth()->user()->email)->update(['read' => true]);
+
+        $messages = Message::where(function($q) use ($email) {
+            $q->where('from', auth()->user()->email);
+            $q->where('to', $email);
+        })->orWhere(function($q) use ($email) {
+            $q->where('from', $email);
+            $q->where('to', auth()->user()->email);
+        })
+            ->get();
+        return response()->json($messages);
+    }
+
+
+    public function send(Request $request){
+                $message = Message::factory()->create([
+                   'from' => auth()->user()->email,
+                    'to' => $request->contact_email,
+                    'text' =>$request->text
+                ]);
+                return response()->json($message);
     }
 
     public function store(Request $request)
@@ -90,10 +149,10 @@ class ContractsController extends Controller
         //
     }
 
-    public function search(Request $request) {
-        $q = $request->query('q');
-        $users = Reward::where('email', 'LIKE', "%{$q}%")
-            ->get();
-        return $users;
+    public function getContact($email){
+        $user = User::where('email',$email)->first();
+        if ($user != null )
+            return response()->json($user);
+        return null ;
     }
 }

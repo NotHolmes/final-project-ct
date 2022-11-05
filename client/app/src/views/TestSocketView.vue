@@ -9,6 +9,9 @@
 
     <div>
       <ul>
+        <li v-for="m in sends" :key="m">
+          {{ m }}
+        </li>
         <li v-for="m in messages" :key="m">
           {{ m }}
         </li>
@@ -19,7 +22,6 @@
 
 <script>
 import SocketioService from '@/services/socketio.js'
-
 export default {
   data() {
     return {
@@ -30,17 +32,21 @@ export default {
   },
   created() {
     SocketioService.setupSocketConnection()
-    SocketioService.getSocket().on('hello.reply', this.onReplyMessage)
+    SocketioService.getSocket().on('chatroom', this.listenChatroom)
   },
   methods: {
     sendMessage() {
+      const socket_id = SocketioService.getId()
       console.log(SocketioService.getId())
-      SocketioService.sendToServer('hello.message', {message:this.message})
+      this.sends.push(this.message)
+      SocketioService.sendToServer('hello.message', {
+        message:this.message,
+        sender_id: socket_id
+      })
     },
     listenChatroom(data) {
       this.messages.push(data)
-    },
+    }
   },
-
 }
 </script>

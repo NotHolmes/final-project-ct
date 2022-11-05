@@ -1,7 +1,8 @@
 <template>
     <div class="chat">
-        <Conversation :contact="selectedContact" :messages="messages" ></Conversation>
-        <ContactsList :contacts="contacts" @selected="stratConversationWith"></ContactsList>
+<!--            Welcome , {{ auth.email }}-->
+        <ContactsList :contacts="contacts" :token="token" @selected="stratConversationWith" class="aside"></ContactsList>
+        <Conversation :contact="selectedContact" :messages="messages" :user="auth" :token="token" @new="saveNewMessage" ></Conversation>
 
     </div>
 </template>
@@ -10,8 +11,16 @@
 import axios from 'axios'
 import ContactsList from '@/components/chat/ContactsList.vue';
 import Conversation from '@/components/chat/Conversation.vue';
+import { useAuthStore } from '@/stores/auth.js';
+import SocketioService from '@/services/socketio.js'
 
     export default{
+        setup(){
+            const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
+            const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+            const auth_store = useAuthStore()
+            return { auth_store , token}
+        },
         props:{
             user: {
                 type: Object,
@@ -20,27 +29,95 @@ import Conversation from '@/components/chat/Conversation.vue';
         },
         data() {
             return {
+                auth: null ,
                 selectedContact : null ,
                 contacts: null ,
-                messages: []
+                messages: [] ,
+
             };
         },
         async mounted() {
-            const response = await axios.get('http://localhost/api/contracts')
-            this.contacts = response.data.data
+            // const instance = axios.create({
+            //     baseURL: 'https://example.com/api/',
+            //     timeout: 1000,
+            //     headers: {'Authorization':  'Bearer ' + token }
+            // });
+
+            if(this.auth_store.isAuthen){
+                this.auth = this.auth_store.getAuth
+            } else {
+                this.auth = null
+            }
+
+            const response = await axios.get(`http://localhost/api/contacts`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+            this.contacts = response.data
+            // this.selectedContact = this.contacts[0]
+            // this.stratConversationWith(this.selectedContact)
+
+        },
+
+        watch: {
+            auth_store: {
+                immediate: true,
+                deep: true,
+                handler(newValue, oldValue){
+                    console.log(newValue.getAuth)
+                    this.auth = this.auth_store.getAuth
+                }
+            },
+            // contacts:{
+            //     immediate: true,
+            //     deep: true,
+            //     handler(newValue, oldValue){
+            //         console.log('newValue')
+            //     }
+            // }
         },
         methods: {
             async stratConversationWith(contact){
-                
-                const response = await axios.get(`http://localhost/api/conversation/${contact.id}`)
+                this.updateUnreadCount(contact,true);
+                const response = await axios.get(`http://localhost/api/conversation/${contact.email}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.selectedContact = contact;
-                this.messages = response.data.data
+                this.messages = response.data
                 console.log('Message :')
                 console.log(this.messages)
                 console.log('Contact :')
                 console.log(contact)
-            }
+            },
+
+            saveNewMessage(text) {
+                console.log('SAVEEEEEEEE')
+                this.messages.push(text);
+                console.log(this.messages)
+            },
+
+            updateUnreadCount(contact, reset){
+                this.contacts = this.contacts.map((single) => {
+                    if (single.email != contact.email){
+                        return single;
+                    }
+
+                    if (reset)
+                        single.unread = 0;
+                    else
+                        single.unread += 1;
+
+                    return single;
+                })
+            },
+            async updateList(){
+                console.log('updateja')
+                const response = await axios.get(`http://localhost/api/contacts`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
+                this.contacts = response.data
+            },
+
         },
+        created() {
+            SocketioService.setupSocketConnection()
+            SocketioService.getSocket().on('list.update', this.updateList)
+        },
+
+
         components: {ContactsList,Conversation}
     }
 </script>
@@ -48,5 +125,33 @@ import Conversation from '@/components/chat/Conversation.vue';
 <style scoped>
 .chat {
     display: flex;
+}
+.aside{
+    /*margin-left: 30%;*/
+    width: 260px;
+    height: 800px;
+    display: inline-block;
+    font-size: 15px;
+    vertical-align: top;
+    width: 30%;
+    flex: 0.5;
+}
+.right{
+    margin-right: 50%;
+
+}
+
+.container {
+    margin: 0 auto;
+    width: 750px;
+    background: #444753;
+    border-radius: 5px;
+}
+
+.clearfix:after {
+    display: block;
+    content: " ";
+    clear: both;
+    height: 0;
 }
 </style>

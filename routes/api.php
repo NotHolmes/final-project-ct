@@ -35,7 +35,12 @@ Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeControll
 Route::apiResource('/contracts' , \App\Http\Controllers\Api\ContractsController::class);
 Route::apiResource('/users' , \App\Http\Controllers\Api\UsersController::class);
 
-Route::get('/conversation/{id}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
+Route::get('/contacts/get/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'getContact']);
+Route::apiResource('/contacts' , \App\Http\Controllers\Api\ContractsController::class,'index');
+
+Route::get('/conversation/{email}' , [\App\Http\Controllers\Api\ContractsController::class,'getMessagesFor']);
+Route::post('/conversation/send', [\App\Http\Controllers\Api\ContractsController::class,'send']);
+
 
 // post/search
 Route::get('/posts/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
