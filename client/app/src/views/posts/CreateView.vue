@@ -64,7 +64,7 @@
             </div>
             <div>
                 <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Brand</label>
-                <input v-model="post.brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input placeholder="Brand" v-model="post.brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
             <div>
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
@@ -78,19 +78,19 @@
 
             <div v-if="post.is_lost === '1'">
                 <label for="reward" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reward</label>
-                <input v-model="post.reward" type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <input placeholder="Reward" v-model="post.reward" type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
             <span v-if="post.is_lost === '1'"></span>
 
             <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Description</label>
-                <textarea v-model="post.description" id="description" rows="10" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""></textarea>
+                <textarea placeholder="Description..." v-model="post.description" id="description" rows="10" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""></textarea>
             </div>
             <span></span>
 
             <div class="">
                 <label for="upload" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Upload
-                    Image(jpg,png,svg,jpeg)</label>
+                    Image(jpg, png, jpeg)</label>
                 <div class="rounded-lg bg-gray-50 lg:w-full" id="upload">
                     <div class="m-4">
                         <div class="flex items-center justify-center w-full">
@@ -99,9 +99,9 @@
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
                                          fill="currentColor">
-                                        <path fill-rule="event"
+                                        <path fill-rule="evenodd"
                                               d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                              clip-rule="event" />
+                                              clip-rule="evenodd" />
                                     </svg>
                                     <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
                                         Select an image</p>
@@ -146,15 +146,15 @@
             </GMapMap>
 
 
-            <div class="flex items-start my-6">
-                <div class="flex items-center h-5">
-                    <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required="">
-                </div>
-                <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
-            </div>
+<!--            <div class="flex items-start my-6">-->
+<!--                <div class="flex items-center h-5">-->
+<!--                    <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required="">-->
+<!--                </div>-->
+<!--                <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>-->
+<!--            </div>-->
             <button type="submit"
                     @click="saveNewPost()"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                    class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
                 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </div>
