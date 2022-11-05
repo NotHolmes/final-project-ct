@@ -73,13 +73,11 @@
                 <ErrorMessage class="text-red-500" name="brand"></ErrorMessage>
             </div>
             <div>
-                <span>{{ post.date }}</span>
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
                 <Field v-bind:rules="validateNull" v-model="post.date" type="date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
                 <ErrorMessage class="text-red-500" name="date"></ErrorMessage>
             </div>
             <div>
-                <span>{{ post.time }}</span>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time</label>
                 <Field v-bind:rules="validateNull" v-model="post.time" type="time" id="time" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
                 <ErrorMessage class="text-red-500" name="time"></ErrorMessage>
@@ -325,7 +323,12 @@ export default {
           }
       },
     async saveNewPost() {
-            if(this.post.image === null || this.validateLocation()){
+            //check posts.lat and posts.lng === null
+            if (!this.validateLocation()){
+                return
+            }
+            // check image === null
+            if (!this.validateImage(this.post.image)){
                 return
             }
       try {

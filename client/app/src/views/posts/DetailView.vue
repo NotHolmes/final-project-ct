@@ -40,7 +40,7 @@
                                 <p class="mb-2 text-sm text-gray-900">
                                     {{ post.description }}
                                 </p>
-                                <h4 v-if="post.reward !== 0" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
+                                <h4 v-if="post.reward !== 0 && post.reward !== null" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
                                 <button
                                     class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                                 >
