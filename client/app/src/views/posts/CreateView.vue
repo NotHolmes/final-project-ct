@@ -175,7 +175,7 @@ export default {
   data() {
     return {
       post: {
-          user_id: this.auth_store.auth,
+          user_id: this.auth_store.auth.id,
           category_id: null,
           title: null,
             description: null,

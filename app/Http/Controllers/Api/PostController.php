@@ -37,7 +37,7 @@ class PostController extends Controller
             'title' => 'required',
             'user_id' => 'required|integer',
             'category_id' => 'required|integer',
-            'image' => 'mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'mimes:jpg,jpeg,png,gif|max:10240',
             'color' => 'required',
             'brand' => 'required',
             'description' => 'required',
