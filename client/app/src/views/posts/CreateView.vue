@@ -1,5 +1,8 @@
 <template>
 
+    <span>{{post}}</span>
+    <span>user_id = {{post.user_id}}</span>
+
     <div class="mt-16 w-11/12 lg:w-2/6 mx-auto">
         <div class="bg-gray-200 dark:bg-gray-700 h-1 flex items-center justify-between">
             <div class="w-1/3 bg-indigo-700 h-1 flex items-center">
@@ -35,16 +38,15 @@
         </div>
     </div>
 
-    <form>
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
             <div class="mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
-                <input type="text" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required="">
+                <input v-model="post.title" type="text" id="title" autocomplete="off"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required="">
             </div>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Category</label>
-                    <select v-model="selectedCategory" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select v-model="post.category_id" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option disabled>Choose category</option>
                         <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
                     </select>
@@ -54,27 +56,33 @@
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Color</label>
-                <select id="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select v-model="post.color" id="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option disabled>Choose color</option>
                     <option v-for="color in colors" :key="color.id" :value="color.name">{{ color.name }}</option>
                 </select>
             </div>
             <div>
                 <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Brand</label>
-                <input id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input v-model="post.brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
             <div>
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
-                <input type="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <input v-model="post.date" type="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
             <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time</label>
-                <input type="time" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <input v-model="post.time" type="time" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
 
             <div>
                 <label for="reward" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reward</label>
-                <input type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <input v-model="post.reward" type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            </div>
+            <span></span>
+
+            <div>
+                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Description</label>
+                <textarea v-model="post.description" id="description" rows="10" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""></textarea>
             </div>
             <span></span>
 
@@ -111,7 +119,7 @@
             <GMapMap
                 :click="true"
                 @click="onMapClick"
-                :center="{lat: parseFloat(this.lat) , lng: parseFloat(this.lng)}"
+                :center="{lat: this.lat , lng: this.lng}"
                 :zoom="18"
                 map-type-id="terrain"
                 style="width: 100%; height: 700px"
@@ -142,36 +150,42 @@
                 </div>
                 <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
             </div>
-            <button type="submit"
+            <button type="button"
+                    @click="saveNewPost()"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
                 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </div>
-    </form>
 
 </template>
 
 <script>
 import SocketioService from '@/services/socketio.js'
 import { usePostStore } from "@/stores/post.js";
+import { useAuthStore} from "@/stores/auth.js";
 
 export default {
   setup() {
     const post_store = usePostStore()
-    return { post_store }
+      const auth_store = useAuthStore()
+    return { post_store, auth_store }
   },
   data() {
     return {
       post: {
+          // user_id: this.auth_store.auth.id,
+          user_id: 1,
+          category_id: null,
           title: null,
             description: null,
             brand: null,
+          color: null,
             date: null,
+          is_lost: 1,
             time: null,
             image: null,
-            imageUrl: null,
-            lat: 13.847673555174328,
-            lng: 100.56958661138006,
+            latitude: null,
+            longitude: null,
       },
         markers: [
             {
@@ -183,7 +197,6 @@ export default {
         ],
         error: null,
       categories: null,
-        selectedCategory: null,
         colors: [
             { name: 'Red', value: '#f44336' },
             { name: 'Pink', value: '#e91e63' },
@@ -206,7 +219,6 @@ export default {
             { name: 'Blue Grey', value: '#607d8b' },
             { name: 'Black', value: '#000000' },
         ],
-        brand: null,
         lat: 13.847673555174328,
         lng: 100.56958661138006,
     }
@@ -227,14 +239,17 @@ export default {
               this.markers.push({
                   position: event.latLng.toJSON(),
               })
+              this.post.latitude = event.latLng.toJSON().lat
+              this.post.longitude = event.latLng.toJSON().lng
           }
       },
       onChange(e) {
-          console.table(e.target.files)
           const file = e.target.files[0]
           this.post.image = file
           this.post.imageUrl = URL.createObjectURL(file)
-          con
+          this.post.image = URL.createObjectURL(file)
+          console.table(this.post.image)
+          console.table(this.post.imageUrl)
       },
       async refreshCategories() {
           try {
@@ -251,6 +266,7 @@ export default {
       },
     async saveNewPost() {
       try {
+          console.table(this.post)
         this.error = null
         const post = await this.post_store.add(this.post)
         if (post) {

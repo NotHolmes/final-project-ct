@@ -60,7 +60,11 @@ class PostController extends Controller
         $post->title = $request->get('title');
         $post->user_id = $request->get('user_id');
         $post->category_id = $request->get('category_id');
-        $post->image = $request->get('image');
+
+
+        $image_path = $this->handleImageUploaded($request->file('image'));
+        $post->image = $image_path;
+
         $post->color = $request->get('color');
         $post->brand = $request->get('brand');
         $post->description = $request->get('description');
@@ -180,6 +184,15 @@ class PostController extends Controller
 
 //        return response()->json($results);
         return SearchResource::collection($results);
+    }
+
+    public function handleImageUploaded($image)
+    {
+        $image_name = time().$image->getClientOriginalName();
+        $image_name = str_replace(' ', '', $image_name);
+        $image_path = $image->storeAs('images', $image_name, 'public');
+        $image_path = '/storage/'.$image_path;
+        return $image_path;
     }
 
 }
