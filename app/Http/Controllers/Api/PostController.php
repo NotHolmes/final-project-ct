@@ -66,7 +66,15 @@ class PostController extends Controller
         $post->color = $request->get('color');
         $post->brand = $request->get('brand');
         $post->description = $request->get('description');
-        $post->datetime = $request->get('datetime');
+
+
+        $date = $request->get('date');
+        $time = $request->get('time');
+
+        $datetime = $date . ' ' . $time;
+        $datetime = strtotime($datetime);
+
+        $post->datetime = $datetime;
 
         if($request->has('reward')) {
             $post->reward = $request->get('reward');
@@ -113,7 +121,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required',
             'category_id' => 'sometimes|required|integer',
-            'image' => 'sometimes|required',
+            'image' => 'mimes:jpg,jpeg,png,gif|max:10240',
             'color' => 'sometimes|required',
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
@@ -136,7 +144,17 @@ class PostController extends Controller
         if($request->has('color')) $post->color = $request->get('color');
         if($request->has('brand')) $post->brand = $request->get('brand');
         if($request->has('description')) $post->description = $request->get('description');
-        if($request->has('datetime')) $post->datetime = $request->get('datetime');
+        if($request->has('date') && $request->has('time')) {
+
+            $date = $request->get('date');
+            $time = $request->get('time');
+
+            $datetime = $date . ' ' . $time;
+            $datetime = strtotime($datetime);
+
+            $post->datetime = $datetime;
+        }
+
         if($request->has('reward')) $post->reward = $request->get('reward');
         if($request->has('is_lost')) $post->is_lost = $request->get('is_lost');
         if($request->has('latitude')) $post->latitude = $request->get('latitude');
