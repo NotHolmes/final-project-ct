@@ -1,16 +1,24 @@
 <template>
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
+            <p>type = {{this.type}}</p>
+
             <div class="relative text-lg bg-transparent text-gray-800 mb-10">
 
                 <div class="absolute right-11 top-1 inline-flex">
                     <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
+                    <select v-model="this.type" class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none border-transparent focus:border-transparent focus:ring-0">
+                        <option :value="null">All Posts</option>
+                        <option :value='"losts"'>Losts</option>
+                        <option :value='"founds"'>Founds</option>
+                    </select>
                     <select v-model="selectedCategory" class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none border-transparent focus:border-transparent focus:ring-0">
                         <option :value="null">All Categories</option>
                                 <option v-for="category in categories" :value="category.id">
                                     {{ category.name }}
                                 </option>
                     </select>
+
                 </div>
 
                 <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
@@ -68,6 +76,7 @@ export default {
     },
     data() {
         return {
+            type: null,
             title: "Posts",
             error: null,
             posts: null,
@@ -88,6 +97,15 @@ export default {
                 this.refreshPosts()
             else
                 this.searchPosts();
+        },
+        type: function(newVal, oldVal){
+            if(newVal === null || newVal === "")
+                this.refreshPosts()
+            else
+                if(newVal === "losts")
+                    this.posts = this.post_store.getLostPosts
+                else
+                    this.posts = this.post_store.getFoundPosts
         }
     },
     components: {

@@ -28,6 +28,7 @@ class PostFactory extends Factory
             'datetime' => $this->faker->dateTime,
             'reward' => $this->faker->randomFloat(2, 0, 10000),
             'is_lost' => $this->faker->boolean,
+            'is_done' => $this->faker->boolean,
             'latitude' => $this->faker->latitude(13.83, 13.9),
             'longitude' => $this->faker->longitude(100.5, 100.6),
         ];

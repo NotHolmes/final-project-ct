@@ -16,6 +16,12 @@ export const usePostStore = defineStore({
         getPostByCategoryId: (state) => (id) => {
             return state.posts.filter(post => post.category_id === id)
         },
+        getLostPosts: (state) => {
+            return state.posts.filter(post => post.is_lost === 1)
+        },
+        getFoundPosts: (state) => {
+            return state.posts.filter(post => post.is_lost === 0)
+        }
     },
 
     actions: {
