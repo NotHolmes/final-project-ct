@@ -118,6 +118,7 @@
                                         Select an image</p>
                                 </div>
                                     <input required type="file" accept="image/*" name="image" id="image" class="opacity-0" @change="onChange" />
+                                <p v-if="validateImage(!this.post.image)" class="my-7" @submit.prevent="saveNewPost">(Image is required)</p>
                             </label>
                         </div>
                     </div>
@@ -128,6 +129,13 @@
             </div>
 
         </div>
+
+                <GMapAutocomplete
+                    placeholder="Search for your location"
+                    @place_changed="setPlace"
+                    class="my-6 border border-gray-300"
+                >
+                </GMapAutocomplete>
 
             <GMapMap
                 :click="true"
@@ -155,6 +163,7 @@
 
                 </GMapMarker>
             </GMapMap>
+                <p v-if="!validateLocation()" class="my-6" @submit.prevent="saveNewPost">(Marker is required)</p>
 
 
 <!--            <div class="flex items-start my-6">-->
@@ -212,8 +221,8 @@ export default {
         markers: [
             {
                 position: {
-                    lat: 13.847673555174328,
-                    lng: 100.56958661138006,
+                    lat: 0,
+                    lng: 0,
                 }
             }
         ],
@@ -251,6 +260,25 @@ export default {
           this.refreshSocketCategories)
   },
   methods: {
+        setPlace(place) {
+            this.post.latitude = place.geometry.location.lat()
+            this.post.longitude = place.geometry.location.lng()
+            this.markers[0].position.lat = place.geometry.location.lat()
+            this.markers[0].position.lng = place.geometry.location.lng()
+        },
+        validateLocation(){
+            if (this.markers[0].position.lat === 0 && this.markers[0].position.lng === 0){
+                return false
+            }
+            return true
+        },
+
+        validateImage(image){
+            if(!image){
+                return false
+            }
+            return true
+        },
         validateReward(){
             const regex = /^[+-]?(\d*\.)?\d+$/i;
             if(!regex.test(this.post.reward)){
@@ -297,6 +325,9 @@ export default {
           }
       },
     async saveNewPost() {
+            if(this.post.image === null || this.validateLocation()){
+                return
+            }
       try {
         this.error = null
         const post_id = await this.post_store.add(this.post)

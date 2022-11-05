@@ -21,7 +21,8 @@ app.use(createPinia())
 app.use(router)
 app.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyCJEZGsrOXlrN_fj3Momn49r2y6clRUugk'
+        key: 'AIzaSyCJEZGsrOXlrN_fj3Momn49r2y6clRUugk',
+        libraries: 'places', // This is required if you use the Autocomplete plugin
     }
 })
 
