@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\SearchResource;
 use App\Models\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -72,7 +73,7 @@ class PostController extends Controller
         $time = $request->get('time');
 
         $datetime = $date . ' ' . $time;
-        $datetime = strtotime($datetime);
+        $datetime = Carbon::create($datetime)->toDateTime();
 
         $post->datetime = $datetime;
 
