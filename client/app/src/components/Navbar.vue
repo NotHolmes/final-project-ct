@@ -40,24 +40,7 @@
                     >Home</RouterLink
                     >
                 </li>
-                <li>
-                    <RouterLink to="/about"
-                                href="/"
-                                aria-label="Our product"
-                                title="Our product"
-                                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                    >About</RouterLink
-                    >
-                </li>
-                <li>
-                    <RouterLink to="/rewards"
-                                href="/"
-                                aria-label="Product pricing"
-                                title="Product pricing"
-                                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                    >Rewards</RouterLink
-                    >
-                </li>
+
                 <li>
                     <RouterLink to="/posts"
                                 href="/"
@@ -124,14 +107,13 @@
                 </button>
                 <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full">
                     <div class="p-5 bg-white border rounded shadow-sm">
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
-                                <a
+                        <div class="items-center justify-between mb-4">
+                            <ul class="flex items-center space-x-2 lg:flex">
+                                <li><a
                                     href="/"
                                     aria-label="Company"
                                     title="Company"
-                                    class="inline-flex items-center"
-                                >
+                                    class="inline-flex items-center">
                                     <svg
                                         class="w-8 text-deep-purple-accent-400"
                                         viewBox="0 0 24 24"
@@ -144,16 +126,17 @@
                                     >
                                         <rect x="3" y="1" width="7" height="12"></rect>
                                         <rect x="3" y="17" width="7" height="6"></rect>
-                                        <rect x="14" y="1" width="7" height="6"></rect>
+                                        <rect x="14" y="1" width="7" height="6"></rect>v
                                         <rect x="14" y="11" width="7" height="12"></rect>
                                     </svg>
                                     <span
                                         class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase"
-                                    >Company</span
-                                    >
-                                </a>
-                            </div>
-                            <div>
+                                    >Company</span>
+                                </a></li>
+
+                            <li><div>
+                                <Profile></Profile>
+
                                 <button
                                     aria-label="Close Menu"
                                     title="Close Menu"
@@ -167,55 +150,56 @@
                                         ></path>
                                     </svg>
                                 </button>
-                            </div>
+                            </div></li>
+
+                        </ul>
                         </div>
                         <nav>
-                            <ul class="space-y-4">
-                                <li>
+                            <ul class="flex items-center space-x-2 lg:flex">
+                                <li class="flex items-center space-x-2 lg:flex">
                                     <a
                                         href="/"
                                         aria-label="Our product"
                                         title="Our product"
                                         class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                                    >Product</a
+                                    >Home</a
                                     >
                                 </li>
                                 <li>
                                     <a
-                                        href="/"
+                                        href="/posts"
                                         aria-label="Our product"
                                         title="Our product"
                                         class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                                    >Features</a
+                                    >Posts</a
                                     >
                                 </li>
                                 <li>
                                     <a
-                                        href="/"
+                                        href="/posts/precreate"
                                         aria-label="Product pricing"
                                         title="Product pricing"
                                         class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                                    >Pricing</a
+                                    >Create</a
                                     >
                                 </li>
                                 <li>
                                     <a
-                                        href="/"
+                                        href="/chat"
                                         aria-label="About us"
                                         title="About us"
                                         class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                                    >About us</a
+                                    >Chat</a
                                     >
                                 </li>
                                 <li>
                                     <a
-                                        href="/"
-                                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                                        aria-label="Sign up"
-                                        title="Sign up"
+                                        href="/nearby"
+                                        aria-label="About us"
+                                        title="About us"
+                                        class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                                    >NearBy</a
                                     >
-                                        Sign up
-                                    </a>
                                 </li>
                             </ul>
                         </nav>
