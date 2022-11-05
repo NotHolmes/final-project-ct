@@ -74,7 +74,7 @@
 
             <div>
                 <label for="reward" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reward</label>
-                <input type="number" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                <input type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
             <span></span>
 
@@ -111,7 +111,7 @@
             <GMapMap
                 :click="true"
                 @click="onMapClick"
-                :center="{lat: this.lat, lng: this.lng}"
+                :center="{lat: parseFloat(this.lat) , lng: parseFloat(this.lng)}"
                 :zoom="18"
                 map-type-id="terrain"
                 style="width: 100%; height: 700px"
@@ -170,14 +170,14 @@ export default {
             time: null,
             image: null,
             imageUrl: null,
-            lat: null,
-            lng: null,
+            lat: 13.847673555174328,
+            lng: 100.56958661138006,
       },
         markers: [
             {
                 position: {
-                    lat: null,
-                    lng: null,
+                    lat: 13.847673555174328,
+                    lng: 100.56958661138006,
                 }
             }
         ],
@@ -218,6 +218,8 @@ export default {
   },
   methods: {
       onMapClick(event) {
+          // console.table(event.latLng.toJSON().lat)
+          //   console.table(event.latLng.toJSON().lng)
           if (event.latLng?.lat) {
               if(this.markers.length > 0) {
                   this.markers = []
@@ -232,6 +234,7 @@ export default {
           const file = e.target.files[0]
           this.post.image = file
           this.post.imageUrl = URL.createObjectURL(file)
+          con
       },
       async refreshCategories() {
           try {
