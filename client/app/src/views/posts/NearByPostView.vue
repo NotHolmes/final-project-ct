@@ -1,9 +1,14 @@
 <template>
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div class="grid gap-5 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
-            <post-card v-for="post in posts" :key="post.id"
+            <div v-if="posts_num !== 0">
+                <post-card v-for="post in posts" :key="post.id"
                        :post="{...post}" :url="`posts/${post.id}`">
-            </post-card>
+                </post-card>
+            </div>
+            <div v-else>
+                {{ message }}
+            </div>
         </div>
     </div>
 </template>
@@ -32,7 +37,9 @@ export default {
             error: null,
             posts: null,
             latitude: null,
-            longitude: null
+            longitude: null,
+            message: "",
+            posts_num: null
         }
     },
     components: {
@@ -69,6 +76,10 @@ export default {
                 this.posts = this.posts.filter(function (post) {
                     return post.is_lost && ! post.is_done
                 })
+                this.posts_num = this.posts.length
+                if (this.posts.length == 0) {
+                    this.message = "No lost item that near you within 500 meters!"
+                }
             } catch (error) {
                 this.error = error
             }
