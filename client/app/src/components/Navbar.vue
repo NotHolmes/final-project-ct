@@ -68,7 +68,7 @@
                     >
                 </li>
                 <li>
-                    <RouterLink to="/posts/create"
+                    <RouterLink to="/posts/precreate"
                                 href="/"
                                 aria-label="Create post"
                                 title="Create post"

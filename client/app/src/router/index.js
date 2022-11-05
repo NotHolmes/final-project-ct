@@ -74,7 +74,12 @@ const router = createRouter({
           component: () => import('@/views/posts/DetailView.vue')
       },
       {
-          path: '/posts/create',
+        path: '/posts/precreate',
+        name: 'posts.precreate',
+        component: () => import('@/views/posts/PreCreateView.vue')
+      },
+      {
+          path: '/posts/create/:is_lost',
           name: 'posts.create',
           component: () => import('@/views/posts/CreateView.vue')
       },

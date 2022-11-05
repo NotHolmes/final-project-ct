@@ -1,5 +1,7 @@
 <template>
-    <span class="absolute left-10">user_id = {{post.user_id}}</span>
+    <span>user_id = {{post.user_id}}</span>
+<!--    get id from router-->
+    <span> is_lost = {{ post.is_lost }} </span>
 
 <!--    <div class="mt-16 w-11/12 lg:w-2/6 mx-auto">-->
 <!--        <div class="bg-gray-200 dark:bg-gray-700 h-1 flex items-center justify-between">-->
@@ -73,11 +75,12 @@
                 <input v-model="post.time" type="time" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
 
-            <div>
+
+            <div v-if="post.is_lost === '1'">
                 <label for="reward" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reward</label>
                 <input v-model="post.reward" type="number" id="reward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
-            <span></span>
+            <span v-if="post.is_lost === '1'"></span>
 
             <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Description</label>
@@ -179,7 +182,7 @@ export default {
             brand: null,
           color: null,
             date: null,
-          is_lost: 1,
+          is_lost: this.$route.params.is_lost,
             time: null,
             image: null,
             latitude: null,
