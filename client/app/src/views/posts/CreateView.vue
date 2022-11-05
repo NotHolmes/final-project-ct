@@ -72,6 +72,11 @@
                 <input type="time" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
 
+            <div>
+                <label for="reward" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reward</label>
+                <input type="number" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            </div>
+            <span></span>
 
             <div class="">
                 <label for="upload" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Upload
@@ -102,16 +107,47 @@
             </div>
 
         </div>
-        <div class="flex items-start mb-6">
-            <div class="flex items-center h-5">
-                <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required="">
+
+            <GMapMap
+                :click="true"
+                @click="onMapClick"
+                :center="{lat: this.lat, lng: this.lng}"
+                :zoom="18"
+                map-type-id="terrain"
+                style="width: 100%; height: 700px"
+                streetViewControl: false,
+                :options="{
+                    zoomControl: true,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    streetViewControl: false,
+                    rotateControl: false,
+                    fullscreenControl: false,
+                    disableDefaultUi: false
+                }"
+            >
+                <GMapMarker
+                    v-for="(marker, index) in markers"
+                    :key="index"
+                    :position="marker.position"
+                    @click="center=marker.position">
+
+                </GMapMarker>
+            </GMapMap>
+
+
+            <div class="flex items-start my-6">
+                <div class="flex items-center h-5">
+                    <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required="">
+                </div>
+                <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
             </div>
-            <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
-        </div>
-        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
+                dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </div>
     </form>
-
 
 </template>
 
@@ -127,15 +163,25 @@ export default {
   data() {
     return {
       post: {
-        name: '',
-        detail: '',
-        point: 1,
-        total_amount: 1,
-        error: null,
-          image: null,
-          imageUrl: null,
-
+          title: null,
+            description: null,
+            brand: null,
+            date: null,
+            time: null,
+            image: null,
+            imageUrl: null,
+            lat: null,
+            lng: null,
       },
+        markers: [
+            {
+                position: {
+                    lat: null,
+                    lng: null,
+                }
+            }
+        ],
+        error: null,
       categories: null,
         selectedCategory: null,
         colors: [
@@ -161,6 +207,8 @@ export default {
             { name: 'Black', value: '#000000' },
         ],
         brand: null,
+        lat: 13.847673555174328,
+        lng: 100.56958661138006,
     }
   },
   created() {
@@ -169,6 +217,16 @@ export default {
           this.refreshSocketCategories)
   },
   methods: {
+      onMapClick(event) {
+          if (event.latLng?.lat) {
+              if(this.markers.length > 0) {
+                  this.markers = []
+              }
+              this.markers.push({
+                  position: event.latLng.toJSON(),
+              })
+          }
+      },
       onChange(e) {
           console.table(e.target.files)
           const file = e.target.files[0]
