@@ -4,6 +4,7 @@ import { authAPI } from '@/services/api'
 const auth_storage = {
     auth: localStorage.getItem('auth'),
     email: localStorage.getItem('auth.email'),
+    role: localStorage.getItem('auth.role'),
     point: localStorage.getItem('auth.point'),
     name: localStorage.getItem('auth.name'),
     id : localStorage.getItem('auth.id')
@@ -15,6 +16,7 @@ export const useAuthStore = defineStore({
         return {
             auth: {
                 email: auth_storage.email,
+                role: auth_storage.role,
                 point: auth_storage.point,
                 name: auth_storage.name,
                 id : auth_storage.id
@@ -27,10 +29,10 @@ export const useAuthStore = defineStore({
 
     getters: {
         getAuth: (state) => state.auth,
-        getName: (state) => state.auth.name ,
+        getName: (state) => state.auth.name,
         getEmail: (state) => state.auth.email,
-
-      getId: (state) => state.auth.id,
+        getRole: (state) => state.auth.role,
+        getId: (state) => state.auth.id,
         getPoint: (state) => state.auth.point,
 
     isAuthen(state) {
@@ -50,6 +52,7 @@ export const useAuthStore = defineStore({
         async fetch() {
             this.auth = await authAPI.me()
             localStorage.setItem('auth.email', this.auth.email)
+            localStorage.setItem('auth.role', this.auth.role)
             localStorage.setItem('auth.point', this.auth.point)
             localStorage.setItem('auth.name', this.auth.name)
             localStorage.setItem('auth.id', this.auth.id)
@@ -69,14 +72,16 @@ export const useAuthStore = defineStore({
     logout () {
       authAPI.logout()
       localStorage.removeItem('auth.email')
+      localStorage.removeItem('auth.role')
       localStorage.removeItem('auth.id')
-        localStorage.removeItem('auth.point')
-        localStorage.removeItem('auth.name')
+      localStorage.removeItem('auth.point')
+      localStorage.removeItem('auth.name')
       this.auth = {
         email: null,
-          id: null,
-          name: null,
-          point: null,
+        role: null,
+        id: null,
+        name: null,
+        point: null,
       }
     }
   }

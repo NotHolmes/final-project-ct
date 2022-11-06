@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         print('Seeding user01@api.example.com'."\n");
         $user = new User();
         $user->name = "user01";
+        $user->role = 'USER';
         $user->email = 'user01@api.example.com';
         $user->password = bcrypt('userpass');
         $user->save();
