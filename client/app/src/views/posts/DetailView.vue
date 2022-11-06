@@ -52,8 +52,8 @@
                                 >
                                     Edit
                                 </button>&emsp;&emsp;&emsp;
-                                <input v-if="auth.id == post.user_id" type="checkbox" id="checkbox" v-model="checkedBox" />&nbsp;
-                                <button v-if="auth.id == post.user_id" @click="delPost(post.id)"
+                                <input v-if="(auth.id == post.user_id) || auth.role == 'ADMIN'" type="checkbox" id="checkbox" v-model="checkedBox" />&nbsp;
+                                <button v-if="(auth.id == post.user_id) || auth.role == 'ADMIN'" @click="delPost(post.id)"
                                     class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-accent-400 hover:bg-red-accent-700 focus:shadow-outline focus:outline-none"
                                 >
                                     Delete

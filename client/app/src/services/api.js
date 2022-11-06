@@ -104,7 +104,20 @@ export const postAPI = {
             return response.data.data
         }
         return []
-    }
+    },
+    async update(post, data){
+        const response = await axiosInstance.put('/posts/' + post.id, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        if (response.status === 200) {
+            return response.data
+        }
+        return {
+            success: false
+        }
+    },
 }
 
 export const categoryAPI = {

@@ -40,7 +40,7 @@
 
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
-            <Form @submit.prevent="saveNewPost">
+            <Form @submit.prevent="updatePost">
 
             <div class="mb-6">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
@@ -74,12 +74,12 @@
             </div>
             <div>
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date</label>
-                <Field v-bind:rules="validateNull" v-model="post.date" type="date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                <Field v-bind:rules="validateNull" v-model="date" type="date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
                 <ErrorMessage class="text-red-500" name="date"></ErrorMessage>
             </div>
             <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time</label>
-                <Field v-bind:rules="validateNull" v-model="post.time" type="time" id="time" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                <Field v-bind:rules="validateNull" v-model="time" type="time" id="time" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
                 <ErrorMessage class="text-red-500" name="time"></ErrorMessage>
             </div>
 
@@ -116,7 +116,7 @@
                                         Select an image</p>
                                 </div>
                                     <input required type="file" accept="image/*" name="image" id="image" class="opacity-0" @change="onChange" />
-                                <p v-if="validateImage(!this.post.image)" class="my-7" @submit.prevent="saveNewPost">(Image is required)</p>
+                                <p v-if="validateImage(!this.post.image)" class="my-7" @submit.prevent="updatePost">(Image is required)</p>
                             </label>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
 
                 </GMapMarker>
             </GMapMap>
-                <p v-if="!validateLocation()" class="my-6" @submit.prevent="saveNewPost">(Marker is required)</p>
+                <p v-if="!validateLocation()" class="my-6" @submit.prevent="updatePost">(Marker is required)</p>
 
 
 <!--            <div class="flex items-start my-6">-->
@@ -171,7 +171,7 @@
 <!--                <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>-->
 <!--            </div>-->
             <button type="submit"
-                    @click="saveNewPost()"
+                    @click="updatePost()"
                     class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
                 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
@@ -203,18 +203,21 @@ export default {
     return {
       post: {
           user_id: this.auth_store.auth.id,
-          category_id: null,
-          title: null,
-            description: null,
-            brand: null,
-          color: null,
+        //   category_id: null,
+        //   title: null,
+        //     description: null,
+        //     brand: null,
+        //   color: null,
+        //     date: null,
+        //   reward: null,
+        //   is_lost: this.$route.params.is_lost,
+        //     time: null,
+        //     image: null,
+        //     latitude: null,
+        //     longitude: null,
+            post: null,
             date: null,
-          reward: null,
-          is_lost: this.$route.params.is_lost,
             time: null,
-            image: null,
-            latitude: null,
-            longitude: null,
       },
         markers: [
             {
@@ -252,10 +255,38 @@ export default {
         lng: 100.56958661138006,
     }
   },
-  created() {
+  async created() {
     SocketioService.setupSocketConnection()
       SocketioService.getSocket().on('categories.index',
           this.refreshSocketCategories)
+          const id = this.$route.params.id
+          const url = `/posts/${id}`
+          try {
+            this.error = null
+            let response = await this.$axios.get(url)
+            if (response.status === 200) {
+                this.post = response.data.data
+                this.lat = Number(this.post.latitude)
+                this.lng = Number(this.post.longitude)
+                this.markers = [
+                    {
+                        position: {
+                            lat: this.lat,
+                            lng: this.lng
+                        }
+                    }
+                ]
+                var dt = this.post.datetime.split(" ")
+                console.log(dt)
+                this.date = dt[0]
+                this.time = dt[1]
+                console.log(this.date)
+                console.log(this.time)
+                console.table(this.post)
+            }
+        } catch (error) {
+            this.error = error.message
+        }
   },
   methods: {
         setPlace(place) {
@@ -322,7 +353,7 @@ export default {
               await this.refreshCategories()
           }
       },
-    async saveNewPost() {
+    async updatePost() {
             //check posts.lat and posts.lng === null
             if (!this.validateLocation()){
                 return
@@ -333,9 +364,10 @@ export default {
             }
       try {
         this.error = null
-        const post_id = await this.post_store.add(this.post)
+        const post_id = await this.post_store.update(this.post, this.post)
         if (post_id) {
-          SocketioService.sendToServer('posts.create',
+            // console.log('test')
+          SocketioService.sendToServer('posts.update',
                                       {success: true})
           this.$router.push(`/posts/${post_id}`)
         }

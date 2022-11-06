@@ -127,7 +127,7 @@ class PostController extends Controller
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
             'reward' => 'nullable|numeric',
-            'is_lost' => 'required|boolean',
+            'is_lost' => 'sometimes|required|boolean',
             'latitude' => 'sometimes|required|numeric',
             'longitude' => 'sometimes|required|numeric',
         ]);
