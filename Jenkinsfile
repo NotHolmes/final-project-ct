@@ -17,11 +17,20 @@ pipeline {
                         cd ./client/
                         docker compose up -d
                         docker-compose exec app npm install
-                        docker-compose exec app npm run dev
                     '''
                }
 
           }
+
+          stage('clientRun'){
+                  steps {
+                      bat '''
+                        cd ./client/
+                        docker-compose exec app npm run dev
+                      '''
+                 }
+
+            }
 
      }
 }

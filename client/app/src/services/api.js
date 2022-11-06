@@ -75,16 +75,30 @@ export const rewardAPI = {
 
 export const postAPI = {
     async getAll() {
-        const response = await axiosInstance.get('/posts')
-        if (response.status === 200) {
-            return response.data.data
+        console.table(localStorage.getItem('jwt_token'))
+        if(localStorage.getItem('jwt_token') !== null) {
+            const response = await axiosInstance.get('/posts', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                }
+            })
+            if (response.status === 200) {
+                return response.data.data
+            }
+        } else {
+            const response = await axiosInstance.get('/posts')
+            if (response.status === 200) {
+                return response.data.data
+            }
         }
         return []
     },
     async saveNew(post) {
         const response = await axiosInstance.post('/posts', post, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
+
             }
         })
         if (response.status === 201) {

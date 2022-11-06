@@ -13,7 +13,7 @@ import SupportIcon from './icons/IconSupport.vue'
         <div class="grid max-w-screen-lg gap-8 row-gap-5 md:row-gap-8 sm:mx-auto lg:grid-cols-2">
             <div class="transition duration-300 transform bg-white rounded shadow-sm hover:-translate-y-1 hover:shadow md:text-center">
                 <div class="relative">
-                    <img class="object-cover w-full h-64 rounded-t lg:h-80 xl:h-96" src="https://images.pexels.com/photos/3182796/pexels-photo-3182796.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" alt="" />
+                    <img class="object-cover w-full h-64 rounded-t lg:h-80 xl:h-96" src="@/assets/lostbear.png" alt="" />
                     <div class="absolute inset-0 bg-gray-800 bg-opacity-25"></div>
                 </div>
                 <div class="px-6 py-8 border border-t-0 rounded-b sm:px-8">
@@ -21,19 +21,15 @@ import SupportIcon from './icons/IconSupport.vue'
                         Lost
                     </h5>
                     <p class="mb-5 text-gray-700">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque rem aperiam, eaque ipsa quae. Sed ut perspiciatis unde.
+                        Want to find something ? Let's post to find them. <br>
+                        When you post here, People can help you to find.
+                        Because we are family :)
                     </p>
-                    <button
-                        type="submit"
-                        class="inline-flex items-center justify-center h-12 px-6 text-white font-medium tracking-wide transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                    >
-                        Read more
-                    </button>
                 </div>
             </div>
             <div class="transition duration-300 transform bg-white rounded shadow-sm hover:-translate-y-1 hover:shadow md:text-center">
                 <div class="relative">
-                    <img class="object-cover w-full h-64 rounded-t lg:h-80 xl:h-96" src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" alt="" />
+                    <img class="object-cover w-full h-64 rounded-t lg:h-80 xl:h-96" src="@/assets/found.png" alt="" />
                     <div class="absolute inset-0 bg-gray-800 bg-opacity-25"></div>
                 </div>
                 <div class="px-6 py-8 border border-t-0 rounded-b sm:px-8">
@@ -41,19 +37,16 @@ import SupportIcon from './icons/IconSupport.vue'
                         Found
                     </h5>
                     <p class="mb-5 text-gray-700">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque rem aperiam, eaque ipsa quae. Sed ut perspiciatis unde.
+                        You found something lost? Let's post to find them.
+                        Every time you return lost things to owner, you will get 100 point.
+                        Keep it to promote your badge :)
+
                     </p>
-                    <button
-                        type="submit"
-                        class="inline-flex items-center justify-center h-12 px-6 text-white font-medium tracking-wide transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                    >
-                        Read more
-                    </button>
                 </div>
             </div>
         </div>
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-            <div class="grid gap-10 row-gap-8 lg:grid-cols-4">
+            <div class="grid gap-10 row-gap-8 lg:grid-cols-5">
                 <div>
                     <div class="flex">
                         <h6 class="mr-2 text-4xl font-bold md:text-5xl text-deep-purple-accent-400">
@@ -86,7 +79,7 @@ import SupportIcon from './icons/IconSupport.vue'
                     <p class="mb-2 font-bold md:text-lg">All Posts</p>
                     <p class="text-gray-700">
                         Number of all posts in this platform. <br>
-                        Let's post for found and lost
+                        Let's post for found and lost.
                     </p>
                 </div>
 
@@ -105,7 +98,7 @@ import SupportIcon from './icons/IconSupport.vue'
                     <p class="mb-2 font-bold md:text-lg">Losts</p>
                     <p class="text-gray-700">
                         Number of lost posts in this platform.
-                        Let's post for lost
+                        Let's post for lost.
                     </p>
                 </div>
 
@@ -124,19 +117,42 @@ import SupportIcon from './icons/IconSupport.vue'
                     <p class="mb-2 font-bold md:text-lg">Founds</p>
                     <p class="text-gray-700">
                         Number of found posts in this platform.
-                        Let's post for found
+                        Let's post for found.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="flex">
+
+                        <h6 class="mr-2 text-4xl font-bold md:text-5xl text-deep-purple-accent-400" >
+                            {{this.doneCount}}
+                        </h6>
+                        <div class="flex items-center justify-center rounded-full bg-teal-accent-400 w-7 h-7">
+                            <svg class="text-teal-900 w-7 h-7" stroke="currentColor" viewBox="0 0 52 52">
+                                <polygon stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" points="29 13 14 29 25 29 23 39 38 23 27 23"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mb-2 font-bold md:text-lg">Done</p>
+                    <p class="text-gray-700">
+                        Number of done posts in this platform.
+                        We help people to find something lost.
                     </p>
                 </div>
 
                 <div v-show="seen" id="hide">
                     {{ this.lostCount=0 }}
                     {{ this.findCount=0}}
+                    {{ this.doneCount=0}}
                     <div v-for="post in this.posts">
                         <div v-if="post.is_lost == 1">
                             {{ this.lostCount++ }}
                         </div>
                         <div v-else-if="post.is_lost == 0">
                             {{ this.findCount++ }}
+                        </div>
+                        <div v-if="post.is_done == 1">
+                            {{ this.doneCount++ }}
                         </div>
                     </div>
                 </div>
@@ -173,6 +189,7 @@ export default {
             posts: [],
             lostCount : 0,
             findCount : 0,
+            doneCount : 0,
         }
     },
     created() {
@@ -193,7 +210,11 @@ export default {
         },
     },
     mounted() {
-        axios.get('http://localhost/api/users')
+        axios.get('http://localhost/api/users', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            }
+        })
             .then(async (resp) => {
                 this.users = await resp.data.data;
             })

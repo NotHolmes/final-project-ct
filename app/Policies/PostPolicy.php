@@ -23,6 +23,10 @@ class PostPolicy
         return true;
     }
 
+    public function viewAll(){
+        return true;
+    }
+
     /**
      * Determine whether the user can view the model.
      *
@@ -67,7 +71,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return ($user->isUser() && $user->id === $post->user_id) || $user->isAdmin();
+        return  $user->isAdmin() || (($user->isUser() && $user->id === $post->user_id));
     }
 
     /**

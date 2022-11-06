@@ -15,10 +15,10 @@ use Spatie\Searchable\Search;
 class PostController extends Controller
 {
 
-//    public function __construct()
-//    {
-//        $this->middleware('auth')->except(['index', 'show']);
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['index', 'show', 'search']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -27,6 +27,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAll', Post::class);
+
         $posts = Post::get();
         return PostResource::collection($posts);
     }
@@ -40,7 +42,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-//        $this->authorize('create', Post::class);
+        $this->authorize('create', Post::class);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -202,7 +204,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-//        $this->authorize('delete', Post::class);
+//        $this->authorize('delete', $post);
 
         $title = $post->title;
         if ($post->delete()) {

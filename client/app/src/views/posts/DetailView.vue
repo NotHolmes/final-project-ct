@@ -246,7 +246,11 @@ export default {
         }
     },
     async mounted() {
-        await axios.get('http://localhost/api/users')
+        await axios.get('http://localhost/api/users', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            }
+            })
             .then(async (resp) => {
                 this.users = await resp.data.data;
             })
@@ -260,7 +264,11 @@ export default {
         const url = `/posts/${id}`
         try {
             this.error = null
-            let response = await this.$axios.get(url)
+            let response = await this.$axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                }
+            })
             if (response.status === 200) {
                 this.post = response.data.data
                 this.lat = Number(this.post.latitude)
@@ -299,7 +307,11 @@ export default {
             let data = {
                 is_done: true
             }
-            await axios.put(url, data)
+            await axios.put(url, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                }
+            })
                 .then(async (resp) => {
                     this.post = await resp.data.data;
                 })
@@ -312,7 +324,11 @@ export default {
             let data = {
                 point: this.founder.point + 100
             }
-            await axios.put(url, data)
+            await axios.put(url, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                }
+            })
                 .then(async (resp) => {
                     this.founder = await resp.data.data;
                 })
@@ -326,7 +342,11 @@ export default {
             let data = {
                 hidden: true
             }
-            axios.put(url, data)
+            axios.put(url, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                }
+            })
                 .then(async (resp) => {
                     this.post = await resp.data.data;
                 })
@@ -481,11 +501,15 @@ export default {
             this.$router.push(`edit/${this.post.id}`)
         },
         delPost(id) {
-            // delete post with axios and bearer key
+            const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
+            const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+
+            console.log(token)
+
             let url = `http://localhost/api/posts/${id}`
             axios.delete(url, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
+                    Authorization: `Bearer ${token}`,
                 }
             }).then((resp) => {
                     console.log(resp.data)
@@ -493,9 +517,6 @@ export default {
                 .catch((err) =>{
                     console.log(err.data)
                 })
-            // see axios headers and body
-
-
 
         },
     },

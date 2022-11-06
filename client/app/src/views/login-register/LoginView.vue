@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <img src="https://images.pexels.com/photos/3747463/pexels-photo-3747463.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" class="absolute inset-0 object-cover w-full h-full" alt="" />
+        <img src="@/assets/happyoldyear.jpg" class="absolute inset-0 object-cover w-full h-full" alt="" />
         <div class="relative bg-gray-900 bg-opacity-75">
             <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
                 <div class="flex flex-col items-center justify-between xl:flex-row">
