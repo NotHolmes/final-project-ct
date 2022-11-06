@@ -1,43 +1,5 @@
 <template>
-    <span>user_id = {{post.user_id}}</span>
-<!--    get id from router-->
-    <span> is_lost = {{ post.is_lost }} </span>
-
-<!--    <div class="mt-16 w-11/12 lg:w-2/6 mx-auto">-->
-<!--        <div class="bg-gray-200 dark:bg-gray-700 h-1 flex items-center justify-between">-->
-<!--            <div class="w-1/3 bg-indigo-700 h-1 flex items-center">-->
-<!--                <div class="bg-indigo-700 h-6 w-6 rounded-full shadow flex items-center justify-center">-->
-<!--                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/thin_with_steps-svg1.svg" alt="check"/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="w-1/3 flex justify-between bg-indigo-700 h-1 items-center relative">-->
-<!--                <div class="absolute right-0 -mr-2">-->
-<!--                    <div class="relative bg-white dark:bg-gray-800 shadow-lg px-2 py-1 rounded mt-16 -mr-12">-->
-<!--                        <svg class="absolute top-0 -mt-1 w-full right-0 left-0 text-white dark:text-gray-800" width="16px" height="8px" viewBox="0 0 16 8" version="1.1" xmlns="http://www.w3.org/2000/svg">-->
-<!--                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">-->
-<!--                                <g id="Progress-Bars" transform="translate(-322.000000, -198.000000)" fill="currentColor">-->
-<!--                                    <g id="Group-4" transform="translate(310.000000, 198.000000)">-->
-<!--                                        <polygon id="Triangle" points="20 0 28 8 12 8"></polygon>-->
-<!--                                    </g>-->
-<!--                                </g>-->
-<!--                            </g>-->
-<!--                        </svg>-->
-<!--                        <p tabindex="0" class="focus:outline-none text-indigo-700 dark:text-indigo-400 text-xs font-bold">Step 3: Analyzing</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="bg-indigo-700 h-6 w-6 rounded-full shadow flex items-center justify-center -ml-2">-->
-<!--                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/thin_with_steps-svg1.svg" alt="check"/>-->
-<!--                </div>-->
-<!--                <div class="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow flex items-center justify-center -mr-3 relative">-->
-<!--                    <div class="h-3 w-3 bg-indigo-700 rounded-full"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="w-1/3 flex justify-end">-->
-<!--                <div class="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow"></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
+    <span>{{post}}</span>
         <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
             <Form @submit.prevent="updatePost">
@@ -186,6 +148,7 @@ import { usePostStore } from "@/stores/post.js";
 import { useAuthStore } from "@/stores/auth.js";
 // import Form Field ErrorMessage from vee
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import axios from "axios";
 
 export default {
     components: {
@@ -203,22 +166,21 @@ export default {
     return {
       post: {
           user_id: this.auth_store.auth.id,
-        //   category_id: null,
-        //   title: null,
-        //     description: null,
-        //     brand: null,
-        //   color: null,
-        //     date: null,
-        //   reward: null,
-        //   is_lost: this.$route.params.is_lost,
-        //     time: null,
-        //     image: null,
-        //     latitude: null,
-        //     longitude: null,
-            post: null,
+          category_id: null,
+          title: null,
+            description: null,
+            brand: null,
+          color: null,
             date: null,
+          reward: null,
+          is_lost: this.$route.params.is_lost,
             time: null,
+            image: null,
+            latitude: null,
+            longitude: null,
       },
+        date: null,
+        time: null,
         markers: [
             {
                 position: {
@@ -260,12 +222,13 @@ export default {
       SocketioService.getSocket().on('categories.index',
           this.refreshSocketCategories)
           const id = this.$route.params.id
-          const url = `/posts/${id}`
+          const url = `http://localhost/api/posts/${id}`
           try {
             this.error = null
             let response = await this.$axios.get(url)
             if (response.status === 200) {
                 this.post = response.data.data
+                console.log(this.post)
                 this.lat = Number(this.post.latitude)
                 this.lng = Number(this.post.longitude)
                 this.markers = [
@@ -276,13 +239,9 @@ export default {
                         }
                     }
                 ]
-                var dt = this.post.datetime.split(" ")
-                console.log(dt)
+                const dt = this.post.datetime.split(" ")
                 this.date = dt[0]
-                this.time = dt[1]
-                console.log(this.date)
-                console.log(this.time)
-                console.table(this.post)
+                this.time = dt[1].substring(0, 5)
             }
         } catch (error) {
             this.error = error.message
@@ -362,19 +321,38 @@ export default {
             if (!this.validateImage(this.post.image)){
                 return
             }
-      try {
-        this.error = null
-        const post_id = await this.post_store.update(this.post, this.post)
-        if (post_id) {
-            // console.log('test')
-          SocketioService.sendToServer('posts.update',
-                                      {success: true})
-          this.$router.push(`/posts/${post_id}`)
+
+        let url = `http://localhost/api/posts/${this.post.id}`
+        let data = {
+            user_id: this.auth_store.auth.id,
+            category_id: this.post.category_id,
+            title: this.post.title,
+            description: this.post.description,
+            brand: this.post.brand,
+            color: this.post.color,
+            date: this.date,
+            time: this.time,
+            reward: this.post.reward,
+            is_lost: this.post.is_lost,
+            latitude: this.post.latitude,
+            longitude: this.post.longitude,
         }
-      } catch(error) {
-        console.log(error)
-        this.error = error.message
-      }
+
+        const post_id = this.post.id
+        await axios.put(url, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(async (resp) => {
+                console.table(resp.data.data)
+                this.post = await resp.data.data;
+                this.$router.push(`/posts/${post_id}`)
+            })
+            .catch((err) =>{
+                console.log(err.data)
+                console.table("ERRORRORORO")
+            })
+
     }
   },
     async mounted() {

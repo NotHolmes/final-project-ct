@@ -122,7 +122,6 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required',
             'category_id' => 'sometimes|required|integer',
-            'image' => 'mimes:jpg,jpeg,png,gif|max:10240',
             'color' => 'sometimes|required',
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
@@ -141,7 +140,19 @@ class PostController extends Controller
 
         if($request->has('title')) $post->title = $request->get('title');
         if($request->has('category_id')) $post->category_id = $request->get('category_id');
-        if($request->has('image')) $post->image = $request->get('image');
+
+        if($request->has('image')) {
+            // check if $request->image is a url
+            if (filter_var($request->image, FILTER_VALIDATE_URL)) {
+                $post->image = $request->image;
+            } else {
+                $image_path = $this->handleImageUploaded($request->file('image'));
+                $post->image = $image_path;
+            }
+        }
+
+
+
         if($request->has('color')) $post->color = $request->get('color');
         if($request->has('brand')) $post->brand = $request->get('brand');
         if($request->has('description')) $post->description = $request->get('description');
@@ -151,7 +162,8 @@ class PostController extends Controller
             $time = $request->get('time');
 
             $datetime = $date . ' ' . $time;
-            $datetime = strtotime($datetime);
+            $datetime = Carbon::create($datetime)->toDateTime();
+
             $post->datetime = $datetime;
         }
 
@@ -159,6 +171,7 @@ class PostController extends Controller
         if($request->has('is_lost')) $post->is_lost = $request->get('is_lost');
         if($request->has('latitude')) $post->latitude = $request->get('latitude');
         if($request->has('longitude')) $post->longitude = $request->get('longitude');
+        if($request->has('hidden')) $post->hidden = $request->get('hidden');
 
         if ($post->save()) {
             return response()->json([
