@@ -1,10 +1,4 @@
 <template>
-    <span>this post user_id = {{post.user_id}}</span>
-    <span>this auth id = {{this.auth_store.auth.id}}</span>
-    <div>
-        <p>{{this.post}}</p>
-    </div>
-<!--<div v-if=post>lat = {{ post.latitude }} lng = {{ post.longitude }} {{this.markers}}</div>-->
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
             <GMapMap
@@ -408,10 +402,20 @@ export default {
                 hour: 'numeric',
                 minute: 'numeric',
             }).format(date)
-        }
-    }
-}
+        },
+        editPost() {
+            console.table(this.post)
+            this.$router.push(`edit/${this.post.id}`)
+        },
+        delPost(id) {
+            fetch('http://localhost/api/posts/' + id,  {
+                method: 'DELETE'
+            })
+            this.$router.push({ name: 'posts' })
 
+        }
+    },
+}
 </script>
 
 <style>

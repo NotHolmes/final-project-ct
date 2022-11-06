@@ -50,7 +50,7 @@
                     >Posts</RouterLink
                     >
                 </li>
-                <li>
+                <li v-if="auth.role == 'USER'">
                     <RouterLink to="/posts/precreate"
                                 href="/"
                                 aria-label="Create post"
@@ -59,13 +59,22 @@
                     >Create post</RouterLink
                     >
                 </li>
-                <li>
+                <li v-if="auth.role == 'USER'">
                     <RouterLink to="/chat"
                                 href="/"
                                 aria-label="Chat"
                                 title="Chat"
                                 class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                     >Chat</RouterLink
+                    >
+                </li>
+                <li>
+                    <RouterLink to="/nearby"
+                                href="/"
+                                aria-label="NearBy"
+                                title="NearBy"
+                                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                    >NearBy</RouterLink
                     >
                 </li>
 
@@ -213,12 +222,37 @@
 
 <script>
 import Profile from '@/components/profile/Profile.vue'
+import {useAuthStore} from '@/stores/auth.js'
+
 export default {
+    setup() {
+        const auth_store = useAuthStore()
+        return {auth_store}
+    },
     components: {Profile},
     data() {
         return {
+            auth: null,
             isMenuOpen: false,
         };
     },
+    watch: {
+        auth_store: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                console.log(newValue.getAuth)
+                this.auth = this.auth_store.getAuth
+            }
+        }
+    },
+    mounted() {
+        if (this.auth_store.isAuthen) {
+            this.auth = this.auth_store.getAuth
+        } else {
+            this.auth = null
+        }
+
+    }
 };
 </script>

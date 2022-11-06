@@ -124,14 +124,6 @@
                 </GMapMarker>
             </GMapMap>
             <p v-if="!validateLocation()" class="my-6" @submit.prevent="saveNewPost">(Marker is required)</p>
-
-
-            <!--            <div class="flex items-start my-6">-->
-            <!--                <div class="flex items-center h-5">-->
-            <!--                    <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required="">-->
-            <!--                </div>-->
-            <!--                <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>-->
-            <!--            </div>-->
             <button type="submit"
                     @click="updatePost()"
                     class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
