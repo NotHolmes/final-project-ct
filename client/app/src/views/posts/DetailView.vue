@@ -45,7 +45,33 @@
                                     class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                                 >
                                     Contact
+
                                 </button>
+                                <span v-if="parseInt(post.is_lost)">
+                                    <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
+                                        class="mx-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-400 focus:shadow-outline focus:outline-none"
+                                    >
+                                        Found it
+                                    </button>
+                                    <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
+                                            class="mx-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-400 focus:shadow-outline focus:outline-none"
+                                    >
+                                        Return
+                                    </button>
+                                </span>
+                                <span v-else>
+                                    <button v-if="!post.is_lost && post.user_id === auth_store.auth.id"
+                                            class="mx-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-400 focus:shadow-outline focus:outline-none"
+                                    >
+                                        Returned it
+                                    </button>
+                                    <button v-if="!post.is_lost && post.user_id !== auth_store.auth.id"
+                                            class="mx-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-400 focus:shadow-outline focus:outline-none"
+                                    >
+                                        This is my item
+                                    </button>
+
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -57,7 +83,14 @@
 </template>
 
 <script>
+
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
+    setup() {
+        const auth_store = useAuthStore()
+        return { auth_store }
+    },
 
     data() {
         return {
