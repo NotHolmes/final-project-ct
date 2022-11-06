@@ -1,6 +1,6 @@
 <template>
-    <div class="conversation">
-        <h1 class="contactName">{{ contact? contact.name : 'Un-know Person'}}</h1>
+    <div class="conversation pb-2" >
+        <h1 class="block ml-2 font-semibold text-base rounded p-2 border text-gray-600 ">{{ contact? contact.name : 'Unknow Person'}}</h1>
         <MessagesFeed :contact="contact" :messages="messages"></MessagesFeed>
         <MessageComposer @send="sendMessage"></MessageComposer>
     </div>
