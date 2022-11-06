@@ -47,24 +47,24 @@ export const useAuthStore = defineStore({
       return false
     },
 
-        async fetch() {
-            this.auth = await authAPI.me()
-            localStorage.setItem('auth.email', this.auth.email)
-            localStorage.setItem('auth.point', this.auth.point)
-            localStorage.setItem('auth.name', this.auth.name)
-            localStorage.setItem('auth.id', this.auth.id)
-        },
+    async fetch() {
+        this.auth = await authAPI.me()
+        localStorage.setItem('auth.email', this.auth.email)
+        localStorage.setItem('auth.point', this.auth.point)
+        localStorage.setItem('auth.name', this.auth.name)
+        localStorage.setItem('auth.id', this.auth.id)
+    },
 
-        async add(user) {
-            const response = await authAPI.saveNew(user)
-            if (response.success) {
-                this.auth.push({
-                    ...user
-                })
-                return response.user_id
-            }
-            return false
-        },
+    async add(user) {
+        const response = await authAPI.saveNew(user)
+        if (response.success) {
+            this.auth.push({
+                ...user
+            })
+            return response.user_id
+        }
+        return false
+    },
 
     logout () {
       authAPI.logout()
