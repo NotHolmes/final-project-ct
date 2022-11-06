@@ -43,6 +43,7 @@
                                     <span v-if="this.auth_store.auth.role !== 'ADMIN'">
                                 <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
                                     class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                        @click="handleContact()"
                                 >
                                     Contact
 
@@ -191,6 +192,7 @@
 
 import { useAuthStore } from '@/stores/auth.js'
 import axios from "axios";
+import SocketioService from '@/services/socketio.js'
 
 export default {
     setup() {
@@ -253,6 +255,7 @@ export default {
             })
     },
     async created() {
+        SocketioService.setupSocketConnection()
         const id = this.$route.params.id
         const url = `/posts/${id}`
         try {
@@ -278,6 +281,19 @@ export default {
     },
 
     methods: {
+        handleContact(){
+            // find user by user_id
+            let user = this.users.find(user => user.id === this.post.user_id)
+
+            //access email in user
+            console.log(user.email)
+
+            SocketioService.sendToServer('quick.chat', {
+                email: user.email,
+                name: user.name,
+            })
+            this.$router.push('/chat')
+        },
         async updatePostIsDone(){
             let url = `http://localhost/api/posts/${this.post.id}`
             let data = {

@@ -33,7 +33,14 @@ io.on('connection', (socket) => {
     })
 
     socket.broadcast.emit('list.update')
-
-
   });
+
+    socket.on('quick.chat', (data) => {
+        socket.broadcast.emit('chat.now', {
+            email: data.email,
+            name: data.name,
+        })
+        
+    });
+
 })
