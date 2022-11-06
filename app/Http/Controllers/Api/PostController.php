@@ -117,17 +117,18 @@ class PostController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Post $post)
-
     {
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required',
             'category_id' => 'sometimes|required|integer',
-            'image' => 'mimes:jpg,jpeg,png,gif|max:10240',
+            'image' => 'sometimes|required',
             'color' => 'sometimes|required',
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
             'reward' => 'nullable|numeric',
-            'is_lost' => 'required|boolean',
+            'is_lost' => 'sometimes|required|boolean',
+            'is_done' => 'sometimes|required|boolean',
+            'hidden' => 'sometimes|required|boolean',
             'latitude' => 'sometimes|required|numeric',
             'longitude' => 'sometimes|required|numeric',
         ]);
@@ -141,7 +142,15 @@ class PostController extends Controller
 
         if($request->has('title')) $post->title = $request->get('title');
         if($request->has('category_id')) $post->category_id = $request->get('category_id');
-        if($request->has('image')) $post->image = $request->get('image');
+        if($request->has('image')){
+            // if $request->get('image') is a link, then we don't need to handle it
+            if (strpos($request->get('image'), 'http') === false) {
+                $image_path = $this->handleImageUploaded($request->file('image'));
+                $post->image = $image_path;
+            } else {
+                $post->image = $request->get('image');
+            }
+        }
         if($request->has('color')) $post->color = $request->get('color');
         if($request->has('brand')) $post->brand = $request->get('brand');
         if($request->has('description')) $post->description = $request->get('description');
@@ -151,14 +160,16 @@ class PostController extends Controller
             $time = $request->get('time');
 
             $datetime = $date . ' ' . $time;
-            $datetime = strtotime($datetime);
+            $datetime = Carbon::create($datetime)->toDateTime();
+
             $post->datetime = $datetime;
         }
-
         if($request->has('reward')) $post->reward = $request->get('reward');
         if($request->has('is_lost')) $post->is_lost = $request->get('is_lost');
+        if($request->has('is_done')) $post->is_done = $request->get('is_done');
         if($request->has('latitude')) $post->latitude = $request->get('latitude');
         if($request->has('longitude')) $post->longitude = $request->get('longitude');
+        if($request->has('hidden')) $post->hidden = $request->get('hidden');
 
         if ($post->save()) {
             return response()->json([

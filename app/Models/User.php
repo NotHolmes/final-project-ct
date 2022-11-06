@@ -44,10 +44,6 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function pointHistories() {
-        return $this->hasMany(PointHistory::class);
-    }
-
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -56,5 +52,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'ADMIN';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'USER';
     }
 }

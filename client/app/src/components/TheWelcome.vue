@@ -52,79 +52,168 @@ import SupportIcon from './icons/IconSupport.vue'
                 </div>
             </div>
         </div>
+        <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+            <div class="grid gap-10 row-gap-8 lg:grid-cols-4">
+                <div>
+                    <div class="flex">
+                        <h6 class="mr-2 text-4xl font-bold md:text-5xl text-deep-purple-accent-400">
+                            {{this.users.length}}
+                        </h6>
+                        <div class="flex items-center justify-center rounded-full bg-teal-accent-400 w-7 h-7">
+                            <svg class="text-teal-900 w-7 h-7" stroke="currentColor" viewBox="0 0 52 52">
+                                <polygon stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" points="29 13 14 29 25 29 23 39 38 23 27 23"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mb-2 font-bold md:text-lg">Users</p>
+                    <p class="text-gray-700">
+                        Number of all user in this platform. <br>
+                        Let's register to join with us.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="flex">
+                        <h6 class="mr-2 text-4xl font-bold md:text-5xl text-deep-purple-accent-400">
+                            {{this.posts.length}}
+                        </h6>
+                        <div class="flex items-center justify-center rounded-full bg-teal-accent-400 w-7 h-7">
+                            <svg class="text-teal-900 w-7 h-7" stroke="currentColor" viewBox="0 0 52 52">
+                                <polygon stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" points="29 13 14 29 25 29 23 39 38 23 27 23"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mb-2 font-bold md:text-lg">All Posts</p>
+                    <p class="text-gray-700">
+                        Number of all posts in this platform. <br>
+                        Let's post for found and lost
+                    </p>
+                </div>
+
+                <div>
+                    <div class="flex">
+
+                        <h6 class="mr-2 text-4xl font-bold md:text-5xl text-deep-purple-accent-400" >
+                            {{this.lostCount}}
+                        </h6>
+                        <div class="flex items-center justify-center rounded-full bg-teal-accent-400 w-7 h-7">
+                            <svg class="text-teal-900 w-7 h-7" stroke="currentColor" viewBox="0 0 52 52">
+                                <polygon stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" points="29 13 14 29 25 29 23 39 38 23 27 23"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mb-2 font-bold md:text-lg">Losts</p>
+                    <p class="text-gray-700">
+                        Number of lost posts in this platform.
+                        Let's post for lost
+                    </p>
+                </div>
+
+                <div>
+                    <div class="flex">
+
+                        <h6 class="mr-2 text-4xl font-bold md:text-5xl text-deep-purple-accent-400" >
+                            {{this.findCount}}
+                        </h6>
+                        <div class="flex items-center justify-center rounded-full bg-teal-accent-400 w-7 h-7">
+                            <svg class="text-teal-900 w-7 h-7" stroke="currentColor" viewBox="0 0 52 52">
+                                <polygon stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" points="29 13 14 29 25 29 23 39 38 23 27 23"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mb-2 font-bold md:text-lg">Founds</p>
+                    <p class="text-gray-700">
+                        Number of found posts in this platform.
+                        Let's post for found
+                    </p>
+                </div>
+
+                <div v-show="seen" id="hide">
+                    {{ this.lostCount=0 }}
+                    {{ this.findCount=0}}
+                    <div v-for="post in this.posts">
+                        <div v-if="post.is_lost == 1">
+                            {{ this.lostCount++ }}
+                        </div>
+                        <div v-else-if="post.is_lost == 0">
+                            {{ this.findCount++ }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-<!--  <WelcomeItem>-->
-<!--    <template #icon>-->
-<!--      <DocumentationIcon />-->
-<!--    </template>-->
-<!--    <template #heading>Documentation</template>-->
 
-<!--    Vue’s-->
-<!--    <a target="_blank" href="https://vuejs.org/">official documentation</a>-->
-<!--    provides you with all information you need to get started.-->
-<!--  </WelcomeItem>-->
 
-<!--  <WelcomeItem>-->
-<!--    <template #icon>-->
-<!--      <ToolingIcon />-->
-<!--    </template>-->
-<!--    <template #heading>Tooling</template>-->
-
-<!--    This project is served and bundled with-->
-<!--    <a href="https://vitejs.dev/guide/features.html" target="_blank">Vite</a>. The recommended IDE-->
-<!--    setup is <a href="https://code.visualstudio.com/" target="_blank">VSCode</a> +-->
-<!--    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>. If you need to test-->
-<!--    your components and web pages, check out-->
-<!--    <a href="https://www.cypress.io/" target="_blank">Cypress</a> and-->
-<!--    <a href="https://on.cypress.io/component" target="_blank"-->
-<!--      >Cypress Component Testing</a-->
-<!--    >.-->
-
-<!--    <br />-->
-
-<!--    More instructions are available in <code>README.md</code>.-->
-<!--  </WelcomeItem>-->
-
-<!--  <WelcomeItem>-->
-<!--    <template #icon>-->
-<!--      <EcosystemIcon />-->
-<!--    </template>-->
-<!--    <template #heading>Ecosystem</template>-->
-
-<!--    Get official tools and libraries for your project:-->
-<!--    <a target="_blank" href="https://pinia.vuejs.org/">Pinia</a>,-->
-<!--    <a target="_blank" href="https://router.vuejs.org/">Vue Router</a>,-->
-<!--    <a target="_blank" href="https://test-utils.vuejs.org/">Vue Test Utils</a>, and-->
-<!--    <a target="_blank" href="https://github.com/vuejs/devtools">Vue Dev Tools</a>. If you need more-->
-<!--    resources, we suggest paying-->
-<!--    <a target="_blank" href="https://github.com/vuejs/awesome-vue">Awesome Vue</a>-->
-<!--    a visit.-->
-<!--  </WelcomeItem>-->
-
-<!--  <WelcomeItem>-->
-<!--    <template #icon>-->
-<!--      <CommunityIcon />-->
-<!--    </template>-->
-<!--    <template #heading>Community</template>-->
-
-<!--    Got stuck? Ask your question on-->
-<!--    <a target="_blank" href="https://chat.vuejs.org">Vue Land</a>, our official Discord server, or-->
-<!--    <a target="_blank" href="https://stackoverflow.com/questions/tagged/vue.js">StackOverflow</a>.-->
-<!--    You should also subscribe to-->
-<!--    <a target="_blank" href="https://news.vuejs.org">our mailing list</a> and follow the official-->
-<!--    <a target="_blank" href="https://twitter.com/vuejs">@vuejs</a>-->
-<!--    twitter account for latest news in the Vue world.-->
-<!--  </WelcomeItem>-->
-
-<!--  <WelcomeItem>-->
-<!--    <template #icon>-->
-<!--      <SupportIcon />-->
-<!--    </template>-->
-<!--    <template #heading>Support Vue</template>-->
-
-<!--    As an independent project, Vue relies on community backing for its sustainability. You can help-->
-<!--    us by-->
-<!--    <a target="_blank" href="https://vuejs.org/sponsor/">becoming a sponsor</a>.-->
-<!--  </WelcomeItem>-->
 
 </template>
+
+<script>
+
+import { useAuthStore } from '@/stores/auth.js'
+import  {Form, Field, ErrorMessage } from 'vee-validate';
+import axios from "axios";
+import SocketioService from '@/services/socketio.js'
+
+export default {
+
+    components:{
+        Form,
+        Field,
+        ErrorMessage,
+    },
+    setup() {
+        const auth_store = useAuthStore()
+        return { auth_store }
+    },
+    data() {
+        return {
+            users: [],
+            posts: [],
+            lostCount : 0,
+            findCount : 0,
+        }
+    },
+    created() {
+        SocketioService.setupSocketConnection()
+    },
+    methods: {
+        validateUser() {
+            this.user.duplicatedUser = false;
+            for (let i = 0; i < this.users.length; i++) {
+                // console.log(this.users[i].email)
+                if (this.user.email == this.users[i].email) {
+                    this.user.duplicatedUser = true;
+                    return "Email is duplicate";
+                }
+            }
+            return true;
+
+        },
+    },
+    mounted() {
+        axios.get('http://localhost/api/users')
+            .then(async (resp) => {
+                this.users = await resp.data.data;
+            })
+            .catch((err) =>{
+                console.log(err.data)
+            }),
+        axios.get('http://localhost/api/posts')
+            .then(async (resp) => {
+                this.posts = await resp.data.data;
+            })
+            .catch((err) =>{
+                console.log(err.data)
+            })
+    }
+
+}
+</script>
+
+<style scoped>
+    .hide {
+        visibility: hidden !important;
+    }
+</style>

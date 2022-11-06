@@ -32,7 +32,7 @@
     <div class="p-4 mt-8 bg-blue-200">
       (Preview)
       <RewardCard :reward="{...reward}"></RewardCard>
-      
+
     </div>
   </div>
 </template>
@@ -55,9 +55,9 @@ export default {
         point: 1,
         total_amount: 1,
         error: null
-      } 
+      }
     }
-  }, 
+  },
   components: {
     RewardCard
   },
@@ -70,7 +70,7 @@ export default {
         this.error = null
         const reward_id = await this.reward_store.add(this.reward)
         if (reward_id) {
-          SocketioService.sendToServer('rewards.create', 
+          SocketioService.sendToServer('rewards.create',
                                       {success: true})
           this.$router.push(`/rewards/${reward_id}`)
         }

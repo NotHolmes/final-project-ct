@@ -24,19 +24,12 @@ Route::get('/', function () {
         'version' => '1.0.0'
     ];
 });
-
-Route::get('/rewards/search', [\App\Http\Controllers\Api\RewardController::class, 'search']);
-Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeController::class, 'search']);
-
-Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
-Route::apiResource('/reward_codes', \App\Http\Controllers\Api\RewardCodeController::class);
-Route::apiResource('/users' , \App\Http\Controllers\Api\UsersController::class);
+Route::apiResource('/users' , \App\Http\Controllers\Api\UserController::class);
 
 Route::get('/contacts/get/{email}' , [\App\Http\Controllers\Api\ContactController::class,'getContact']);
 Route::apiResource('/contacts' , \App\Http\Controllers\Api\ContactController::class);
 Route::get('/conversation/{email}' , [\App\Http\Controllers\Api\ContactController::class,'getMessagesFor']);
 Route::post('/conversation/send', [\App\Http\Controllers\Api\ContactController::class,'send']);
-
 
 // post/search
 Route::get('/posts/search', [\App\Http\Controllers\Api\PostController::class, 'search']);

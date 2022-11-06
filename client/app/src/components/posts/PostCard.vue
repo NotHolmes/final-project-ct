@@ -12,25 +12,6 @@
                 {{  post.description }}
             </p>
             <div class="flex space-x-4">
-<!--                <a href="/" aria-label="Likes" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">-->
-<!--                    <div class="mr-2">-->
-<!--                        <svg-->
-<!--                            xmlns="http://www.w3.org/2000/svg"-->
-<!--                            width="24"-->
-<!--                            height="24"-->
-<!--                            viewBox="0 0 24 24"-->
-<!--                            stroke="currentColor"-->
-<!--                            stroke-linecap="round"-->
-<!--                            stroke-linejoin="round"-->
-<!--                            stroke-width="2"-->
-<!--                            class="w-5 h-5 text-gray-600 transition-colors duration-200 group-hover:text-deep-purple-accent-700"-->
-<!--                        >-->
-<!--                            <polyline points="6 23 1 23 1 12 6 12" fill="none" stroke-miterlimit="10"></polyline>-->
-<!--                            <path d="M6,12,9,1H9a3,3,0,0,1,3,3v6h7.5a3,3,0,0,1,2.965,3.456l-1.077,7A3,3,0,0,1,18.426,23H6Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path>-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <p class="font-semibold">7.4K</p>-->
-<!--                </a>-->
                 <a href="/" aria-label="Comments" class="flex items-start text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700 group">
                     <div class="mr-2">
                         <svg
@@ -49,12 +30,12 @@
                         </svg>
                     </div>
                     <div v-if="post.is_lost">
-                        <p v-if="post.is_done" class="font-semibold">พบแล้ว</p>
-                        <p v-else class="font-semibold">ยังไม่พบ</p>
+                        <p v-if="parseInt(post.is_done)" class="font-semibold">Founded</p>
+                        <p v-else class="font-semibold">Searching</p>
                     </div>
                     <div v-else>
-                        <p v-if="post.is_done" class="font-semibold">ส่งคืนแล้ว</p>
-                        <p v-else class="font-semibold">ตามหาเจ้าของ</p>
+                        <p v-if="parseInt(post.is_done)" class="font-semibold">Returned</p>
+                        <p v-else class="font-semibold">Looking for owner</p>
                     </div>
                 </a>
             </div>

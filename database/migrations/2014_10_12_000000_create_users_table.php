@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('role')->default('USER');
             $table->string('email')->unique();
             $table->bigInteger('point')->default(0);
             $table->string('image_path')->nullable()->default(null);
