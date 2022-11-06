@@ -1,6 +1,7 @@
 <template>
     <span>auth {{this.auth_store.auth}}</span>
-    <span>token {{this.auth_store.auth.token}}</span>
+    <span>post.user_id = {{this.post.user_id}}</span>
+    <span>this.userid = {{this.auth_store.auth.id}}</span>
 
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
@@ -50,12 +51,6 @@
                                     Contact
 
                                 </button>
-                                <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
-                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                                >
-                                    Edit
-
-                                </button>
                                 <span v-if="parseInt(post.is_lost)" @click="resetModal()">
                                     <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
                                         class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
@@ -81,14 +76,25 @@
 
                                 </span>
 
-                                <span v-if="this.auth_store.auth.role === 'ADMIN' || parseInt(this.auth_store.auth.id) === parseInt(this.post.user_id)">
+                                <span v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)">
+                                      <button
+                                          class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                          @click="this.$router.push('/posts/edit/' + post.id)"
+                                      >
+                                    Edit
+
+                                </button>
+                                </span>
+
+                                <span v-if="this.auth_store.auth.role === 'ADMIN' || (parseInt(this.auth_store.auth.id) === parseInt(this.post.user_id))">
                                           <button
-                                              class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
+                                              class="mr-5 mt-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
                                               @click="showModal('delete')"
                                           >
                                         Delete
                                     </button>
                                 </span>
+
 
 
                             </div>
