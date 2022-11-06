@@ -26,7 +26,6 @@ Route::get('/', function () {
 });
 Route::apiResource('/users' , \App\Http\Controllers\Api\UserController::class);
 
-Route::get('/contacts/get/{email}' , [\App\Http\Controllers\Api\ContactController::class,'getContact']);
 Route::apiResource('/contacts' , \App\Http\Controllers\Api\ContactController::class);
 Route::get('/conversation/{email}' , [\App\Http\Controllers\Api\ContactController::class,'getMessagesFor']);
 Route::post('/conversation/send', [\App\Http\Controllers\Api\ContactController::class,'send']);

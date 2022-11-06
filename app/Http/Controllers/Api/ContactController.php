@@ -155,10 +155,4 @@ class ContactController extends Controller
         //
     }
 
-    public function getContact($email){
-        $user = User::where('email',$email)->first();
-        if ($user != null )
-            return response()->json($user);
-        return null ;
-    }
 }
