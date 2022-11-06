@@ -85,7 +85,7 @@ export default {
 
             this.contacts.map((contact) => {
                 if(this.addContactInput == contact.email){
-                    alert('Contact already exist.')
+                    alert('Contact already exist. \nContact name is ' + contact.name + '.')
                     this.duplicateContact = true;
                 }
             });
