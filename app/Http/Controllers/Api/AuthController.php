@@ -49,7 +49,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED); // 401
         }
 
-
+        auth()->user()->token = $token;
         return $this->respondWithToken($token);
     }
 
@@ -60,7 +60,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return new UserResource( auth()->user());
+        return new UserResource(auth()->user());
 //        return response()->json(auth()->check());
 
     }

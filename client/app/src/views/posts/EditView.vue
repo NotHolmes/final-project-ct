@@ -1,5 +1,4 @@
 <template>
-<span>{{post}}</span>
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
         <Form @submit.prevent="updatePost">
@@ -124,11 +123,19 @@
                 </GMapMarker>
             </GMapMap>
             <p v-if="!validateLocation()" class="my-6" @submit.prevent="saveNewPost">(Marker is required)</p>
+
             <button type="submit"
                     @click="updatePost()"
-                    class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                    class="mt-6 mr-5 text-white bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:ring-4 focus:outline-none
                 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
                 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+
+            <button type="button"
+                    @click="this.$router.push('/posts/'+this.$route.params.id)"
+                    class="mt-6 mr-5 text-white bg-black hover:bg-gray-700 focus:ring-4 focus:outline-none
+                focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center
+                dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Back</button>
+
         </Form>
     </div>
 

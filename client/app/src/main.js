@@ -15,6 +15,13 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost/api'
 })
 
+
+
+axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Accept': 'application/json',
+};
+
 app.config.globalProperties.$axios = { ...axiosInstance }
 
 app.use(createPinia())

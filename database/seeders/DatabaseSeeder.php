@@ -37,7 +37,6 @@ class DatabaseSeeder extends Seeder
         $user->save();
 
         $this->call(CategorySeeder::class);
-        $this->call(RewardSeeder::class);
         $this->call(PostSeeder::class);
 
         // \App\Models\User::factory(10)->create();
