@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
 <!--            Welcome , {{ auth.email }}-->
-        <ContactsList :contacts="contacts" :token="token" @selected="stratConversationWith" class="aside" ></ContactsList>
+        <ContactsList :selectedContact="selectedContact" :contacts="contacts" :token="token" @selected="stratConversationWith" class="aside"></ContactsList>
         <Conversation :contact="selectedContact" :messages="messages" :user="auth" :token="token" @new="saveNewMessage" ></Conversation>
 
     </div>
@@ -127,14 +127,15 @@ import SocketioService from '@/services/socketio.js'
     display: flex;
 }
 .aside{
-    /*margin-left: 30%;*/
+    /*margin-right: 30%;*/
+    /*padding-right: 30%;*/
     width: 260px;
     height: 800px;
     display: inline-block;
     font-size: 15px;
     vertical-align: top;
-    width: 30%;
-    flex: 0.5;
+    width: 20%;
+    flex: 0.4;
 }
 .right{
     margin-right: 50%;

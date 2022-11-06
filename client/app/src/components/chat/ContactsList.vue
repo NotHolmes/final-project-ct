@@ -10,14 +10,13 @@
             <input v-model="addContactInput" @keydown.enter="addContact" placeholder="user01@api.example.com" type="text" name="" id="">
         </span>
 
-        <div class="grid min-w-full border rounded" style="min-height: 80vh;">
+        <div class="grid min-w-full border rounded" style="min-height: 80vh; ">
 
         <ul class="overflow-auto" >
 
             <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
-            <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)"                :class="{ 'selected': contact === selected }">
-
-                <a class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+            <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)" :class="{ 'selected': contact == selectedContact }">
+            <a class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
 <!--                    <img class="h-10 w-10 rounded-full object-cover"-->
 <!--                         src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"-->
 <!--                         alt="username" />-->
@@ -53,6 +52,10 @@ export default {
         token:{
             type: String,
             required : true
+        },
+        selectedContact:{
+            type: Object,
+            default:null
         }
     },
     data() {
@@ -110,6 +113,23 @@ export default {
 
 }
 </script>
+
+<style>
+.selected {
+    display: flex;
+    padding-top: 14px;
+    /*border-bottom: 1px solid #aaaaaa;*/
+    height: 60px;
+    position: relative;
+    cursor: pointer;
+    margin: auto;
+    /*width: 50%;*/
+    /*&.li{*/
+    background: #f3f4f6;
+    /*}*/
+}
+
+</style>
 
 <!--<style scoped>-->
 <!--.contacts-list {-->
