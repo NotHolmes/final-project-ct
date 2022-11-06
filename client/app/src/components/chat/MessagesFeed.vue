@@ -2,7 +2,7 @@
     <div class="feed" style="height:71vh;" >
         <ul >
             <li v-for="message in messages" :class="message.to == contact.email ? 'sent' : 'received'" :key="message.id">
-                <div class="bg-grey-100 rounded px-5 py-1 my-1 text-gray-700 relative">
+                <div class="bg-grey-100 rounded px-5 py-1 my-1 relative">
                     {{ message.text }}
                 </div>
             </li>
@@ -96,8 +96,8 @@ li {
 
 }
 .sent {
-    background-color: #F3F4F6;
-    color: #374151;
+    background-color: #407FFF;
+    color: white;
     width: 45%;
     border-radius: 10px;
     /*padding: .1em;*/

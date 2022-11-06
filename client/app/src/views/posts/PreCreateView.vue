@@ -10,8 +10,7 @@
                             Lost
                         </h5>
                         <p class="mb-6 text-base text-gray-700 md:text-lg sm:mb-8">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae. explicabo.
-                        </p>
+                            Want to find something ? Let's post to find them. When you post here, People can help you to find. Because we are family :)                        </p>
                     </div>
                     <div class="flex items-center">
 <!--                        <button-->
@@ -31,7 +30,7 @@
                             >Create post</RouterLink
                             >
 
-                        <a href="/" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800">Learn more</a>
+<!--                        <a href="/" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800">Learn more</a>-->
                     </div>
                 </div>
                 <div class="flex flex-col justify-between p-5 sm:p-10 lg:w-1/2">
@@ -43,7 +42,7 @@
                             Found
                         </h5>
                         <p class="mb-6 text-base text-gray-700 md:text-lg sm:mb-8">
-                            Disrupt inspire and think tank, social entrepreneur but preliminary thinking think tank compelling.
+                            You found something lost? Let's post to find them. Every time you return lost things to owner, you will get 100 point. Keep it to promote your badge :)
                         </p>
                     </div>
                     <div class="flex items-center">
@@ -57,7 +56,7 @@
                         >Create post</RouterLink
                         >
 
-                        <a href="/" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800">Learn more</a>
+<!--                        <a href="/" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800">Learn more</a>-->
                     </div>
                 </div>
             </div>
