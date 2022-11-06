@@ -49,7 +49,22 @@ export const usePostStore = defineStore({
 
         delete (id) {
             this.post = this.rewards.filter(post => post.id !== id)
-        }
+        },
+
+        async update (post, data) {
+            const response = await postAPI.update(post, data)
+            if (response.success) {
+                const index = this.posts.findIndex(p => p.id === post.id)
+                this.posts[index] = {
+                    ...post,
+                    ...data
+                }
+                console.table(post)
+                console.table(data)
+                return post.id
+            }
+            return false
+        },
     }
 })
 

@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -54,6 +59,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $validator = Validator::make($request->all(), [
             'point' => 'sometimes|required|integer',
         ]);

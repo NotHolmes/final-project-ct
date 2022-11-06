@@ -104,7 +104,7 @@ export const postAPI = {
             return response.data.data
         }
         return []
-    }
+        }
 }
 
 export const categoryAPI = {
