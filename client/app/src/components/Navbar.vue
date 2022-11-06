@@ -68,6 +68,15 @@
                     >Chat</RouterLink
                     >
                 </li>
+                <li>
+                    <RouterLink to="/nearby"
+                                href="/"
+                                aria-label="NearBy"
+                                title="NearBy"
+                                class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                    >NearBy</RouterLink
+                    >
+                </li>
 
                 <!--        <li>-->
                 <!--            <a-->
