@@ -13,7 +13,7 @@
                     <div v-else-if="auth.point>400 && auth.point<=1000"><img src="@/assets/immortal_rank.png" class="object-cover w-full h-64 rounded-t lg:h-10 xl:h-10"></div>
                     <div v-else-if="auth.point>1000"><img src="@/assets/radiant_rank.png" class="object-cover w-full h-64 rounded-t lg:h-10 xl:h-10"></div>
                 </li>
-            </ul>g
+            </ul>
         </li>
 
 
