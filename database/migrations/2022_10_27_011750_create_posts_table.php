@@ -28,6 +28,7 @@ return new class extends Migration
             $table->boolean('is_done')->default(false);
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
+            $table->boolean('hidden')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

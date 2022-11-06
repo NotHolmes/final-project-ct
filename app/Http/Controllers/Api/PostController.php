@@ -127,7 +127,9 @@ class PostController extends Controller
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
             'reward' => 'nullable|numeric',
-            'is_lost' => 'required|boolean',
+            'is_lost' => 'sometimes|required|boolean',
+            'is_done' => 'sometimes|required|boolean',
+            'hidden' => 'sometimes|required|boolean',
             'latitude' => 'sometimes|required|numeric',
             'longitude' => 'sometimes|required|numeric',
         ]);
@@ -154,11 +156,12 @@ class PostController extends Controller
             $datetime = strtotime($datetime);
             $post->datetime = $datetime;
         }
-
         if($request->has('reward')) $post->reward = $request->get('reward');
         if($request->has('is_lost')) $post->is_lost = $request->get('is_lost');
+        if($request->has('is_done')) $post->is_done = $request->get('is_done');
         if($request->has('latitude')) $post->latitude = $request->get('latitude');
         if($request->has('longitude')) $post->longitude = $request->get('longitude');
+        if($request->has('hidden')) $post->hidden = $request->get('hidden');
 
         if ($post->save()) {
             return response()->json([

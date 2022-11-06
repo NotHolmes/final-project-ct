@@ -116,7 +116,6 @@ export default {
             await this.post_store.search(this.query)
             this.posts = this.post_store.getPosts
         },
-
         selectPost(post) {
             console.table(post)
             this.$router.push(`posts/${post.id}`)
@@ -130,6 +129,8 @@ export default {
             try {
                 await this.post_store.fetch()
                 this.posts = this.post_store.getPosts
+                // remove posts that have post.hidden === or post.hidden === 1
+                this.posts = this.posts.filter(post => post.hidden === 0)
             } catch (error) {
                 this.error = error
             }

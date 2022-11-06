@@ -16,6 +16,7 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'category_id' => $this->category_id,
             'title' => $this->title,
             'image' => $this->image,
@@ -28,6 +29,7 @@ class PostResource extends JsonResource
             'reward' => $this->reward,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
+            'hidden' => $this->hidden,
         ];
     }
 }
