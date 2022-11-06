@@ -1,4 +1,9 @@
 <template>
+    <span>this post user_id = {{post.user_id}}</span>
+    <span>this auth id = {{this.auth_store.auth.id}}</span>
+    <div>
+        <p>{{this.post}}</p>
+    </div>
 <!--<div v-if=post>lat = {{ post.latitude }} lng = {{ post.longitude }} {{this.markers}}</div>-->
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
@@ -39,6 +44,7 @@
                                 <p class="mb-2 text-sm text-gray-900">
                                     {{ post.description }}
                                 </p>
+                                <span v-if="!post.is_done">
                                 <h4 v-if="post.reward !== 0 && post.reward !== null" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
                                 <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
                                     class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
@@ -58,25 +64,15 @@
                                     >
                                         Someone found it
                                     </button>
-                                    <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
-                                            class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
-                                            @click="showModal()"
-                                    >
-                                        Return
-                                    </button>
                                 </span>
-                                <span v-else @click="resetModal()">
-                                    <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
-                                            class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
-                                    >
-                                        I returned it
-                                    </button>
+                                <span v-else @click="resetModal('found')">
                                     <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
+                                            @click="showModal('found')"
                                     >
                                         This is my item
                                     </button>
-
+                                </span>
                                 </span>
                             </div>
                         </div>
@@ -130,15 +126,15 @@
                                     </div>
 
                                     <div class="modal-footer py-3 px-5 border0-t text-right">
-                                        <button v-if="!this.done && !this.founder_use_site"
+                                        <button v-if="!this.done && !this.founder_use_site && this.chat && this.item_returned"
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                             @click="handleYes">Yes
                                         </button>
-                                        <button v-if="!this.done && !this.founder_use_site"
+                                        <button v-if="!this.done && !this.founder_use_site && this.chat && this.item_returned"
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                             @click="handleNo">No
                                         </button>
-                                        <button v-if="!this.done && this.founder_use_site && founder_username !== null && founder_username !== '' && founder && parseInt(founder.id) !== parseInt(auth_store.auth.id)"
+                                        <button v-if="!this.done && this.founder_use_site && founder_username !== null && founder_username !== '' && founder && parseInt(founder.id) !== parseInt(auth_store.auth.id) && this.chat"
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                                 @click="handleSubmitUsername()">Submit
                                         </button>
@@ -146,11 +142,11 @@
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                                 @click="showModal()">No thanks
                                         </button>
-                                        <button v-if="!this.done"
+                                        <button v-if="!this.done && this.chat && this.item_returned"
                                             class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal()">Cancel
                                         </button>
-                                        <button v-if="this.done"
+                                        <button v-if="this.done || !this.chat || !this.item_returned"
                                             class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-400 hover:bg-blue-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal()">Done
                                         </button>
@@ -182,6 +178,9 @@ export default {
 
     data() {
         return {
+            give_points: true,
+            item_returned: true,
+            chat: true,
             submit: false,
             users: [],
             founder:null,
@@ -256,24 +255,7 @@ export default {
     },
 
     methods: {
-        async handleSubmitUsername(){
-            if(this.founder.id && parseInt(this.founder.id) !== parseInt(this.auth_store.auth.id))
-            {
-                let url = `http://localhost/api/users/${this.founder.id}`
-                let data = {
-                    point: this.founder.point + 100
-                }
-                await axios.put(url, data)
-                    .then(async (resp) => {
-                        this.founder = await resp.data.data;
-                    })
-                    .catch((err) =>{
-                        console.log(err.data)
-                    })
-            }
-            this.post.is_done = true
-
-            // update post.is_done = true
+        async updatePostIsDone(){
             let url = `http://localhost/api/posts/${this.post.id}`
             let data = {
                 is_done: true
@@ -285,67 +267,135 @@ export default {
                 .catch((err) =>{
                     console.log(err.data)
                 })
-
-            // // get post again
-            // const id = this.$route.params.id
-            // const url2 = `http://localhost/api/posts/${id}`
-            // try {
-            //     this.error = null
-            //     let response = await this.$axios.get(url2)
-            //     if (response.status === 200) {
-            //         this.post = response.data.data
-            //         this.lat = Number(this.post.latitude)
-            //         this.lng = Number(this.post.longitude)
-            //         this.markers = [
-            //             {
-            //                 position: {
-            //                     lat: this.lat,
-            //                     lng: this.lng
-            //                 }
-            //             }
-            //         ]
-            //         console.table(this.post)
-            //     }
-            // } catch (error) {
-            //     this.error = error.message
-            // }
-
         },
-        handleYes(){
+        async updatePointForPost(user_id){
+            let url = `http://localhost/api/users/${this.founder.id}`
+            let data = {
+                point: this.founder.point + 100
+            }
+            await axios.put(url, data)
+                .then(async (resp) => {
+                    this.founder = await resp.data.data;
+                })
+                .catch((err) =>{
+                    console.log(err.data)
+                })
+        },
+        async updatePostHidden(){
+            this.post.hidden = true
+            let url = `http://localhost/api/posts/${this.post.id}`
+            let data = {
+                hidden: true
+            }
+            axios.put(url, data)
+                .then(async (resp) => {
+                    this.post = await resp.data.data;
+                })
+                .catch((err) =>{
+                    console.log(err.data)
+                })
+        },
+        async handleSubmitUsername(){
+            if(this.founder.id && parseInt(this.founder.id) !== parseInt(this.auth_store.auth.id))
+            {
+                await this.updatePointForPost()
+            }
+            await this.updatePostIsDone()
+        },
+        async handleYes(){
+            if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'){
+
+                await this.updatePostHidden()
+                this.$router.push({ name: 'posts' })
+            }
+
+
             if(this.confirm_word === 'Are they a user of this website?'){
                 this.founder_use_site = true
-                this.confirm_word = 'Please enter their username to give them points'
+                return
             }
 
             if(this.confirm_word === 'Are you sure that you gave it to the right owner?'){
                 this.confirm_word = 'Thank you for your service 🫡'
                 this.done = true
+                return
+            }
+
+            if(this.confirm_word === 'Have you tried contact this person through our chat system?') {
+                this.chat = true
+                this.confirm_word = 'Did the person return you this item?'
+                return
+            }
+
+            if(this.confirm_word === 'Did the person return you this item?') {
+                this.confirm_word = 'Do you want to give points to this person?'
+                return
+            }
+
+            if(this.confirm_word === 'Do you want to give points to this person?') {
+                this.give_points = true
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
             }
         },
-        handleNo(){
+        async handleNo(){
+            if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'){
+                await this.updatePostIsDone()
+                this.$router.push({ name: 'posts' })
+            }
+
+            if(this.confirm_word === 'Do you want to give points to this person?') {
+                this.give_points = false
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                return
+            }
+
+            if(this.confirm_word === 'Did the person return you this item?') {
+                this.item_returned = false
+                this.confirm_word = 'You can use our chat system to contact this person to return you your item'
+                return
+            }
+
             if(this.confirm_word === 'Are they a user of this website?') {
                 this.founder_use_site = false
-                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post ?'
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                return
             }
 
             if(this.confirm_word === 'Please enter their username to give them points'){
                 this.done = true
+                return
+            }
+
+            if(this.confirm_word === 'Have you tried contact this person through our chat system?') {
+                this.chat = false
+                this.confirm_word = 'Please use our chat system to contact this person to identify your item first'
+                return
             }
         },
-        resetModal(){
-            this.confirm_word = 'Are they a user of this website?'
+        resetModal(type){
+            if(type !== 'found')
+                this.confirm_word = 'Are they a user of this website?'
+
+            this.give_points = true
+            this.item_returned = true
+            this.chat = true
             this.founder_use_site = false
             this.done = false
             this.founder_username = ''
         },
-        showModal(){
+        showModal(type){
+
             if(this.show_modal){
                 //stop screen scrolling
                 document.getElementsByTagName("html")[0].classList.remove('overflow-y-hidden');
                 this.show_modal = false;
             }else{
                 document.getElementsByTagName("html")[0].classList.add('overflow-y-hidden');
-                this.confirm_word = 'Are they a user of this website?'
+                if(type === 'found')
+                    this.confirm_word = 'Have you tried contact this person through our chat system?'
+                else
+                    this.confirm_word = 'Are they a user of this website?'
+
                 this.show_modal = true;
             }
         },

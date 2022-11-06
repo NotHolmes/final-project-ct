@@ -29,6 +29,7 @@ class PostResource extends JsonResource
             'reward' => $this->reward,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
+            'hidden' => $this->hidden,
         ];
     }
 }

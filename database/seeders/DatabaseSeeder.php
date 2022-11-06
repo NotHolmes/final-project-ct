@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
         $user->password = bcrypt('userpass');
         $user->save();
 
+        $user = new User();
+        $user->name = "user02";
+        $user->email = 'user02@api.example.com';
+        $user->password = bcrypt('userpass');
+        $user->save();
+
         $this->call(CategorySeeder::class);
         $this->call(RewardSeeder::class);
         $this->call(PostSeeder::class);
