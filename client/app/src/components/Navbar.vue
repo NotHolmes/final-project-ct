@@ -50,7 +50,7 @@
                     >Posts</RouterLink
                     >
                 </li>
-                <li>
+                <li v-if="auth.role == 'USER'">
                     <RouterLink to="/posts/precreate"
                                 href="/"
                                 aria-label="Create post"
@@ -183,7 +183,7 @@
                                     >Posts</a
                                     >
                                 </li>
-                                <li>
+                                <li v-if="auth.role == 'USER'">
                                     <a
                                         href="/posts/precreate"
                                         aria-label="Product pricing"
@@ -192,7 +192,7 @@
                                     >Create</a
                                     >
                                 </li>
-                                <li>
+                                <li v-if="auth.role == 'USER'">
                                     <a
                                         href="/chat"
                                         aria-label="About us"

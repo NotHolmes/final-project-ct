@@ -1,5 +1,6 @@
 <template>
 <!--<div v-if=post>lat = {{ post.latitude }} lng = {{ post.longitude }} {{this.markers}}</div>-->
+<!-- <span>{{post}}</span> -->
 
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
@@ -41,10 +42,21 @@
                                     {{ post.description }}
                                 </p>
                                 <h4 v-if="post.reward !== 0 && post.reward !== null" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
-                                <button
+                                <button 
                                     class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                                 >
                                     Contact
+                                </button>&emsp;
+                                <button v-if="auth.id == post.user_id" @click="editPost"
+                                    class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                >
+                                    Edit
+                                </button>&emsp;&emsp;&emsp;
+                                <input v-if="auth.id == post.user_id" type="checkbox" id="checkbox" v-model="checkedBox" />&nbsp;
+                                <button v-if="auth.id == post.user_id" @click="delPost(post.id)"
+                                    class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-accent-400 hover:bg-red-accent-700 focus:shadow-outline focus:outline-none"
+                                >
+                                    Delete
                                 </button>
                             </div>
                         </div>
@@ -57,12 +69,20 @@
 </template>
 
 <script>
+import {useAuthStore} from '@/stores/auth.js'
+
 export default {
+    setup() {
+        const auth_store = useAuthStore()
+        return {auth_store}
+    },
 
     data() {
         return {
+            auth: null,
             post: null,
             error: null,
+            checkedBox: "",
             lat: 13.847673555174328,
             lng: 100.56958661138006,
             markers: [
@@ -118,7 +138,28 @@ export default {
                 hour: 'numeric',
                 minute: 'numeric',
             }).format(date)
+        },
+        editPost() {
+            console.table(this.post)
+            this.$router.push(`edit/${this.post.id}`)
+        },
+        delPost(id) {
+            if (this.checkedBox != "") {
+                fetch('http://localhost/api/posts/' + id,  {
+                    method: 'DELETE'
+                })
+                this.$router.push({ name: 'posts' })
+            }
         }
+    },
+
+    mounted() {
+        if (this.auth_store.isAuthen) {
+            this.auth = this.auth_store.getAuth
+        } else {
+            this.auth = null
+        }
+
     }
 }
 </script>
