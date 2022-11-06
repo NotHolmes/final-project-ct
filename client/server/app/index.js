@@ -32,23 +32,18 @@ io.on('connection', (socket) => {
       to: data.to
     })
 
-    socket.broadcast.emit('chat.now', {
-      email: data.email,
-      name: data.name,
-    })
-
 
 
     socket.broadcast.emit('list.update')
   });
 
 
-  // socket.on('quick.chat', (data) => {
-  //   socket.broadcast.emit('chat.now', {
-  //     email: data.email,
-  //     name: data.name,
-  //   })
-  // });
+  socket.on('quick.chat', (data) => {
+    socket.broadcast.emit('chat.now', {
+      email: data.email,
+      name: data.name,
+    })
+  });
 
 
 

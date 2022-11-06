@@ -296,7 +296,7 @@ export default {
             //access email in user
             console.log(user.email)
             await this.$router.push('/chat')
-            SocketioService.sendToServer('hello.message', {
+            SocketioService.sendToServer('quick.chat', {
                 email: user.email,
                 name: user.name,
             })

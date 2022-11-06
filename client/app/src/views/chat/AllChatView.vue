@@ -106,16 +106,18 @@ import SocketioService from '@/services/socketio.js'
                     return single;
                 })
             },
-            async updateList(){
-                console.log('updateja')
+            async updateList(data){
                 const response = await axios.get(`http://localhost/api/contacts`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.contacts = response.data
+                if(this.selectedContact != null && data.from == this.selectedContact.email && data.to == this.auth.email){
+                    for (let i = 0 ; i < this.contacts.length ; i++){
+                        console.log(this.contacts[i].email)
+                        if(this.contacts[i].email == data.from){
+                            this.contacts[i].unread = 0 ;
+                        }
+                    }
+                }
             },
-            // quickChat(data){
-            //     console.log('in quick caht')
-            //     this.qChat = data.email
-            //     console.log(this.qChat)
-            // }
 
         },
         created() {
