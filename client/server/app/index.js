@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
             email: data.email,
             name: data.name,
         })
-        
+
     });
 
 })

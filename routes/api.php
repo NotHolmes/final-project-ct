@@ -33,7 +33,7 @@ Route::post('/conversation/send', [\App\Http\Controllers\Api\ContactController::
 
 // post/search
 Route::get('/posts/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
-Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class);
+Route::apiResource('/posts', \App\Http\Controllers\Api\PostController::class)->middleware('auth:api');
 
 Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 

@@ -15,12 +15,6 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost/api'
 })
 
-
-
-axios.defaults.headers.common = {
-    'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
-};
-
 app.config.globalProperties.$axios = { ...axiosInstance }
 
 app.use(createPinia())
