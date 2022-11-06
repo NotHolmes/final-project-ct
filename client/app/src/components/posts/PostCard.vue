@@ -49,11 +49,11 @@
                         </svg>
                     </div>
                     <div v-if="post.is_lost">
-                        <p v-if="post.is_done" class="font-semibold">Founded</p>
+                        <p v-if="parseInt(post.is_done)" class="font-semibold">Founded</p>
                         <p v-else class="font-semibold">Searching</p>
                     </div>
                     <div v-else>
-                        <p v-if="post.is_done" class="font-semibold">Returned</p>
+                        <p v-if="parseInt(post.is_done)" class="font-semibold">Returned</p>
                         <p v-else class="font-semibold">Looking for owner</p>
                     </div>
                 </a>

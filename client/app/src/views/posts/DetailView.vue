@@ -1,6 +1,5 @@
 <template>
 <!--<div v-if=post>lat = {{ post.latitude }} lng = {{ post.longitude }} {{this.markers}}</div>-->
-
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
             <GMapMap
@@ -123,12 +122,12 @@
                                                 <input v-model="founder_username" type="text" id="username" name="username" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                        placeholder="Username" required=""/>
 <!--                                                v-bind:rules="[validateNull]" <ErrorMessage class="text-red-500" name="title"></ErrorMessage>-->
+                                                <p v-if="founder && parseInt(founder.id) === parseInt(auth_store.auth.id)" class="my-3 text-red-400">You can't return your own item</p>
+                                                <p v-if="founder && parseInt(founder.id) !== parseInt(auth_store.auth.id)" class="my-3 text-green-400">User found</p>
+                                                <p v-if="founder_username !== null && founder_username !== '' && !founder" class="my-3 text-red-400">User not found</p>
                                             </div>
                                         </span>
                                     </div>
-
-                                    <span>{{this.founder_username}}</span>
-                                    <span>{{this.founder}}</span>
 
                                     <div class="modal-footer py-3 px-5 border0-t text-right">
                                         <button v-if="!this.done && !this.founder_use_site"
@@ -139,7 +138,7 @@
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                             @click="handleNo">No
                                         </button>
-                                        <button v-if="!this.done && this.founder_use_site"
+                                        <button v-if="!this.done && this.founder_use_site && founder_username !== null && founder_username !== '' && founder && parseInt(founder.id) !== parseInt(auth_store.auth.id)"
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                                 @click="handleSubmitUsername()">Submit
                                         </button>
@@ -173,6 +172,7 @@
 <script>
 
 import { useAuthStore } from '@/stores/auth.js'
+import axios from "axios";
 
 export default {
     setup() {
@@ -182,6 +182,8 @@ export default {
 
     data() {
         return {
+            submit: false,
+            users: [],
             founder:null,
             founder_username: '',
             founder_use_site: false,
@@ -209,7 +211,25 @@ export default {
             },
         }
     },
-
+    watch: {
+        founder_username: function (newVal, oldVal) {
+            let user = this.users.find(user => user.name === newVal)
+            if(user) {
+                this.founder = user
+            } else {
+                this.founder = null
+            }
+        }
+    },
+    async mounted() {
+        await axios.get('http://localhost/api/users')
+            .then(async (resp) => {
+                this.users = await resp.data.data;
+            })
+            .catch((err) =>{
+                console.log(err.data)
+            })
+    },
     async created() {
         const id = this.$route.params.id
         const url = `/posts/${id}`
@@ -236,16 +256,60 @@ export default {
     },
 
     methods: {
-        updatePost(){
-            this.post.is_done = true
-        },
         async handleSubmitUsername(){
-            //use auth_store checkName to check and assign user to founder
-            // console.table(this.auth_store())
-            // this.founder = this.auth_store.searchName(this.founder_username)
+            if(this.founder.id && parseInt(this.founder.id) !== parseInt(this.auth_store.auth.id))
+            {
+                let url = `http://localhost/api/users/${this.founder.id}`
+                let data = {
+                    point: this.founder.point + 100
+                }
+                await axios.put(url, data)
+                    .then(async (resp) => {
+                        this.founder = await resp.data.data;
+                    })
+                    .catch((err) =>{
+                        console.log(err.data)
+                    })
+            }
+            this.post.is_done = true
 
-            // this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post ?'
-            // this.updatePost()
+            // update post.is_done = true
+            let url = `http://localhost/api/posts/${this.post.id}`
+            let data = {
+                is_done: true
+            }
+            await axios.put(url, data)
+                .then(async (resp) => {
+                    this.post = await resp.data.data;
+                })
+                .catch((err) =>{
+                    console.log(err.data)
+                })
+
+            // // get post again
+            // const id = this.$route.params.id
+            // const url2 = `http://localhost/api/posts/${id}`
+            // try {
+            //     this.error = null
+            //     let response = await this.$axios.get(url2)
+            //     if (response.status === 200) {
+            //         this.post = response.data.data
+            //         this.lat = Number(this.post.latitude)
+            //         this.lng = Number(this.post.longitude)
+            //         this.markers = [
+            //             {
+            //                 position: {
+            //                     lat: this.lat,
+            //                     lng: this.lng
+            //                 }
+            //             }
+            //         ]
+            //         console.table(this.post)
+            //     }
+            // } catch (error) {
+            //     this.error = error.message
+            // }
+
         },
         handleYes(){
             if(this.confirm_word === 'Are they a user of this website?'){
