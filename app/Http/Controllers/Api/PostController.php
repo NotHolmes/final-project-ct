@@ -17,7 +17,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth:api')->except(['index', 'show', 'search']);
     }
 
     /**
@@ -27,6 +27,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAll', Post::class);
+
         $posts = Post::get();
         return PostResource::collection($posts);
     }
@@ -40,7 +42,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-//        $this->authorize('create', Post::class);
+        $this->authorize('create', Post::class);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',

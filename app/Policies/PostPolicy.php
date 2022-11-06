@@ -23,6 +23,10 @@ class PostPolicy
         return true;
     }
 
+    public function viewAll(){
+        return true;
+    }
+
     /**
      * Determine whether the user can view the model.
      *

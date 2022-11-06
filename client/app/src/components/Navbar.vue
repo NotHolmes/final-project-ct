@@ -50,7 +50,7 @@
                     >Posts</RouterLink
                     >
                 </li>
-                <li v-if="auth.role == 'USER'">
+                <li v-if="this.auth_store.auth.role === 'USER'">
                     <RouterLink to="/posts/precreate"
                                 href="/"
                                 aria-label="Create post"
@@ -59,7 +59,7 @@
                     >Create post</RouterLink
                     >
                 </li>
-                <li v-if="auth.role == 'USER'">
+                <li v-if="this.auth_store.auth.role === 'USER'">
                     <RouterLink to="/chat"
                                 href="/"
                                 aria-label="Chat"
