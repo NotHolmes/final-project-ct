@@ -1,4 +1,7 @@
 <template>
+    <span>auth {{this.auth_store.auth}}</span>
+    <span>token {{this.auth_store.auth.token}}</span>
+
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
             <GMapMap
@@ -40,10 +43,17 @@
                                 </p>
                                 <span v-if="!post.is_done">
                                 <h4 v-if="post.reward !== 0 && post.reward !== null" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
+                                    <span v-if="this.auth_store.auth.role !== 'ADMIN'">
                                 <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
                                     class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                                 >
                                     Contact
+
+                                </button>
+                                <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
+                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                >
+                                    Edit
 
                                 </button>
                                 <span v-if="parseInt(post.is_lost)" @click="resetModal()">
@@ -67,7 +77,21 @@
                                         This is my item
                                     </button>
                                 </span>
+                                    </span>
+
+                                    <span v-if="this.auth_store.auth.role === 'ADMIN' || parseInt(this.auth_store.auth.id) === parseInt(this.post.user_id)">
+                                          <button
+                                           class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
+                                            @click="showModal('delete')"
+                                             >
+                                        Delete
+                                    </button>
+                                    </span>
+
                                 </span>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -136,7 +160,7 @@
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                                 @click="showModal()">No thanks
                                         </button>
-                                        <button v-if="!this.done && this.chat && this.item_returned"
+                                        <button v-if="!this.done && this.chat && this.item_returned && !this.delete"
                                             class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal()">Cancel
                                         </button>
@@ -172,6 +196,7 @@ export default {
 
     data() {
         return {
+            delete: false,
             give_points: true,
             item_returned: true,
             chat: true,
@@ -297,6 +322,13 @@ export default {
             await this.updatePostIsDone()
         },
         async handleYes(){
+
+            if(this.confirm_word === 'Are you sure that you want to delete this item?'){
+                this.delPost(this.post.id)
+                this.$router.push({ name: 'posts' })
+
+            }
+
             if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'){
 
                 await this.updatePostHidden()
@@ -332,6 +364,10 @@ export default {
             }
         },
         async handleNo(){
+            if(this.confirm_word === 'Are you sure that you want to delete this item?'){
+                this.showModal()
+            }
+
             if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'){
                 await this.updatePostIsDone()
                 this.$router.push({ name: 'posts' })
@@ -370,6 +406,7 @@ export default {
             if(type !== 'found')
                 this.confirm_word = 'Are they a user of this website?'
 
+            this.delete = false
             this.give_points = true
             this.item_returned = true
             this.chat = true
@@ -379,6 +416,11 @@ export default {
         },
         showModal(type){
 
+            if(type === 'delete') {
+                this.confirm_word = 'Are you sure that you want to delete this item?'
+                this.delete = true;
+            }
+
             if(this.show_modal){
                 //stop screen scrolling
                 document.getElementsByTagName("html")[0].classList.remove('overflow-y-hidden');
@@ -387,6 +429,8 @@ export default {
                 document.getElementsByTagName("html")[0].classList.add('overflow-y-hidden');
                 if(type === 'found')
                     this.confirm_word = 'Have you tried contact this person through our chat system?'
+                else if(type === 'delete')
+                    this.confirm_word = 'Are you sure that you want to delete this item?'
                 else
                     this.confirm_word = 'Are they a user of this website?'
 
@@ -408,12 +452,23 @@ export default {
             this.$router.push(`edit/${this.post.id}`)
         },
         delPost(id) {
-            fetch('http://localhost/api/posts/' + id,  {
-                method: 'DELETE'
-            })
-            this.$router.push({ name: 'posts' })
+            // delete post with axios and bearer key
+            let url = `http://localhost/api/posts/${id}`
+            axios.delete(url, {
+                headers: {
+                    'Authorization': `Bearer ${this.auth_store.auth.token}`,
+                }
+            }).then((resp) => {
+                    console.log(resp.data)
+                })
+                .catch((err) =>{
+                    console.log(err.data)
+                })
+            // see axios headers and body
 
-        }
+
+
+        },
     },
 }
 </script>
