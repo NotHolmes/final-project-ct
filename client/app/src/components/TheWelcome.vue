@@ -193,14 +193,22 @@ export default {
         },
     },
     mounted() {
-        axios.get('http://localhost/api/users')
+        axios.get('http://localhost/api/users', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            }
+        })
             .then(async (resp) => {
                 this.users = await resp.data.data;
             })
             .catch((err) =>{
                 console.log(err.data)
             }),
-        axios.get('http://localhost/api/posts')
+        axios.get('http://localhost/api/posts', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            }
+        })
             .then(async (resp) => {
                 this.posts = await resp.data.data;
             })
