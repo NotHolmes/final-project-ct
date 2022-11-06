@@ -26,21 +26,10 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
 
     socket.broadcast.emit('chatroom', {
-        // message: data.message ,
-        from: data.from,
-        text: data.text,
-        to : data.to
     })
 
     socket.broadcast.emit('list.update')
   });
 
-    socket.on('quick.chat', (data) => {
-        socket.broadcast.emit('chat.now', {
-            email: data.email,
-            name: data.name,
-        })
-        
-    });
 
 })

@@ -281,14 +281,11 @@ export default {
     },
 
     methods: {
-        handleContact(){
             // find user by user_id
             let user = this.users.find(user => user.id === this.post.user_id)
 
             //access email in user
             console.log(user.email)
-
-            SocketioService.sendToServer('quick.chat', {
                 email: user.email,
                 name: user.name,
             })

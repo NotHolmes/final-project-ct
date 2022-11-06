@@ -31,7 +31,6 @@ import SocketioService from '@/services/socketio.js'
             return {
                 auth: null ,
                 selectedContact : null ,
-                contacts: null ,
                 messages: [] ,
 
             };
@@ -110,18 +109,11 @@ import SocketioService from '@/services/socketio.js'
                 const response = await axios.get(`http://localhost/api/contacts`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
                 this.contacts = response.data
             },
-            quickchat(data){
-                console.log('quickchat')
-                console.log(data)
-                this.selectedContact = data.email
-                this.contacts.push(data)
-            }
 
         },
         created() {
             SocketioService.setupSocketConnection()
             SocketioService.getSocket().on('list.update', this.updateList)
-            SocketioService.getSocket().on('chat.now', this.quickchat)
         },
 
 

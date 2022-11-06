@@ -1,6 +1,5 @@
 <template>
     <div class="contacts-list">
-
         <div class="border rounded">
             <button @click="toggleVisible()" class="inline-flex items-center justify-center h-10 px-3 text-white font-medium tracking-wide transition duration-200 rounded shadow-md bg-cyan-300 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none">
                 {{ showContactInput ? "Hide" : "Add contact"  }}
@@ -56,7 +55,6 @@ export default {
         selectedContact:{
             type: Object,
             default:null
-        }
     },
     data() {
         return {
@@ -103,11 +101,6 @@ export default {
                 this.contacts.unshift(this.contactAdd)
                 e.preventDefault();
             }
-        },
-        async updateList() {
-            console.log('update LISTTTTTT')
-            const response = await axios.get(`http://localhost/api/contacts/get/${this.addContactInput}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
-            this.contactAdd = response.data
         },
     },
 
