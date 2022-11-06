@@ -8,7 +8,6 @@ const auth_storage = {
     point: localStorage.getItem('auth.point'),
     name: localStorage.getItem('auth.name'),
     id : localStorage.getItem('auth.id'),
-    token: localStorage.getItem('auth.token')
 }
 
 export const useAuthStore = defineStore({
@@ -21,7 +20,6 @@ export const useAuthStore = defineStore({
                 point: auth_storage.point,
                 name: auth_storage.name,
                 id : auth_storage.id,
-                token: auth_storage.token
             }
         }
         // return {
@@ -36,7 +34,6 @@ export const useAuthStore = defineStore({
         getRole: (state) => state.auth.role,
         getId: (state) => state.auth.id,
         getPoint: (state) => state.auth.point,
-        getToken: (state) => state.auth.token,
 
     isAuthen(state) {
       return state.auth.email != null
@@ -59,7 +56,6 @@ export const useAuthStore = defineStore({
             localStorage.setItem('auth.point', this.auth.point)
             localStorage.setItem('auth.name', this.auth.name)
             localStorage.setItem('auth.id', this.auth.id)
-            localStorage.setItem('auth.token', this.auth.token)
         },
 
         async add(user) {
@@ -80,14 +76,12 @@ export const useAuthStore = defineStore({
       localStorage.removeItem('auth.id')
         localStorage.removeItem('auth.point')
         localStorage.removeItem('auth.name')
-        localStorage.removeItem('auth.token')
       this.auth = {
         email: null,
         role: null,
         id: null,
         name: null,
         point: null,
-        token: null
       }
     }
   }

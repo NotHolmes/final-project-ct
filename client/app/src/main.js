@@ -18,8 +18,7 @@ const axiosInstance = axios.create({
 
 
 axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'Accept': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
 };
 
 app.config.globalProperties.$axios = { ...axiosInstance }

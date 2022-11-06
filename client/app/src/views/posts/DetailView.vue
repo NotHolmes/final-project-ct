@@ -1,8 +1,4 @@
 <template>
-    <span>auth {{this.auth_store.auth}}</span>
-    <span>post.user_id = {{this.post.user_id}}</span>
-    <span>this.userid = {{this.auth_store.auth.id}}</span>
-
     <section class="text-gray-600 body-font relative">
         <div class="absolute inset-0 bg-gray-300">
             <GMapMap
@@ -43,7 +39,7 @@
                                     {{ post.description }}
                                 </p>
                                 <span v-if="!post.is_done">
-                                <h4 v-if="post.reward !== 0 && post.reward !== null" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
+                                <h4 v-if="post.reward !== 0 && post.reward !== null && post.is_lost" class="mb-5 text-xs leading-5"> Reward : {{post.reward}} baht</h4>
                                     <span v-if="this.auth_store.auth.role !== 'ADMIN'">
                                 <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
                                     class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
@@ -51,12 +47,15 @@
                                     Contact
 
                                 </button>
-                                <span v-if="parseInt(post.is_lost)" @click="resetModal()">
-                                    <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
-                                        class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
-                                    >
+                                        <span v-if="parseInt(post.is_lost)">
+                                 <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
+                                         class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
+                                         @click="showModal('selfFound'); resetModal('selfFound')"
+                                 >
                                         I found it
                                     </button>
+                                            </span>
+                                <span v-if="parseInt(post.is_lost)" @click="resetModal()">
                                     <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal()"
@@ -76,7 +75,7 @@
 
                                 </span>
 
-                                <span v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)">
+                                <span v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id) && !post.is_done">
                                       <button
                                           class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                                           @click="this.$router.push('/posts/edit/' + post.id)"
@@ -411,6 +410,9 @@ export default {
             if(type !== 'found')
                 this.confirm_word = 'Are they a user of this website?'
 
+            if(type === 'selfFound')
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+
             this.delete = false
             this.give_points = true
             this.item_returned = true
@@ -426,6 +428,10 @@ export default {
                 this.delete = true;
             }
 
+            if(type === 'selfFound') {
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+            }
+
             if(this.show_modal){
                 //stop screen scrolling
                 document.getElementsByTagName("html")[0].classList.remove('overflow-y-hidden');
@@ -436,6 +442,8 @@ export default {
                     this.confirm_word = 'Have you tried contact this person through our chat system?'
                 else if(type === 'delete')
                     this.confirm_word = 'Are you sure that you want to delete this item?'
+                else if (type === 'selfFound')
+                    this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
                 else
                     this.confirm_word = 'Are they a user of this website?'
 
@@ -461,7 +469,7 @@ export default {
             let url = `http://localhost/api/posts/${id}`
             axios.delete(url, {
                 headers: {
-                    'Authorization': `Bearer ${this.auth_store.auth.token}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
                 }
             }).then((resp) => {
                     console.log(resp.data)
