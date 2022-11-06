@@ -32,9 +32,11 @@ io.on('connection', (socket) => {
       to: data.to
     })
 
-
-
-    socket.broadcast.emit('list.update')
+    socket.broadcast.emit('list.update', {
+      from: data.from,
+      text: data.text,
+      to : data.to
+    })
   });
 
 

@@ -94,15 +94,20 @@ export default {
                 this.duplicateContact = false;
                 return;
             }
-            const response = await axios.get(`http://localhost/api/contacts/get/${this.addContactInput}`,{ headers: {"Authorization" : 'Bearer ' + this.token } })
-            this.contactAdd = response.data
-            if (Object.keys(this.contactAdd).length == 0){
-                alert("Email not found.")
-                return ;
-            } else {
-                this.contacts.unshift(this.contactAdd)
-                e.preventDefault();
+            const response = await axios.get('http://localhost/api/users',{ headers: {"Authorization" : 'Bearer ' + this.token } })
+            this.allUser = response.data.data
+            for (let i = 0 ; i < this.allUser.length ; i++){
+                if (this.allUser[i].email == this.addContactInput){
+                    this.contactAdd = this.allUser[i]
+                    this.contacts.unshift(this.contactAdd)
+                    e.preventDefault();
+                }
             }
+            if(this.contactAdd == null ){
+                alert("Email not found.")
+                    return ;
+            }
+            this.contactAdd == null
         },
         async ChangeInput(data){
 
