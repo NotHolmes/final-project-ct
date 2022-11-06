@@ -323,33 +323,29 @@ export default {
                 return
             }
 
-            this.post.hidden = true
-            let url = `http://localhost/api/posts/${this.post.id}`
-            let data = {
-                user_id: this.post.user_id,
-                category_id: this.post.category_id,
-                title: this.post.title,
-                description: this.post.description,
-                brand: this.post.brand,
-                color: this.post.color,
-                date: this.post.date,
-                reward: this.post.reward,
-                is_lost: this.post.is_lost,
-                time: this.post.time,
-                image: this.post.image,
-                latitude: this.post.latitude,
-                longitude: this.post.longitude,
-                hidden: this.post.hidden
+            // update post use axios
+            const url = `http://localhost/api/posts/${this.post.id}`
+            const formData = new FormData()
+            formData.append('user_id', this.post.user_id)
+            formData.append('category_id', this.post.category_id)
+            formData.append('title', this.post.title)
+            formData.append('description', this.post.description)
+            formData.append('reward', this.post.reward)
+            formData.append('date', this.date)
+            formData.append('time', this.time)
+            formData.append('latitude', this.post.latitude)
+            formData.append('longitude', this.post.longitude)
+            formData.append('image', this.post.image)
+            formData.append('_method', 'PUT')
+            try {
+                this.error = null
+                let response = await this.$axios.post(url, formData)
+                if (response.status === 200) {
+                    this.$router.push(`/posts/${this.post.id}`)
+                }
+            } catch (error) {
+                this.error = error.message
             }
-            axios.put(url, data)
-                .then(async (resp) => {
-                    console.table(resp.data)
-                    const post_id = await resp.data.post_id;
-                    this.$router.push(`/posts/${post_id}`)
-                })
-                .catch((err) =>{
-                    console.log(err.data)
-                })
 
         }
     },

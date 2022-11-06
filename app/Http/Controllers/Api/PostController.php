@@ -117,7 +117,6 @@ class PostController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Post $post)
-
     {
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required',
