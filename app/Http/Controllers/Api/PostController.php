@@ -122,7 +122,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required',
             'category_id' => 'sometimes|required|integer',
-            'image' => 'mimes:jpg,jpeg,png,gif|max:10240',
+            'image' => 'sometimes|required',
             'color' => 'sometimes|required',
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
@@ -143,7 +143,15 @@ class PostController extends Controller
 
         if($request->has('title')) $post->title = $request->get('title');
         if($request->has('category_id')) $post->category_id = $request->get('category_id');
-        if($request->has('image')) $post->image = $request->get('image');
+        if($request->has('image')){
+            // if $request->get('image') is a link, then we don't need to handle it
+            if (strpos($request->get('image'), 'http') === false) {
+                $image_path = $this->handleImageUploaded($request->file('image'));
+                $post->image = $image_path;
+            } else {
+                $post->image = $request->get('image');
+            }
+        }
         if($request->has('color')) $post->color = $request->get('color');
         if($request->has('brand')) $post->brand = $request->get('brand');
         if($request->has('description')) $post->description = $request->get('description');
@@ -153,7 +161,8 @@ class PostController extends Controller
             $time = $request->get('time');
 
             $datetime = $date . ' ' . $time;
-            $datetime = strtotime($datetime);
+            $datetime = Carbon::create($datetime)->toDateTime();
+
             $post->datetime = $datetime;
         }
         if($request->has('reward')) $post->reward = $request->get('reward');

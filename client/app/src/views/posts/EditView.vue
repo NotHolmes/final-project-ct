@@ -1,5 +1,5 @@
 <template>
-
+<span>{{post}}</span>
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
         <Form @submit.prevent="updatePost">
@@ -344,8 +344,8 @@ export default {
             axios.put(url, data)
                 .then(async (resp) => {
                     console.table(resp.data)
-                    const post_id = await resp.data.data;
-                    this.$router.push({ name: 'posts.show', params: { id: post_id } })
+                    const post_id = await resp.data.post_id;
+                    this.$router.push(`/posts/${post_id}`)
                 })
                 .catch((err) =>{
                     console.log(err.data)
