@@ -79,17 +79,16 @@
                                 </span>
                                     </span>
 
-                                    <span v-if="this.auth_store.auth.role === 'ADMIN' || parseInt(this.auth_store.auth.id) === parseInt(this.post.user_id)">
-                                          <button
-                                           class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
-                                            @click="showModal('delete')"
-                                             >
-                                        Delete
-                                    </button>
-                                    </span>
-
                                 </span>
 
+                                <span v-if="this.auth_store.auth.role === 'ADMIN' || parseInt(this.auth_store.auth.id) === parseInt(this.post.user_id)">
+                                          <button
+                                              class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
+                                              @click="showModal('delete')"
+                                          >
+                                        Delete
+                                    </button>
+                                </span>
 
 
                             </div>
