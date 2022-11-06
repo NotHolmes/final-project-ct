@@ -41,6 +41,7 @@
 
 <script>
 import axios from 'axios'
+import SocketioService from '@/services/socketio.js'
 
 export default {
     props: {
@@ -55,6 +56,7 @@ export default {
         selectedContact:{
             type: Object,
             default:null
+        },
     },
     data() {
         return {
@@ -102,7 +104,24 @@ export default {
                 e.preventDefault();
             }
         },
+        async ChangeInput(data){
+
+            console.log('MAAAAAAA')
+            this.addContactInput = data.email ;
+            this.showContactInput = true;
+        }
     },
+
+    created() {
+        SocketioService.setupSocketConnection()
+        SocketioService.getSocket().on('chat.now', this.ChangeInput)
+    }
+
+    // watch: {
+    //     quickChat(quickChat){
+    //         ChangeInput()
+    //     }
+    // }
 
 }
 </script>

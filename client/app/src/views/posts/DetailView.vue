@@ -281,11 +281,14 @@ export default {
     },
 
     methods: {
+        async handleContact(){
             // find user by user_id
             let user = this.users.find(user => user.id === this.post.user_id)
 
             //access email in user
             console.log(user.email)
+            await this.$router.push('/chat')
+            SocketioService.sendToServer('hello.message', {
                 email: user.email,
                 name: user.name,
             })
