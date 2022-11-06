@@ -49,12 +49,12 @@
                         </svg>
                     </div>
                     <div v-if="post.is_lost">
-                        <p v-if="post.is_done" class="font-semibold">พบแล้ว</p>
-                        <p v-else class="font-semibold">ยังไม่พบ</p>
+                        <p v-if="post.is_done" class="font-semibold">Founded</p>
+                        <p v-else class="font-semibold">Searching</p>
                     </div>
                     <div v-else>
-                        <p v-if="post.is_done" class="font-semibold">ส่งคืนแล้ว</p>
-                        <p v-else class="font-semibold">ตามหาเจ้าของ</p>
+                        <p v-if="post.is_done" class="font-semibold">Returned</p>
+                        <p v-else class="font-semibold">Looking for owner</p>
                     </div>
                 </a>
             </div>
