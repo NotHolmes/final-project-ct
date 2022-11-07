@@ -140,7 +140,7 @@ import SupportIcon from './icons/IconSupport.vue'
                     </p>
                 </div>
 
-                <div v-show="seen" id="hide">
+                <div id="hide">
                     {{ this.lostCount=0 }}
                     {{ this.findCount=0}}
                     {{ this.doneCount=0}}
