@@ -470,10 +470,10 @@ export default {
 
             if(this.show_modal){
                 //stop screen scrolling
-                document.getElementsByTagName("html")[0].classList.remove('overflow-y-hidden');
+                // document.getElementsByTagName("html")[0].classList.remove('overflow-y-hidden');
                 this.show_modal = false;
             }else{
-                document.getElementsByTagName("html")[0].classList.add('overflow-y-hidden');
+                // document.getElementsByTagName("html")[0].classList.add('overflow-y-hidden');
                 if(type === 'found')
                     this.confirm_word = 'Have you tried contact this person through our chat system?'
                 else if(type === 'delete')
