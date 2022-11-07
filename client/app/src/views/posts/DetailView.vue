@@ -153,7 +153,7 @@
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                             @click="handleYes">Yes
                                         </button>
-                                        <button v-if="(!this.done && !this.founder_use_site && this.chat && this.item_returned)"
+                                        <button v-if="(!this.done && !this.founder_use_site && this.chat && this.item_returned) || this.congrat"
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                             @click="handleNo">No
                                         </button>
@@ -203,6 +203,7 @@ export default {
 
     data() {
         return {
+            congrat: false,
             do_you_want: false,
             submitting: false,
             delete: false,
@@ -306,7 +307,7 @@ export default {
             this.$router.push('/chat')
         },
         async updatePostIsDone(){
-            let url = `http://localhost/api/posts/${this.post.id}`
+            let url = `http://localhost/api/posts/${this.$route.params.id}`
             let data = {
                 is_done: true
             }
@@ -364,6 +365,7 @@ export default {
             await this.updatePostIsDone()
             this.submit = true
             this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+            this.congrat = true
             // this.$router.push({ name: 'posts' })
 
         },
@@ -416,6 +418,7 @@ export default {
 
             if(this.confirm_word === 'Please enter their username to give them points') {
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                this.congrat = true
                 // this.submitting = true
                 return
             }
@@ -435,6 +438,7 @@ export default {
             if(this.confirm_word === 'Do you want to give points to this person?') {
                 this.give_points = false
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                this.congrat = true
                 return
             }
 
@@ -447,12 +451,14 @@ export default {
             if(this.confirm_word === 'Are they a user of this website?') {
                 this.founder_use_site = false
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                this.congrat = true
                 return
             }
 
             if(this.confirm_word === 'Please enter their username to give them points'){
                 this.give_points = false
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post'
+                this.congrat = true
                 return
             }
 
@@ -469,6 +475,7 @@ export default {
             if(type === 'selfFound')
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
 
+            this.congrat = false
             this.do_you_want = false
             this.delete = false
             this.give_points = true
@@ -490,6 +497,7 @@ export default {
 
             if(type === 'selfFound') {
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                this.congrat = true
             }
 
             if(this.show_modal){
@@ -504,8 +512,10 @@ export default {
                 }
                 else if(type === 'delete')
                     this.confirm_word = 'Are you sure that you want to delete this item?'
-                else if (type === 'selfFound')
+                else if (type === 'selfFound') {
                     this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                    this.congrat = true
+                }
                 else
                     this.confirm_word = 'Are they a user of this website?'
 
