@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('chat.now', {
       email: data.email,
       name: data.name,
+      from: data.from
     })
   });
 

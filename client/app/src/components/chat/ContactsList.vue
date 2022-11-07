@@ -5,13 +5,15 @@
                 {{ showContactInput ? "Hide" : "Add contact"  }}
             </button>
         </div>
-        <span v-show="showContactInput">
-            <input v-model="addContactInput" @keydown.enter="addContact" placeholder="user01@api.example.com" type="text" name="" id="">
-        </span>
+
 
         <div class="grid min-w-full border rounded" style="min-height: 80vh; ">
 
         <ul class="overflow-auto" >
+
+                    <span v-show="showContactInput">
+            <input v-model="addContactInput" @keydown.enter="addContact" placeholder="user01@api.example.com" type="text" name="" id="">
+        </span>
 
             <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
             <li v-for="( contact, index ) in contacts" :key="contact.id" @click="selectcontact(index, contact)" :class="{ 'selected': contact == selectedContact }">
@@ -42,8 +44,15 @@
 <script>
 import axios from 'axios'
 import SocketioService from '@/services/socketio.js'
+import { useAuthStore } from '@/stores/auth.js';
 
 export default {
+    setup(){
+            const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
+            const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+            const auth_store = useAuthStore()
+            return { auth_store , token}
+        },
     props: {
         contacts: {
             type: Array,
@@ -57,9 +66,14 @@ export default {
             type: Object,
             default:null
         },
+        user:{
+            type: Object,
+            default: null
+        }
     },
     data() {
         return {
+            auth:null,
             selected: 0,
             showContactInput: false ,
             addContactInput: '',
@@ -110,16 +124,27 @@ export default {
             this.contactAdd == null
         },
         async ChangeInput(data){
-
             console.log('MAAAAAAA')
-            this.addContactInput = data.email ;
-            this.showContactInput = true;
+            console.log(data.from + '12312312321')
+                if(data.from == this.auth.email){
+                console.log('MAAAAAAA')
+                this.addContactInput = data.email ;
+                this.showContactInput = true;
+                }
         }
     },
 
     created() {
         SocketioService.setupSocketConnection()
         SocketioService.getSocket().on('chat.now', this.ChangeInput)
+    },
+    mounted(){
+
+        if(this.auth_store.isAuthen){
+                this.auth = this.auth_store.getAuth
+            } else {
+                this.auth = null
+            }
     }
 
     // watch: {

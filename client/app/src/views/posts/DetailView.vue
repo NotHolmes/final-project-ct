@@ -203,6 +203,7 @@ export default {
 
     data() {
         return {
+            auth:null ,
             congrat: false,
             do_you_want: false,
             submitting: false,
@@ -250,6 +251,13 @@ export default {
         }
     },
     async mounted() {
+
+        if(this.auth_store.isAuthen){
+                this.auth = this.auth_store.getAuth
+            } else {
+                this.auth = null
+            }
+
         await axios.get('http://localhost/api/users', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
@@ -295,6 +303,7 @@ export default {
     methods: {
         async handleContact(){
             // find user by user_id
+            console.log(this.auth_store.auth.email + 'autththth');
             let user = this.users.find(user => user.id === this.post.user_id)
 
             //access email in user
@@ -303,6 +312,7 @@ export default {
             SocketioService.sendToServer('quick.chat', {
                 email: user.email,
                 name: user.name,
+                from: this.auth_store.auth.email
             })
             this.$router.push('/chat')
         },
