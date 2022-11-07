@@ -153,15 +153,15 @@
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                             @click="handleYes">Yes
                                         </button>
-                                        <button v-if="(!this.done && !this.founder_use_site && this.chat && this.item_returned) || this.submit || !this.give_points "
+                                        <button v-if="((!this.done && !this.founder_use_site && this.chat && this.item_returned) || this.submit || !this.give_points)"
                                             class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                             @click="handleNo">No
                                         </button>
-                                        <button v-if="!this.done && this.founder_use_site && founder_username !== null && founder_username !== '' && founder && parseInt(founder.id) !== parseInt(auth_store.auth.id) && this.chat && !this.submit"
+                                        <button v-if="!this.done && this.founder_use_site && founder_username !== null && founder_username !== '' && founder && parseInt(founder.id) !== parseInt(auth_store.auth.id) && this.chat && !this.submit && !this.checkCongrat()"
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                                 @click="handleSubmitUsername()">Submit
                                         </button>
-                                        <button v-if="!this.done && this.founder_use_site && !this.submit"
+                                        <button v-if="!this.done && this.founder_use_site && !this.submit  && !this.checkCongrat() "
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                                 @click="handleNo">No thanks
                                         </button>
@@ -301,6 +301,12 @@ export default {
     },
 
     methods: {
+        checkCongrat(){
+            if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?')
+                return true
+            else
+                return false
+        },
         async handleContact(){
             // find user by user_id
             console.log(this.auth_store.auth.email + 'autththth');
