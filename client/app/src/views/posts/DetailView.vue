@@ -193,6 +193,7 @@
 import { useAuthStore } from '@/stores/auth.js'
 import axios from "axios";
 import SocketioService from '@/services/socketio.js'
+import router from "../../router";
 
 export default {
     setup() {
@@ -360,6 +361,8 @@ export default {
                 await this.updatePointForPost()
             }
             await this.updatePostIsDone()
+            this.$router.push({ name: 'posts' })
+
         },
         async handleYes(){
 
@@ -378,6 +381,7 @@ export default {
 
             if(this.confirm_word === 'Are they a user of this website?'){
                 this.founder_use_site = true
+                this.confirm_word('Please input their username if you want to give them points')
                 return
             }
 
@@ -443,9 +447,6 @@ export default {
             }
         },
         resetModal(type){
-            if(type !== 'found')
-                this.confirm_word = 'Are they a user of this website?'
-
             if(type === 'selfFound')
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
 

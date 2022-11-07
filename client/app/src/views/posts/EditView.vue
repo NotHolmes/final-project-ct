@@ -338,7 +338,11 @@ export default {
             formData.append('_method', 'PUT')
             try {
                 this.error = null
-                let response = await this.$axios.post(url, formData)
+                let response = await this.$axios.post(url, formData, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                    }
+                })
                 if (response.status === 200) {
                     this.$router.push(`/posts/${this.post.id}`)
                 }
