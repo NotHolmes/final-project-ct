@@ -58,7 +58,7 @@
                                             </span>
                                 <span v-if="parseInt(post.is_lost)" @click="resetModal('someoneFound')">
                                     <button v-if="parseInt(post.user_id) === parseInt(auth_store.auth.id)"
-                                            class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
+                                            class="mr-5 mt-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal('someoneFound')"
                                     >
                                         Someone found it
@@ -66,7 +66,7 @@
                                 </span>
                                 <span v-else @click="resetModal('found')">
                                     <button v-if="parseInt(post.user_id) !== parseInt(auth_store.auth.id)"
-                                            class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
+                                            class="mr-5 mt-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-green-400 hover:bg-green-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal('found')"
                                     >
                                         This is my item
@@ -135,7 +135,7 @@
                                         <p class="text-justify" >
                                             {{ confirm_word }}
                                         </p>
-                                        <span v-if="founder_use_site && this.give_points && !this.done && !this.submit">
+                                        <span v-if="(founder_use_site && this.give_points && !this.done && !this.submit)">
                                             <div class="my-6">
                                                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Username</label>
                                                 <input v-model="founder_username" type="text" id="username" name="username" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -203,6 +203,8 @@ export default {
 
     data() {
         return {
+            do_you_want: false,
+            submitting: false,
             delete: false,
             give_points: true,
             item_returned: true,
@@ -348,7 +350,7 @@ export default {
                 }
             })
                 .then(async (resp) => {
-                    this.post = await resp.data.data;
+                    const temp = await resp.data.data;
                 })
                 .catch((err) =>{
                     console.log(err.data)
@@ -383,6 +385,7 @@ export default {
             if(this.confirm_word === 'Are they a user of this website?'){
                 this.founder_use_site = true
                 this.confirm_word = ('Please enter their username to give them points')
+                this.submitting = true
                 return
             }
 
@@ -405,12 +408,15 @@ export default {
 
             if(this.confirm_word === 'Do you want to give points to this person?') {
                 this.give_points = true
-                this.confirm_word = 'Please enter their username to give them points'
+                this.do_you_want = true
+                this.submitting = true
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
                 return
             }
 
             if(this.confirm_word === 'Please enter their username to give them points') {
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                // this.submitting = true
                 return
             }
         },
@@ -463,6 +469,7 @@ export default {
             if(type === 'selfFound')
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
 
+            this.do_you_want = false
             this.delete = false
             this.give_points = true
             this.item_returned = true
@@ -491,8 +498,10 @@ export default {
                 this.show_modal = false;
             }else{
                 // document.getElementsByTagName("html")[0].classList.add('overflow-y-hidden');
-                if(type === 'found')
+                if(type === 'found') {
                     this.confirm_word = 'Have you tried contact this person through our chat system?'
+                    this.do_you_want = false;
+                }
                 else if(type === 'delete')
                     this.confirm_word = 'Are you sure that you want to delete this item?'
                 else if (type === 'selfFound')
