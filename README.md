@@ -34,8 +34,6 @@ cd client/ && docker-compose up -d
 - SocketIO
 12. cd /client/server
 13. docker-compose exec app npm install
-
-# คำแนะนำในการรันโปรเจคหรือการเข้าถึงหน้าเว็บไซต์
 - VueJs (ในโฟลเดอร์ client)
 14. docker-compose exec app npm run dev
 - SocketIO (ในโฟลเดอร์ client/server)
