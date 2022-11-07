@@ -140,22 +140,22 @@ import SupportIcon from './icons/IconSupport.vue'
                     </p>
                 </div>
 
-                <div id="hide">
-                    {{ this.lostCount=0 }}
-                    {{ this.findCount=0}}
-                    {{ this.doneCount=0}}
-                    <div v-for="post in this.posts">
-                        <div v-if="post.is_lost == 1">
-                            {{ this.lostCount++ }}
-                        </div>
-                        <div v-else-if="post.is_lost == 0">
-                            {{ this.findCount++ }}
-                        </div>
-                        <div v-if="post.is_done == 1">
-                            {{ this.doneCount++ }}
-                        </div>
-                    </div>
-                </div>
+<!--                <div id="hide">-->
+<!--                    {{ this.lostCount=0 }}-->
+<!--                    {{ this.findCount=0}}-->
+<!--                    {{ this.doneCount=0}}-->
+<!--                    <div v-for="post in this.posts">-->
+<!--                        <div v-if="post.is_lost == 1">-->
+<!--                            {{ this.lostCount++ }}-->
+<!--                        </div>-->
+<!--                        <div v-else-if="post.is_lost == 0">-->
+<!--                            {{ this.findCount++ }}-->
+<!--                        </div>-->
+<!--                        <div v-if="post.is_done == 1">-->
+<!--                            {{ this.doneCount++ }}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
             </div>
         </div>
@@ -224,11 +224,28 @@ export default {
         axios.get('http://localhost/api/posts')
             .then(async (resp) => {
                 this.posts = await resp.data.data;
+                console.log(this.posts)
+
+                this.lostCount = 0;
+                this.findCount = 0;
+                this.doneCount = 0;
+                for (let i = 0; i < this.posts.length; i++) {
+                    if (this.posts[i].is_lost == 1) {
+                        this.lostCount++;
+                    }
+                    if (this.posts[i].is_lost == 0) {
+                        this.findCount++;
+                    }
+                    if (this.posts[i].is_done == 1) {
+                        this.doneCount++;
+                    }
+                }
             })
             .catch((err) =>{
                 console.log(err.data)
             })
-    }
+
+        }
 
 }
 </script>
