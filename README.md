@@ -59,5 +59,5 @@ Admin
 Email:admin01@example.com
 Password: adminpass 
 
-#Release Tag
-v1.0
+# Release Tag
+v1.0.1
