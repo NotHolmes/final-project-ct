@@ -7,7 +7,7 @@ pipeline {
           stage('Source') {
                steps {
                     git branch: 'main',
-                        url: 'https://github.com/ChatchawanSama/final-project-ct-codacy.git'
+                        url: 'https://github.com/NotHolmes/final-project-ct.git'
                }
           }
 
