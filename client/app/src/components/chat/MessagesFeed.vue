@@ -1,5 +1,5 @@
 <template>
-    <div class="feed" style="height:71vh;" >
+    <div class="feed" style="height:71vh;" ref="feed" >
         <ul >
             <li v-for="message in messages" :class="message.to == contact.email ? 'sent' : 'received'" :key="message.id">
                 <div class="bg-grey-100 rounded px-5 py-1 my-1 relative">
