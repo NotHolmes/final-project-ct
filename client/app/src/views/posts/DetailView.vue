@@ -165,10 +165,13 @@
                                                 class="mr-5 inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-orange-400 hover:bg-orange-700 focus:shadow-outline focus:outline-none"
                                                 @click="handleNo">No thanks
                                         </button>
-                                        <button v-if="!this.done && this.chat && this.item_returned && !this.delete"
-                                            class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
-                                            @click="showModal()">Cancel
-                                        </button>
+
+                                            <button v-if="!this.done && this.chat && this.item_returned && !this.delete"
+                                                class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-700 focus:shadow-outline focus:outline-none"
+                                                @click="showModal(); resetModal()">Cancel
+                                            </button>
+
+
                                         <button v-if="this.done || !this.chat || !this.item_returned"
                                             class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-400 hover:bg-blue-700 focus:shadow-outline focus:outline-none"
                                             @click="showModal()">Done
@@ -301,6 +304,12 @@ export default {
     },
 
     methods: {
+        async updatePost(){
+            if(this.handleSubmitUsername()) {
+                await this.updatePointForPost()
+                await this.updatePostIsDone()
+            }
+        },
         checkCongrat(){
             if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?')
                 return true
@@ -376,12 +385,13 @@ export default {
         async handleSubmitUsername(){
             if(this.founder.id && parseInt(this.founder.id) !== parseInt(this.auth_store.auth.id))
             {
-                await this.updatePointForPost()
+                this.submit = true
+                this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
+                this.congrat = true
+                return true
+
             }
-            await this.updatePostIsDone()
-            this.submit = true
-            this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
-            this.congrat = true
+            return false
             // this.$router.push({ name: 'posts' })
 
         },
@@ -394,6 +404,7 @@ export default {
             }
 
             if(this.confirm_word === 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'){
+                this.updatePost()
                 await this.updatePostHidden()
                 this.$router.push({ name: 'posts' })
                 return
@@ -491,6 +502,7 @@ export default {
             if(type === 'selfFound')
                 this.confirm_word = 'Congratulations on your found ! 🎉' + "\n" + 'do you want to hide this post?'
 
+            this.submit = false
             this.congrat = false
             this.do_you_want = false
             this.delete = false
