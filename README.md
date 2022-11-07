@@ -46,18 +46,18 @@ cd client/ && docker-compose up -d
 - แต่ในบางกรณี การ encode ของไฟล์ที่ถูก upload ขึ้น git มักมีปัญหา จำเป็นต้องทำ EOL Conversion ให้เป็น unix-style ก่อนจึงจะใช้ได้
 
 # account สำหรับทดสอบระบบ
-default username และ password สำหรับผู้ใช้แต่ละ role
+default username และ password สำหรับผู้ใช้แต่ละ role  
 User
 Email: black_adam@hotmail.com
-Password: blackadam
+Password: blackadam 
 
 User
 Email: user01@api.example.com
-Password: userpass
+Password: userpass 
 
 Admin
 Email:admin01@example.com
-Password: adminpass
+Password: adminpass 
 
 #Release Tag
 v1.0
