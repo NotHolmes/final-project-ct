@@ -4,9 +4,6 @@ import HomeView from '../views/HomeView.vue'
 import { useAuthStore } from "@/stores/auth.js";
 import CoinDeskView from '@/views/CoinDeskView.vue'
 
-// check permission with laravel
-function hasPermission
-
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
