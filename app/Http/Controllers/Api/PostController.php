@@ -15,11 +15,11 @@ use Spatie\Searchable\Search;
 class PostController extends Controller
 {
 
-//    public function __construct()
-//    {
-//        $this->middleware('auth:api', ['except' => ['index','show', 'search']]);
-//
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index','show', 'search']]);
+
+    }
 
     /**
      * Display a listing of the resource.
@@ -41,7 +41,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-//        $this->authorize('create', Post::class);
+        $this->authorize('create', Post::class);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -85,11 +85,14 @@ class PostController extends Controller
 
         $post->datetime = $datetime;
 
-        if($request->has('reward')) {
+        $post->is_lost = $request->get('is_lost');
+
+        if($request->has('reward') && $post->is_lost) {
             $post->reward = $request->get('reward');
+        } else {
+            $post->reward = 0;
         }
 
-        $post->is_lost = $request->get('is_lost');
         $post->latitude = $request->get('latitude');
         $post->longitude = $request->get('longitude');
 
@@ -127,7 +130,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
-//        $this->authorize('update', Post::class);
+        $this->authorize('update', $post);
 
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required',
@@ -136,8 +139,7 @@ class PostController extends Controller
             'color' => 'sometimes|required',
             'brand' => 'sometimes|required',
             'description' => 'sometimes|required',
-            'reward' => 'nullable|numeric',
-            'is_lost' => 'sometimes|required|boolean',
+            'reward' => 'sometimes|required|numeric',
             'is_done' => 'sometimes|required|boolean',
             'hidden' => 'sometimes|required|boolean',
             'latitude' => 'sometimes|required|numeric',
@@ -147,7 +149,7 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->errors()
+                'message' => $validator->errors(),
             ], Response::HTTP_BAD_REQUEST);
         }
 
@@ -175,8 +177,7 @@ class PostController extends Controller
 
             $post->datetime = $datetime;
         }
-        if($request->has('reward')) $post->reward = $request->get('reward');
-        if($request->has('is_lost')) $post->is_lost = $request->get('is_lost');
+        if($request->has('reward') && $post->is_lost) $post->reward = $request->get('reward');
         if($request->has('is_done')) $post->is_done = $request->get('is_done');
         if($request->has('latitude')) $post->latitude = $request->get('latitude');
         if($request->has('longitude')) $post->longitude = $request->get('longitude');
@@ -203,7 +204,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-//        $this->authorize('delete', $post);
+        $this->authorize('delete', $post);
 
         $title = $post->title;
         if ($post->delete()) {

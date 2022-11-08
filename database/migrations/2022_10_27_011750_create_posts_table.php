@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->string('brand')->nullable();
             $table->dateTime('datetime')->nullable()->default(null); // lost time and found time
-            $table->unsignedDouble('reward')->nullable()->default(0);
+            $table->double('reward')->nullable()->default(0);
             $table->boolean('is_lost');
             $table->boolean('is_done')->default(false);
             $table->decimal('latitude', 10, 8);

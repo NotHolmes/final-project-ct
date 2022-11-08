@@ -1,4 +1,7 @@
 <template>
+
+    <span>{{post}}</span>
+
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
         <Form @submit.prevent="updatePost">
@@ -242,6 +245,11 @@ export default {
                 const dt = this.post.datetime.split(" ")
                 this.date = dt[0]
                 this.time = dt[1].substring(0, 5)
+
+                // if post.is_lost == false, get rid of reward in post
+                if (!parseInt(this.post.is_lost)) {
+                    this.post.reward = 0
+                }
             }
         } catch (error) {
             this.error = error.message
@@ -340,7 +348,8 @@ export default {
                 this.error = null
                 let response = await this.$axios.post(url, formData, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`,
+                        'Content-Type': 'multipart/form-data'
                     }
                 })
                 if (response.status === 200) {
