@@ -47,17 +47,18 @@ cd client/ && docker-compose up -d
 
 # account สำหรับทดสอบระบบ
 default username และ password สำหรับผู้ใช้แต่ละ role  
-User
-Email: black_adam@hotmail.com
-Password: blackadam 
-
-User
-Email: user01@api.example.com
-Password: userpass 
-
-Admin
-Email:admin01@example.com
-Password: adminpass 
+ 
+User 
+Email: black_adam@hotmail.com 
+Password: blackadam  
+ 
+User 
+Email: user01@api.example.com 
+Password: userpass  
+ 
+Admin  
+Email:admin01@example.com 
+Password: adminpass  
 
 # Release Tag
-v1.0.1
+v1.1.0
