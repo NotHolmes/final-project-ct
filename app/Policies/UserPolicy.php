@@ -91,4 +91,9 @@ class UserPolicy
     {
         //
     }
+
+    public function chat(User $user)
+    {
+        return $user->isUser();
+    }
 }

@@ -26,6 +26,8 @@ class ContactController extends Controller
 
     public function index()
     {
+        $this->authorize('chat', User::class);
+
         $email = auth()->user()->email;
         $message = Message::where('from',$email)->orWhere('to',$email)->orderBy('created_at','desc')->get();
         $contacts = $message->map(function($message , $id) use ($email) {

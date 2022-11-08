@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+// import auth_store
+import { useAuthStore } from "@/stores/auth.js";
 import CoinDeskView from '@/views/CoinDeskView.vue'
+
+// check permission with laravel
+function hasPermission
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,36 +16,15 @@ const router = createRouter({
             component: HomeView
         },
         {
-            path: '/about',
-            name: 'about',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('../views/AboutView.vue')
-        },
-        {
-            path: '/coin-desk',
-            name: 'coin-desk',
-            component: CoinDeskView
-        },
-        {
-            path: '/rewards',
-            name: 'rewards',
-            component: () => import('@/views/rewards/AllRewardView.vue')
-        },
-        {
-            path: '/rewards/:id',
-            name: 'rewards.show',
-            component: () => import('@/views/rewards/DetailView.vue')
-        },
-        {
-            path: '/rewards/create',
-            name: 'rewards.create',
-            component: () => import('@/views/rewards/CreateView.vue')
-        },
-        {
             path: '/login',
             name: 'login',
+            beforeEnter: (to, from, next) => {
+                if (!localStorage.getItem('jwt_token')) {
+                    next()
+                } else {
+                    next('/posts')
+                }
+            },
             component: () => import('@/views/login-register/LoginView.vue')
         },
         {
@@ -49,18 +33,27 @@ const router = createRouter({
             component: () => import('@/views/LogoutView.vue')
         },
         {
-            path: '/socket',
-            name: 'socket-test',
-            component: () => import('@/views/TestSocketView.vue')
-        },
-        {
             path: '/posts',
             name: 'posts',
+            beforeEnter: (to, from, next) => {
+                if (localStorage.getItem('jwt_token')) {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             component: () => import('@/views/posts/AllPostView.vue')
         },
         {
             path: '/chat',
             name: 'chat',
+            beforeEnter: (to, from, next) => {
+                if (localStorage.getItem('jwt_token') && useAuthStore().auth.role !== 'ADMIN') {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             component: () => import('@/views/chat/AllChatView.vue')
         },
         {
@@ -81,19 +74,55 @@ const router = createRouter({
         {
             path: '/posts/precreate',
             name: 'posts.precreate',
+            beforeEnter: (to, from, next) => {
+                if (useAuthStore().auth.role === 'ADMIN') {
+                    next('/posts')
+                } else if (localStorage.getItem('jwt_token')) {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             component: () => import('@/views/posts/PreCreateView.vue')
         },
         {
             path: '/posts/create/:is_lost',
             name: 'posts.create',
+            beforeEnter: (to, from, next) => {
+                if (useAuthStore().auth.role === 'ADMIN') {
+                    next('/posts')
+                } else if (localStorage.getItem('jwt_token')) {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             component: () => import('@/views/posts/CreateView.vue')
         },
         {
             path: '/posts/edit/:id',
             name: 'posts.edit',
+            beforeEnter: (to, from, next) => {
+                if (useAuthStore().auth.role === 'ADMIN') {
+                    next('/posts')
+                } else if (localStorage.getItem('jwt_token')) {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             component: () => import('@/views/posts/EditView.vue')
         },
     ]
+
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.name !== 'login' && to.name !== 'register' && !localStorage.getItem('jwt_token')) {
+        next({name: 'login'})
+    } else{
+        next()
+    }
 })
 
 export default router
