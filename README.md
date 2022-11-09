@@ -13,12 +13,12 @@
 ต้องเปิด 3 Terminal สำหรับ VueJs, Laravel, SockerIO และหากเป็นการ clone ครั้งแรกจำเป็นที่จะต้อง
 รันคำสั่งเหล่านี้ก่อน
 
-1. docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v $(pwd):/var/www/html \
-    -w /var/www/html \
-    laravelsail/php81-composer:latest \
-    composer install --ignore-platform-reqs
+1. docker run --rm \  
+    -u "$(id -u):$(id -g)" \  
+    -v $(pwd):/var/www/html \  
+    -w /var/www/html \  
+    laravelsail/php81-composer:latest \  
+    composer install --ignore-platform-reqs  
 2. cp .env.example .env
 3. sail up -d
 4. sail artisan key:generate
