@@ -66,7 +66,7 @@ Password : adminpass
 - ทดสอบ permission ของ users
 
 ## เพิ่มเติม
-- [Presentation Slides (Including personas and UI flows)](https://www.canva.com/design/DAFO8hI0imA/7hDEhHs44yUERctCtxS-hg/watch?utm_content=DAFO8hI0imA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)    
+- [Presentation Slides (Including personas and UI flows)](https://www.canva.com/design/DAFO8hI0imA/7hDEhHs44yUERctCtxS-hg/view?utm_content=DAFO8hI0imA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)    
 - [Jira](https://ct-project.atlassian.net/jira/software/projects/CT/boards/1/roadmap)  
 
 # Release Tag
