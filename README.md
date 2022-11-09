@@ -1,6 +1,7 @@
-#แนะนำโปรเจคสั้นๆ
-    
-#สมาชิกกลุ่ม CT
+# แนะนำโปรเจค
+เป็น Platform ที่เปิดพื้นที่ให้ผู้คนสามารถมีช่องทางในการตามหาของที่ทำหาย โดยมีเป้าหมายหลักคือจะช่วยเพิ่มโอกาสในการหาของให้เจอได้มากที่สุด มีการยืนยันเจ้าของที่ถูกต้องหากเจอสิ่งของ สามารถระบุตำแหน่งโดยประมาณของสิ่งของชิ้นนั้น ๆ ได้ง่าย โดยมี feature ที่ช่วยสร้างแรงจูงเล็กน้อยใจในการช่วยหาด้วย เช่น ระบบเหรียญตราสำหรับผู้ที่หาของเจอเยอะเป็นต้น
+  
+## สมาชิกกลุ่ม CT
 1. นายซาฮิล ชูดวง รหัสนิสิต 6310406281 (NotHolmes) 
 2. นายชัชวาลย์ สามา รหัสนิสิต 6310406272 (ChatchawanSama)
 3. นายธงไทย รุจิเวชวงษ์ รหัสนิสิต 6310403982 (timtim5569)
@@ -36,13 +37,13 @@
 15. docker-compose exec app npm install
 16. docker-compose exec app npm run start
 
-# หมายเหตุ
+## หมายเหตุ
 - การรันในครั้งถัด ๆ ไปให้ทำข้อ (3, 9, 10, 12, 14, 15) หรือทำตามข้อด้านล่าง
 - สามารถใช้ shell script "up.sh" ในการรัน server ทั้งหมดในคำสั่งเดียวได้
 - และ "down.sh" ก็มีเช่นกัน
 - แต่ในบางกรณี การ encode ของไฟล์ที่ถูก upload ขึ้น git มักมีปัญหา จำเป็นต้องทำ EOL Conversion ให้เป็น unix-style ก่อนจึงจะใช้ได้
 
-# account สำหรับทดสอบระบบ
+## account สำหรับทดสอบระบบ
 default username และ password สำหรับผู้ใช้แต่ละ role  
  
 User  
@@ -56,6 +57,17 @@ Password : userpass
 Admin   
 Email : admin01@example.com  
 Password : adminpass   
+
+## การใช้ Unit Testing (PHPUNIT)
+- ทดสอบการดึงข้อมูลจาก API
+- ทดสอบ feature ต่าง ๆ ที่ถูกสร้างไว้ด้วย API เช่นการค้นหา
+- ทดสอบ HTTP_RESPONSE ในรูปแบบต่าง ๆ 
+- ทดสอบการ Login/Register
+- ทดสอบ permission ของ users
+
+## เพิ่มเติม
+- [Presentation Slides (Including personas and UI flows)](https://www.canva.com/design/DAFO8hI0imA/7hDEhHs44yUERctCtxS-hg/watch?utm_content=DAFO8hI0imA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)    
+- [Jira](https://ct-project.atlassian.net/jira/software/projects/CT/boards/1/roadmap)  
 
 # Release Tag
 v1.1.0
