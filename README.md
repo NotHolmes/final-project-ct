@@ -29,7 +29,7 @@
 - Vuejs
 9. cd client/ (จาก root folder ของโปรเจคนี้)
 10. docker compose up -d
-11. docker-compose exec app npm install -g npm@latest
+11. docker-compose exec app npm install
 12. docker-compose exec app npm run dev
 - SocketIO
 13. cd client/server/ (จาก root folder ของโปรเจคนี้)
