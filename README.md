@@ -27,12 +27,12 @@
 7. sail composer require spatie/laravel-searchable
 8. sail artisan migrate:fresh --seed
 - Vuejs
-9. cd /client (จาก root folder ของโปรเจคนี้)
+9. cd client/ (จาก root folder ของโปรเจคนี้)
 10. docker compose up -d
 11. docker-compose exec app npm install -g npm@latest
 12. docker-compose exec app npm run dev
 - SocketIO
-13. cd /client/server (จาก root folder ของโปรเจคนี้)
+13. cd client/server/ (จาก root folder ของโปรเจคนี้)
 14. docker-compose up -d
 15. docker-compose exec app npm install
 16. docker-compose exec app npm run start
