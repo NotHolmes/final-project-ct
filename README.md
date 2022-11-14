@@ -70,4 +70,5 @@ Password : adminpass
 - [Jira](https://ct-project.atlassian.net/jira/software/projects/CT/boards/1/roadmap)  
 
 # Release Tag
-v1.1.0
+v1.0.1 (ใช้ในการนำเสนอ)
+v1.1.0 (แก้ไข)
